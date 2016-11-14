@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{C9F83679-EDF0-FB7B-170D-8EC9E4384128}") = "AnimationDemo", "Assembly-CSharp.csproj", "{C1A18877-D220-07CF-D744-98DA01BDD985}"
+EndProject
+Project("{C9F83679-EDF0-FB7B-170D-8EC9E4384128}") = "AnimationDemo", "Assembly-CSharp-Editor.csproj", "{76E244C9-213B-FFF1-0382-97796C31B54F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1A18877-D220-07CF-D744-98DA01BDD985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A18877-D220-07CF-D744-98DA01BDD985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A18877-D220-07CF-D744-98DA01BDD985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A18877-D220-07CF-D744-98DA01BDD985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76E244C9-213B-FFF1-0382-97796C31B54F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76E244C9-213B-FFF1-0382-97796C31B54F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76E244C9-213B-FFF1-0382-97796C31B54F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76E244C9-213B-FFF1-0382-97796C31B54F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
 				{
            			""levelID"": 1,
            			""levelName"": ""第一关"",
-           			""levelDescription"":  ""小朋友，请你翻开书的第一页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
+           			""levelDescription"":  ""小朋友，请画个机器人吧！"" ,
            			""progress"":1,
            			""preLevelID"": 0,
            			""nextLevelID"": 2
@@ -156,8 +156,8 @@ public class LevelManager : MonoBehaviour
 		_instance = this;
 
 		//code for test...
-		PlayerPrefs.SetInt ("LevelID",14);
-		PlayerPrefs.SetInt ("LevelProgress",2);
+//		PlayerPrefs.SetInt ("LevelID",14);
+//		PlayerPrefs.SetInt ("LevelProgress",2);
 	}
 
 	void Start() 
@@ -166,18 +166,7 @@ public class LevelManager : MonoBehaviour
 		LoadLocalLevelProgressData ();
 //		initNeedShowHandData();
 	}
-
-	/*
-	void initNeedShowHandData()
-	{
-		PlayerPrefs.SetInt ("switchItem", 0);
-		if (!PlayerPrefs.HasKey("switchItem")) 
-		{
-			PlayerPrefs.SetInt ("switchItem", 0);
-		}
-	}
-	*/
-
+		
 	/// <summary>
 	/// 加载本地已经完成的关卡
 	/// </summary>
@@ -204,10 +193,7 @@ public class LevelManager : MonoBehaviour
 		
 			PlayerPrefs.SetInt ("LevelProgress", 0);
 			levelPro = PlayerPrefs.GetInt ("LevelProgress");
-//			Debug.Log ("levelPro2==" + levelPro);
 		}
-//		Debug.Log ("levelID==" + levelID);	
-//		Debug.Log ("levelPro==" + levelPro);
 		//获取到已完成的关卡后需要更新list数据
 		UpdateLevelItemDataList (levelID,levelPro);
 
@@ -242,7 +228,6 @@ public class LevelManager : MonoBehaviour
 			{
 
 				levelItemDataList [i].Progress = LevelProgress.Done;
-
 			}
 
 			//设置当前要完成的关卡进度

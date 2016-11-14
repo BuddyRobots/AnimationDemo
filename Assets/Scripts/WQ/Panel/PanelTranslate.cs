@@ -50,9 +50,6 @@ public class PanelTranslate : SceneSinglton<PanelTranslate> {
 			}
 		}
 		panels.Push(ret);
-
-//		print(panels.Count);
-
 		return ret;
 	}
 	public void DestoryThisPanel()
@@ -79,24 +76,24 @@ public class PanelTranslate : SceneSinglton<PanelTranslate> {
 		GameObject go;
 		string path = "Prefabs/Panel/";
 		switch (panel) {
-		case Panels.StartPanel:
-			go = Resources.Load<GameObject>(path + "StartPanel");
-			break;
-		case Panels.LevelSelectedPanel:
-			go = Resources.Load<GameObject>(path + "LevelSelectPanel");
-			break;
-		case Panels.LevelDescriptionPanel:
-			go = Resources.Load<GameObject>(path + "DescriptionPanel");
-			break;
+//		case Panels.StartPanel:
+//			go = Resources.Load<GameObject>(path + "StartPanel");
+//			break;
+//		case Panels.LevelSelectedPanel:
+//			go = Resources.Load<GameObject>(path + "LevelSelectPanel");
+//			break;
+//		case Panels.LevelDescriptionPanel:
+//			go = Resources.Load<GameObject>(path + "DescriptionPanel");
+//			break;
 		case Panels.PhotoTakingPanel:
 			go = Resources.Load<GameObject>(path + "PhotoTakingPanel");
 			break;
 		case Panels.PhotoRecognizedPanel:
 			go = Resources.Load<GameObject>(path + "PhotoRecognizingPanel");
 			break;
-		case Panels.DemoShowPanel:
-			go = Resources.Load<GameObject>(path + "DemoShowPanel");
-			break;
+//		case Panels.DemoShowPanel:
+//			go = Resources.Load<GameObject>(path + "DemoShowPanel");
+//			break;
 		default:
 			go = null;
 			break;
