@@ -1,0 +1,20 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Assets/OpenCVForUnity/org/opencv/calib3d/Calib3d.cs">
+    <Files>
+      <File FileName="Assets/Assets/OpenCVForUnity/Samples/ARGame/ARGame.cs" Line="174" Column="43" />
+      <File FileName="Assets/Assets/Scripts/CvUtil/Card.cs" Line="45" Column="68" />
+      <File FileName="Assets/Assets/OpenCVForUnity/Samples/CamShiftSample/CamShiftSample.cs" Line="186" Column="27" />
+      <File FileName="Assets/Assets/Scripts/CvUtil/Track.cs" Line="66" Column="39" />
+      <File FileName="Assets/Assets/Script/WebCam.cs" Line="18" Column="49" />
+      <File FileName="Assets/Assets/Script/LevelManager.cs" Line="77" Column="26" />
+      <File FileName="Assets/Assets/OpenCVForUnity/org/opencv/core/Mat.cs" Line="426" Column="3" />
+      <File FileName="Assets/testScripts/WebCamTexutrTest.cs" Line="13" Column="30" />
+      <File FileName="Assets/Assets/OpenCVForUnity/org/opencv/calib3d/Calib3d.cs" Line="2083" Column="37" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

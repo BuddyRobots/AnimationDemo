@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{0ED8146B-DCF8-56A9-5CEB-38990D4500DE}") = "MagicCircuit_PanelAsPrefab", "Assembly-CSharp.csproj", "{A43CFED5-718A-19EB-A88F-EA59EA655CE8}"
+EndProject
+Project("{0ED8146B-DCF8-56A9-5CEB-38990D4500DE}") = "MagicCircuit_PanelAsPrefab", "Assembly-CSharp-Editor.csproj", "{2C914218-EFA2-5D3E-CC43-3F3BB3574D95}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A43CFED5-718A-19EB-A88F-EA59EA655CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A43CFED5-718A-19EB-A88F-EA59EA655CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A43CFED5-718A-19EB-A88F-EA59EA655CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A43CFED5-718A-19EB-A88F-EA59EA655CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C914218-EFA2-5D3E-CC43-3F3BB3574D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C914218-EFA2-5D3E-CC43-3F3BB3574D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C914218-EFA2-5D3E-CC43-3F3BB3574D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C914218-EFA2-5D3E-CC43-3F3BB3574D95}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

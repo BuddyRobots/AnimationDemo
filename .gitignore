@@ -1,0 +1,12 @@
+Library
+Assets/OpenCVForUnity
+ProjectSettings
+.DS_Store
+Libraries
+Temp
+*.zip
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp.csproj
+MagicCircuit.userprefs
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectVersion.txt

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicElectrocircuit.CSharp", "MagicElectrocircuit.CSharp.csproj", "{D28F850E-8DE8-D730-47AE-2513F3F14F84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicElectrocircuit.CSharp.Editor", "MagicElectrocircuit.CSharp.Editor.csproj", "{81B55DFB-1815-C3B4-4184-A4A738C1BB80}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D28F850E-8DE8-D730-47AE-2513F3F14F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D28F850E-8DE8-D730-47AE-2513F3F14F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D28F850E-8DE8-D730-47AE-2513F3F14F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D28F850E-8DE8-D730-47AE-2513F3F14F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81B55DFB-1815-C3B4-4184-A4A738C1BB80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81B55DFB-1815-C3B4-4184-A4A738C1BB80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81B55DFB-1815-C3B4-4184-A4A738C1BB80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81B55DFB-1815-C3B4-4184-A4A738C1BB80}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

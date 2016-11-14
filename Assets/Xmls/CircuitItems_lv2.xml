@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XmlCircuitItemCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <XmlCircuitItems>
+    <XmlCircuitItem ID="0">
+      <name>Battery</name>
+      <type>Battery</type>
+      <list>
+        <Vector3>
+          <x>-140</x>
+          <y>-150</y>
+          <z>0</z>
+        </Vector3>
+      </list>
+      <theta>0</theta>
+      <showOrder>0</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>-190</x>
+		<y>-150</y>
+	  </connect_left>
+	  <connect_right>
+		<x>-90</x>
+		<y>-150</y>
+	  </connect_right>	  
+    </XmlCircuitItem>
+    <XmlCircuitItem ID="1">
+      <name>Bulb</name>
+      <type>Bulb</type>
+      <list>
+        <Vector3>
+          <x>-200</x>
+          <y>30</y>
+          <z>0</z>
+        </Vector3>
+      </list>
+      <theta>90</theta>
+      <showOrder>1</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>-250</x>
+		<y>30</y>
+	  </connect_left>
+	  <connect_right>
+		<x>-150</x>
+		<y>30</y>
+	  </connect_right>
+    </XmlCircuitItem>
+    <XmlCircuitItem ID="2">
+      <name>CircuitLine</name>
+      <type>CircuitLine</type>
+      <list>
+        <Vector3>
+          <x>30</x>
+          <y>150</y>
+          <z>0</z> 
+		</Vector3>	
+
+
+
+
+		<Vector3>
+          <x>25.8</x>
+          <y>135.6</y>
+          <z>0</z> 
+		</Vector3>	
+		<Vector3>
+          <x>23.9</x>
+          <y>128</y>
+          <z>0</z> 
+		</Vector3>	
+		<Vector3>
+          <x>22</x>
+          <y>120.8</y>
+          <z>0</z> 
+		</Vector3>	
+		<Vector3>
+          <x>18.3</x>
+          <y>119</y>
+          <z>0</z> 
+		</Vector3>	
+		<Vector3>
+          <x>12.7</x>
+          <y>106.8</y>
+          <z>0</z> 
+		</Vector3>	
+		<Vector3>
+          <x>9</x>
+          <y>96.6</y>
+          <z>0</z> 
+		</Vector3>	
+
+		<Vector3>
+          <x>4.4</x>
+          <y>87.3</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>4.0</x>
+          <y>87</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>1.6</x>
+          <y>78.9</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>-1.2</x>
+          <y>71.4</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>-7.7</x>
+          <y>71</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>-6.8</x>
+          <y>51.6</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>-10.5</x>
+          <y>40.7</y>
+          <z>0</z> 
+		</Vector3>
+
+
+
+
+
+
+
+
+		<Vector3>
+          <x>-26.6</x>
+          <y>-5.8</y>
+          <z>0</z> 
+		</Vector3>
+
+		<Vector3>
+          <x>-34</x>
+          <y>-20.7</y>
+          <z>0</z> 
+		</Vector3>
+
+		<Vector3>
+          <x>-38.6</x>
+          <y>-35.8</y>
+          <z>0</z> 
+		</Vector3>
+
+		<Vector3>
+          <x>-43.6</x>
+          <y>-48.8</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>-49.6</x>
+          <y>-62.8</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>-57.6</x>
+          <y>-76.6</y>
+          <z>0</z> 
+		</Vector3>
+
+		<Vector3>
+          <x>-61.6</x>
+          <y>-89.5</y>
+          <z>0</z> 
+		</Vector3>
+
+		<Vector3>
+          <x>-68.6</x>
+          <y>-105.5</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>-75</x>
+          <y>-119.5</y>
+          <z>0</z> 
+		</Vector3>
+		<Vector3>
+          <x>-81.6</x>
+          <y>-135.5</y>
+          <z>0</z> 
+		</Vector3>
+
+
+		<Vector3>
+          <x>-90</x>
+          <y>-150</y>
+          <z>0</z> 
+		</Vector3>		
+      </list>
+      <theta>0</theta>
+      <showOrder>2</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>30</x>
+		<y>150</y>
+	  </connect_left>
+	  <connect_right>
+		<x>-90</x>
+		<y>-150</y>
+	  </connect_right>
+    </XmlCircuitItem>
+    <XmlCircuitItem ID="3">
+      <name>CircuitLine</name>
+      <type>CircuitLine</type>
+      <list>
+        <Vector3>
+           <x>30</x>
+          <y>150</y>
+          <z>0</z>
+        </Vector3>        
+        <Vector3>
+          <x>-150</x>
+          <y>30</y>
+          <z>0</z>
+        </Vector3>
+      </list>
+      <theta>0</theta>
+      <showOrder>3</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>30</x>
+		<y>150</y>
+	  </connect_left>
+	  <connect_right>
+		<x>-150</x>
+		<y>30</y>
+	  </connect_right>
+    </XmlCircuitItem>
+
+	<XmlCircuitItem ID="4">
+      <name>CircuitLine</name>
+      <type>CircuitLine</type>
+      <list>
+        <Vector3>
+          <x>-250</x>
+          <y>30</y>
+          <z>0</z>
+        </Vector3>
+        <Vector3>
+          <x>-190</x>
+          <y>-150</y>
+          <z>0</z>
+        </Vector3>        
+      </list>
+      <theta>0</theta>
+      <showOrder>4</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>-250</x>
+		<y>30</y>
+	  </connect_left>
+	  <connect_right>
+		<x>-190</x>
+		<y>-150</y>
+	  </connect_right>
+    </XmlCircuitItem>
+
+    <XmlCircuitItem ID="5">
+      <name>CircuitLine</name>
+      <type>CircuitLine</type>
+      <list>
+        <Vector3>
+          <x>-232</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3>
+
+        <Vector3>
+          <x>-208</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+          <Vector3>
+          <x>-196</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+        <Vector3>
+          <x>-176</x>
+          <y>-258</y>
+          <z>0</z>
+
+        </Vector3> 
+        <Vector3>
+          <x>-160</x>
+          <y>-259</y>
+          <z>0</z>
+        </Vector3> 
+
+        <Vector3>
+          <x>-138</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+
+        <Vector3>
+          <x>-105</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+        <Vector3>
+          <x>-77</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+        <Vector3>
+          <x>-47</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+          
+             
+      </list>
+
+      <theta>0</theta>
+      <showOrder>5</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>-232</x>
+		<y>-258</y>
+	  </connect_left>
+	  <connect_right>
+		<x>-47</x>
+		<y>-258</y>
+	  </connect_right>
+    </XmlCircuitItem>
+
+
+
+  </XmlCircuitItems>
+</XmlCircuitItemCollection>

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{88A2CCAE-4942-0AA4-7375-A06A94D83362}") = "MagicCircuit_copy", "Assembly-CSharp.csproj", "{18A5D233-56A0-5386-A402-94D23590C8EB}"
+EndProject
+Project("{88A2CCAE-4942-0AA4-7375-A06A94D83362}") = "MagicCircuit_copy", "Assembly-CSharp-Editor.csproj", "{4CA4AD02-D046-EF9B-6751-94D029DF494C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18A5D233-56A0-5386-A402-94D23590C8EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18A5D233-56A0-5386-A402-94D23590C8EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18A5D233-56A0-5386-A402-94D23590C8EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18A5D233-56A0-5386-A402-94D23590C8EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CA4AD02-D046-EF9B-6751-94D029DF494C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CA4AD02-D046-EF9B-6751-94D029DF494C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CA4AD02-D046-EF9B-6751-94D029DF494C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CA4AD02-D046-EF9B-6751-94D029DF494C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
