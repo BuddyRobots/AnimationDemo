@@ -15,29 +15,18 @@ public class PhotoTakingPanel : MonoBehaviour
 	{	
 		_instance = this;
 
-
-		confirmBtn = transform.Find ("ConfirmBtn").gameObject;
-		noticeImg=transform.Find("Notice").GetComponent<UISprite>();
-		countDown = transform.Find ("CountDown").GetComponent<UILabel> ();
-	
-
-
-		UIEventListener.Get(confirmBtn).onClick = OnConfirmBtnClick;
 	}
 
 	void Start()
 	{
+		confirmBtn = transform.Find ("ConfirmBtn").gameObject;
+		noticeImg=transform.Find("Notice").GetComponent<UISprite>();
+		countDown = transform.Find ("CountDown").GetComponent<UILabel> ();
 		noticeImg.gameObject.SetActive (false);
 		countDown.gameObject.SetActive (false);
+
+		UIEventListener.Get(confirmBtn).onClick = OnConfirmBtnClick;
 	}
-
-	void OnEnable()
-	{
-		
-	}
-
-	#region 计算按钮的点击事件
-
 
 	void OnConfirmBtnClick(GameObject btn)
 	{
@@ -47,7 +36,6 @@ public class PhotoTakingPanel : MonoBehaviour
 			StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
 		}
 	}
-
 
 	IEnumerator CountDown()
 	{
@@ -63,8 +51,8 @@ public class PhotoTakingPanel : MonoBehaviour
 
 		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);//识别界面需要从 拍摄界面Quad上的GetImage获取itemlist数据，所以这里暂时不能销毁拍摄界面
 		PanelOff();
+//		PanelTranslate.Instance.DestoryThisPanel();
 	}
-	#endregion
 
 	public void PanelOff()
 	{

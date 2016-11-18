@@ -15,7 +15,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private bool isPhotoImageShowDone = false;
 
 
-
 	void Awake()
 	{
 		_instance = this;

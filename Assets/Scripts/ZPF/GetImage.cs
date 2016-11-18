@@ -92,6 +92,9 @@ public class GetImage : MonoBehaviour
 
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
+	
+
+
 
 			}
 			frameImg.Dispose();
