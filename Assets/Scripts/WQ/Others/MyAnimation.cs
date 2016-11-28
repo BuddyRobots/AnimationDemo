@@ -52,7 +52,9 @@ public class MyAnimation : MonoBehaviour {
 					currentID++;
 				}
 
-			} else {
+			}
+			else 
+			{
 				if (currentID < pictureNumber) 
 				{
 					if (Time.time >= time + intervalTime / speed) 

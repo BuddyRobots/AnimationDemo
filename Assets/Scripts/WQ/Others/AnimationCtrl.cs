@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 public class AnimationCtrl : MonoBehaviour 
 {
-	//一个texture有一组对应的list<float> angle和一组对应的 list<vector3> pos信息，依据各自对应的信息进行更新显示
+	//一个texture有一组对应的list<double> angle和一组对应的 list<vector3> pos信息，依据各自对应的信息进行更新显示
 	private List<GameObject> goList=new List<GameObject>();//UI上显示的对象的集合
 	private List<Texture> texList=new List<Texture>();
-	private List<List<float>> angleList=new List<List<float>>();
+	private List<List<double>> angleList=new List<List<double>>();
 	private List<List<Vector3>> posList=new List<List<Vector3>>();
 	private List<int> widthList=new List<int>();//texture的宽度信息
 	private List<int> heightList=new List<int>(); 
@@ -34,12 +34,12 @@ public class AnimationCtrl : MonoBehaviour
 		texList.Add(tex_5);
 
 		// 各个部位对应的角度
-		List<float> tempAngles_0=new List<float>();
-		List<float> tempAngles_1=new List<float>();
-		List<float> tempAngles_2=new List<float>();
-		List<float> tempAngles_3=new List<float>();
-		List<float> tempAngles_4=new List<float>();
-		List<float> tempAngles_5=new List<float>();
+		List<double> tempAngles_0=new List<double>();
+		List<double> tempAngles_1=new List<double>();
+		List<double> tempAngles_2=new List<double>();
+		List<double> tempAngles_3=new List<double>();
+		List<double> tempAngles_4=new List<double>();
+		List<double> tempAngles_5=new List<double>();
 
 
 		for (int i = 0; i < 60; i++) 
@@ -167,7 +167,8 @@ public class AnimationCtrl : MonoBehaviour
 			temp.width=widthList[i];
 			temp.height=heightList[i];
 			temp.transform.localPosition=posList[i][0];
-			temp.transform.localRotation=Quaternion.AngleAxis(angleList[i][0],Vector3.forward);
+			temp.transform.localRotation=Quaternion.AngleAxis((float)angleList[i][0],Vector3.forward);
+
 		
 			goList.Add(temp.gameObject);
 		}	
@@ -184,13 +185,13 @@ public class AnimationCtrl : MonoBehaviour
 	}
 
 
-	void PlayAnimation()
+	void PlayAnimation()                                                                                              
 	{
 
 		for (int i = 0; i < texList.Count; i++) 
 		{
 			goList[i].transform.localPosition=	posList[i][index%length];
-			goList[i].transform.localRotation=Quaternion.AngleAxis(angleList[i][index%length],Vector3.forward);
+			goList[i].transform.localRotation=Quaternion.AngleAxis((float)angleList[i][index%length],Vector3.forward);
 
 			index++;
 		}
