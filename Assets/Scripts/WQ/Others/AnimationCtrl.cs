@@ -190,7 +190,7 @@ public class AnimationCtrl : MonoBehaviour
 
 		for (int i = 0; i < texList.Count; i++) 
 		{
-			goList[i].transform.localPosition=	posList[i][index%length];
+			goList[i].transform.localPosition=posList[i][index%length];
 			goList[i].transform.localRotation=Quaternion.AngleAxis((float)angleList[i][index%length],Vector3.forward);
 
 			index++;

@@ -6,13 +6,28 @@ using System.Collections.Generic;
 
 public class AnimationTest : MonoBehaviour 
 {
-	public Transform temp;
+	public Transform body;
+	public Transform leftWing;
+
+
+
+
+	private Vector2 leftWing_offSet=new Vector2(-214,-61);
+	private Vector2 rightWing_offSet=new Vector2(188,-55);
+	private Vector2 leftLeg_offSet=new Vector2(-67,-228);
+	private Vector2 rightLeg_offSet=new Vector2(44,-225);
+
 	public float intervalTime = 0.04f;//1秒24帧
 
 
-	private  List<Vector2> vectorDataList=new List<Vector2>();//该集合用来存储已经转换了坐标轴（但是没有转化原点）的数据
-	private List<Vector2> offset_dataList=new List<Vector2>();//该集合用来存储偏移量数据
-	private List<Vector2> zeroOrigin_dataList=new List<Vector2>();//该集合用来存储转化了原点的数据，可以直接用
+	private  List<Vector2> body_vectorDataList=new List<Vector2>();//该集合用来存储已经转换了坐标轴（但是没有转化原点）的数据
+	private List<Vector2> body_offset_dataList=new List<Vector2>();//该集合用来存储偏移量数据
+	private List<Vector2> body_zeroOrigin_dataList=new List<Vector2>();//该集合用来存储转化了原点的数据，可以直接用
+
+
+
+	private List<Vector2> leftWing_vectorDataList=new List<Vector2>();
+
 
 	private bool isPlaying=false;
 	private int index;
@@ -21,19 +36,15 @@ public class AnimationTest : MonoBehaviour
 
 	void Start () 
 	{
-		//Debug.Log("fps===="+Application.targetFrameRate);
-		//Application.targetFrameRate=60;
+		
 		isPlaying=false;
 		GetData_Test._instance.ReadInfo();
 
-		temp.GetComponent<UITexture>().width=GetData_Test._instance.widthAndHeightList[0];
-		temp.GetComponent<UITexture>().height=GetData_Test._instance.widthAndHeightList[1];
-
-
-
+//		temp_body.GetComponent<UITexture>().width=GetData_Test._instance.widthAndHeightList[0];
+//		temp_body.GetComponent<UITexture>().height=GetData_Test._instance.widthAndHeightList[1];
 
 		#region 根据数据进行坐标的相应转化
-		foreach (var vec in GetData_Test._instance.vectorDataList) 
+		foreach (var vec in GetData_Test._instance.body_vectorDataList) 
 		{
 			Vector2 vector=new Vector2();
 
@@ -41,29 +52,38 @@ public class AnimationTest : MonoBehaviour
 			vector.x=vec.y;
 			vector.y=vec.x;
 			vector.y*=-1;
-			vectorDataList.Add(vector);
+			body_vectorDataList.Add(vector);
 		}
 		#endregion
+		//get leftWing vectors
+		foreach (var item in GetData_Test._instance.leftWing_vectorDataList)
+		{
+
+			Vector2 vector=new Vector2();
+			vector.x=item.x+leftWing_offSet.x;
+			vector.y=item.y+leftWing_offSet.y;
+			leftWing_vectorDataList.Add(vector);
+		}
 
 		#region 平移坐标
-		toOriginPoint_offset=Vector2.zero-vectorDataList[0];
+		toOriginPoint_offset=Vector2.zero-body_vectorDataList[0];
 
-		for (int i = 0; i < vectorDataList.Count; i++) 
+		for (int i = 0; i < body_vectorDataList.Count; i++) 
 		{
-			Vector2 zeroOrigin_vec=vectorDataList[i]+toOriginPoint_offset;
-			zeroOrigin_dataList.Add(zeroOrigin_vec);
+			Vector2 zeroOrigin_vec=body_vectorDataList[i]+toOriginPoint_offset;
+			body_zeroOrigin_dataList.Add(zeroOrigin_vec);
 		}
 		#endregion
 
 		#region 计算偏移量
-		for (int i = 0; i < vectorDataList.Count-1; i++) 
+		for (int i = 0; i < body_vectorDataList.Count-1; i++) 
 		{
-			Vector2 offset=vectorDataList[i+1]-vectorDataList[i];
+			Vector2 offset=body_vectorDataList[i+1]-body_vectorDataList[i];
 //			Debug.Log("vectorDataList["+i+"]-vectorDataList[0]="+offset);
 
 			Vector2 modify_offset=new Vector2(offset.x,offset.y);
 //			offset_dataList.Add(offset);
-			offset_dataList.Add(modify_offset);
+			body_offset_dataList.Add(modify_offset);
 		}
 //		Debug.Log(".........");
 //		Debug.Log("offset_dataList_count==="+offset_dataList.Count);
@@ -121,9 +141,7 @@ public class AnimationTest : MonoBehaviour
 //		{
 //			isPlaying = false;
 //			StartCoroutine (WaitForAwhile ());
-//
 //		}
-//
 //	}
 	#endregion
 
@@ -157,18 +175,25 @@ public class AnimationTest : MonoBehaviour
 
 	void ChangePositionByOffset()                                                                                              
 	{
-		temp.localPosition+=new Vector3(offset_dataList[index%(offset_dataList.Count)].x, offset_dataList[index%(offset_dataList.Count)].y, 0);
-		temp.localRotation=Quaternion.identity;
-		temp.localScale=Vector3.one;
+		body.localPosition+=new Vector3(body_offset_dataList[index%(body_offset_dataList.Count)].x, body_offset_dataList[index%(body_offset_dataList.Count)].y, 0);
+		body.localRotation=Quaternion.identity;
+		body.localScale=Vector3.one;
 		index++;
 
 	}
 	void ChangePositionByVector()
 	{
 //		Debug.Log("******* "+Time.time);
-		temp.localPosition=zeroOrigin_dataList[index%zeroOrigin_dataList.Count];
-		temp.localRotation=Quaternion.identity;
-		temp.localScale=Vector3.one;
+		body.localPosition=body_zeroOrigin_dataList[index%body_zeroOrigin_dataList.Count];
+		body.localRotation=Quaternion.identity;
+		body.localScale=Vector3.one;
+
+		leftWing.localPosition=leftWing_vectorDataList[index%leftWing_vectorDataList.Count];
+		leftWing.localRotation=Quaternion.identity;
+		leftWing.localScale=Vector3.one;
+
+
+
 		index++;
 
 	}
