@@ -9,13 +9,33 @@ public class GetData_Test :MonoBehaviour
 
 	public TextAsset body_vectorInfoText;
 	public TextAsset leftWing_vectorInfoText;
+	public TextAsset rightWing_vectorInfoText;
+	public TextAsset leftLeg_vectorInfoText;
+	public TextAsset rightLeg_vectorInfoText;
+
 
 	[HideInInspector]
 	public  List<Vector2> body_vectorDataList;
 	[HideInInspector]
 	public  List<Vector2> leftWing_vectorDataList;
 	[HideInInspector]
+	public List<Vector2> rightWing_vectorDataList;
+	[HideInInspector]
+	public List<Vector2>  leftLeg_vectorDataList;
+	[HideInInspector]
+	public List<Vector2>  rightLeg_vectorDataList;
+
+
+
+
+	[HideInInspector]
 	public List<int> leftWing_angleList;
+	[HideInInspector]
+	public List<int> rightWing_angleList;
+	[HideInInspector]
+	public List<int> leftLeg_angleList;
+	[HideInInspector]
+	public List<int> rightLeg_angleList;
 
 	[HideInInspector]
 	public List<int> widthAndHeightList;
@@ -24,7 +44,47 @@ public class GetData_Test :MonoBehaviour
 	{
 		_instance=this;
 	}
-		
+
+
+
+	private void GetDataByTxtStr(string txtStr, List<Vector2> vectorList, List<int> angleList)
+	{
+		string[] data_origin = txtStr.Split ('\n');
+		string[] vectors = new string[data_origin.Length - 1]; 
+		for (int i = 1; i < data_origin.Length; i++) 
+		{
+			vectors [i - 1] = data_origin [i];
+		}
+		foreach (var item in vectors)
+		{
+			string[] vectorAndAngle = item.Split (',');
+			string vec_x = vectorAndAngle [0];
+			string vec_y = vectorAndAngle [1];
+			string angle_temp = vectorAndAngle [2];
+
+			int x;
+			int y;
+			int angle;
+			if (int.TryParse (vec_x, out x)) 
+			{
+				Debug.Log ("x====" + x);
+			}
+			if (int.TryParse (vec_y, out y)) 
+			{
+				Debug.Log ("y====" + y);
+			}
+			if (int.TryParse (angle_temp, out angle)) 
+			{
+				Debug.Log ("angle===" + angle);
+			}
+
+			vectorList.Add(new Vector2(x,y));
+			angleList.Add(angle);
+
+		}
+
+
+	}
 
 	//解析Txt文本文件
 	public void ReadInfo()
@@ -77,52 +137,63 @@ public class GetData_Test :MonoBehaviour
 
 
 		#region 解析左翅膀数据
+
 		string leftWing_text = leftWing_vectorInfoText.text;
-		string[] leftWingData_origin = leftWing_text.Split ('\n');
-		string[] leftWingVectors = new string[leftWingData_origin.Length - 1]; 
-		for (int i = 1; i < leftWingData_origin.Length; i++) 
-		{
-			leftWingVectors [i - 1] = leftWingData_origin [i];
-		}
-		foreach (var item in leftWingVectors)
-		{
-			string[] dataSplit = item.Split (',');
-			string vec_x = dataSplit [0];
-			string vec_y = dataSplit [1];
-			string angle_temp = dataSplit [2];
-
-			int x;
-			int y;
-			int angle;
-			if (int.TryParse (vec_x, out x)) 
-			{
-//				Debug.Log ("x====" + x);
-			}
-			if (int.TryParse (vec_y, out y)) 
-			{
-//				Debug.Log ("y====" + y);
-			}
-			if (int.TryParse (angle_temp, out angle)) 
-			{
-//				Debug.Log ("angle===" + angle);
-			}
+		GetDataByTxtStr(leftWing_text, leftWing_vectorDataList, leftWing_angleList);
 
 
-			leftWing_vectorDataList.Add(new Vector2(x,y));
-			leftWing_angleList.Add(angle);
+//		string leftWing_text = leftWing_vectorInfoText.text;
+//		string[] leftWingData_origin = leftWing_text.Split ('\n');
+//		string[] leftWingVectors = new string[leftWingData_origin.Length - 1]; 
+//		for (int i = 1; i < leftWingData_origin.Length; i++) 
+//		{
+//			leftWingVectors [i - 1] = leftWingData_origin [i];
+//		}
+//		foreach (var item in leftWingVectors)
+//		{
+//			string[] dataSplit = item.Split (',');
+//			string vec_x = dataSplit [0];
+//			string vec_y = dataSplit [1];
+//			string angle_temp = dataSplit [2];
+//
+//			int x;
+//			int y;
+//			int angle;
+//			if (int.TryParse (vec_x, out x)) 
+//			{
+////				Debug.Log ("x====" + x);
+//			}
+//			if (int.TryParse (vec_y, out y)) 
+//			{
+////				Debug.Log ("y====" + y);
+//			}
+//			if (int.TryParse (angle_temp, out angle)) 
+//			{
+////				Debug.Log ("angle===" + angle);
+//			}
+//
+//
+//			leftWing_vectorDataList.Add(new Vector2(x,y));
+//			leftWing_angleList.Add(angle);
 
-
-		}
 		#endregion
 
+		//解析右翅膀数据
+		string rightWing_text=rightWing_vectorInfoText.text;
+		GetDataByTxtStr(rightWing_text, rightWing_vectorDataList, rightWing_angleList);
 
+		string leftLeg_Text=leftLeg_vectorInfoText.text;
+		GetDataByTxtStr(leftLeg_Text,  leftLeg_vectorDataList, leftLeg_angleList);
 
-
-
-
-
-
+		string rightLeg_Text=rightLeg_vectorInfoText.text;
+		GetDataByTxtStr(rightLeg_Text,  rightLeg_vectorDataList, rightLeg_angleList);
 
 	}
-
+		
 }
+
+
+
+	
+
+

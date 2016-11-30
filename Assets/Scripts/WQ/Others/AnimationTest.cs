@@ -8,14 +8,17 @@ public class AnimationTest : MonoBehaviour
 {
 	public Transform body;
 	public Transform leftWing;
+	public Transform rightWing;
+	public Transform leftLeg;
+	public Transform rightLeg;
 
 
 
 
 	private Vector2 leftWing_offSet=new Vector2(-214,-61);
 	private Vector2 rightWing_offSet=new Vector2(188,-55);
-	private Vector2 leftLeg_offSet=new Vector2(-67,-228);
-	private Vector2 rightLeg_offSet=new Vector2(44,-225);
+	private Vector2 leftLeg_offSet=new Vector2(-67,-232);
+	private Vector2 rightLeg_offSet=new Vector2(44,-230);
 
 	public float intervalTime = 0.04f;//1秒24帧
 
@@ -27,6 +30,9 @@ public class AnimationTest : MonoBehaviour
 
 
 	private List<Vector2> leftWing_vectorDataList=new List<Vector2>();
+	private List<Vector2> rightWing_vectorDataList=new List<Vector2>();
+	private List<Vector2> leftLeg_vectorDataList=new List<Vector2>();
+	private List<Vector2> rightLeg_vectorDataList=new List<Vector2>();
 
 
 	private bool isPlaying=false;
@@ -56,14 +62,17 @@ public class AnimationTest : MonoBehaviour
 		}
 		#endregion
 		//get leftWing vectors
-		foreach (var item in GetData_Test._instance.leftWing_vectorDataList)
-		{
+//		foreach (var item in GetData_Test._instance.leftWing_vectorDataList)
+//		{
+//
+//			Vector2 vector=new Vector2();
+//			vector.x=item.x+leftWing_offSet.x;
+//			vector.y=item.y+leftWing_offSet.y;
+//		
+//			leftWing_vectorDataList.Add(vector);
+//		}
 
-			Vector2 vector=new Vector2();
-			vector.x=item.x+leftWing_offSet.x;
-			vector.y=item.y+leftWing_offSet.y;
-			leftWing_vectorDataList.Add(vector);
-		}
+
 
 		#region 平移坐标
 		toOriginPoint_offset=Vector2.zero-body_vectorDataList[0];
@@ -74,6 +83,48 @@ public class AnimationTest : MonoBehaviour
 			body_zeroOrigin_dataList.Add(zeroOrigin_vec);
 		}
 		#endregion
+
+		//左翅膀数据
+		for (int i = 0; i < GetData_Test._instance.leftWing_vectorDataList.Count; i++) 
+		{
+			Vector2 vector=new Vector2();
+			vector.x=GetData_Test._instance.leftWing_vectorDataList[i].x+leftWing_offSet.x;
+			vector.y=GetData_Test._instance.leftWing_vectorDataList[i].y+leftWing_offSet.y;
+			leftWing_vectorDataList.Add(vector+body_zeroOrigin_dataList[i]);
+
+		}
+
+		//右翅膀数据
+		for (int i = 0; i < GetData_Test._instance.rightWing_vectorDataList.Count; i++) 
+		{
+			Vector2 vector=new Vector2();
+			vector.x=GetData_Test._instance.rightWing_vectorDataList[i].x+rightWing_offSet.x;
+			vector.y=GetData_Test._instance.rightWing_vectorDataList[i].y+rightWing_offSet.y;
+			rightWing_vectorDataList.Add(vector+body_zeroOrigin_dataList[i]);
+
+		}
+
+		//左脚数据
+		for (int i = 0; i < GetData_Test._instance.leftWing_vectorDataList.Count; i++) 
+		{
+			Vector2 vector=new Vector2();
+			vector.x=GetData_Test._instance.leftLeg_vectorDataList[i].x+leftLeg_offSet.x;
+			vector.y=GetData_Test._instance.leftLeg_vectorDataList[i].y+leftLeg_offSet.y;
+			leftLeg_vectorDataList.Add(vector+body_zeroOrigin_dataList[i]);
+
+		}
+		// 右脚数据
+		for (int i = 0; i < GetData_Test._instance.rightWing_vectorDataList.Count; i++) 
+		{
+			Vector2 vector=new Vector2();
+			vector.x=GetData_Test._instance.rightLeg_vectorDataList[i].x+rightLeg_offSet.x;
+			vector.y=GetData_Test._instance.rightLeg_vectorDataList[i].y+rightLeg_offSet.y;
+			rightLeg_vectorDataList.Add(vector+body_zeroOrigin_dataList[i]);
+
+		}
+
+
+
 
 		#region 计算偏移量
 		for (int i = 0; i < body_vectorDataList.Count-1; i++) 
@@ -123,7 +174,7 @@ public class AnimationTest : MonoBehaviour
 		{
 			if (Time.time >= time + intervalTime) 
 			{
-				Debug.Log("%%%%%%% "+Time.time);
+//				Debug.Log("%%%%%%% "+Time.time);
 				time=Time.time;
 				ChangePositionByVector();
 			}
@@ -189,8 +240,27 @@ public class AnimationTest : MonoBehaviour
 		body.localScale=Vector3.one;
 
 		leftWing.localPosition=leftWing_vectorDataList[index%leftWing_vectorDataList.Count];
-		leftWing.localRotation=Quaternion.identity;
+//		leftWing.localRotation=GetData_Test._instance.leftWing_angleList[index%GetData_Test._instance.leftWing_angleList.Count];
+		leftWing.localRotation=Quaternion.AngleAxis((float)GetData_Test._instance.leftWing_angleList[index%GetData_Test._instance.leftWing_angleList.Count],Vector3.forward);
 		leftWing.localScale=Vector3.one;
+
+
+		rightWing.localPosition=rightWing_vectorDataList[index%rightWing_vectorDataList.Count];
+		rightWing.localRotation=Quaternion.AngleAxis((float)GetData_Test._instance.rightWing_angleList[index%GetData_Test._instance.rightWing_angleList.Count],Vector3.forward);
+		rightWing.localScale=Vector3.one;
+
+		leftLeg.localPosition=leftLeg_vectorDataList[index%leftLeg_vectorDataList.Count];
+		leftLeg.localRotation=Quaternion.AngleAxis((float)GetData_Test._instance.leftLeg_angleList[index%GetData_Test._instance.leftLeg_angleList.Count],Vector3.forward);
+		leftLeg.localScale=Vector3.one;
+
+		rightLeg.localPosition=rightLeg_vectorDataList[index%rightLeg_vectorDataList.Count];
+		rightLeg.localRotation=Quaternion.AngleAxis((float)GetData_Test._instance.rightLeg_angleList[index%GetData_Test._instance.rightLeg_angleList.Count],Vector3.forward);
+		rightLeg.localScale=Vector3.one;
+
+
+
+
+
 
 
 
