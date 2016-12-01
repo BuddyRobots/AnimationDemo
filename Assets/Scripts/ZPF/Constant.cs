@@ -29,8 +29,7 @@
 		public const int    LINE_STEP_LARGE           = 25;
 		public const int    LINE_MIN_POINT_NUM        = 3;
 
-		// PhotoRecognizingPanel.cs : Arrow show interval
-		public const float  ARROW_GEN_INTERVAL        = 0.8f;
+
 
 		// CurrentFlow.cs : Parameter for determining whether two points are connected
 		public const int    POINT_CONNECT_REGION      = 40;
@@ -38,5 +37,10 @@
 		// RecognizeAlgo.cs : Model image size 3*28*28, 9 classes
 		public const int    MODEL_IMAGE_SIZE          = 28;
 		public const int    NUM_OF_CLASS              = 9;
+
+
+
+
+		public const float ANIMATION_FRAME_INTERVAL = 0.04f;//1秒24帧
 	}
 }

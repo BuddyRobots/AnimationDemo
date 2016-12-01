@@ -67,15 +67,15 @@ public class GetData_Test :MonoBehaviour
 			int angle;
 			if (int.TryParse (vec_x, out x)) 
 			{
-				Debug.Log ("x====" + x);
+//				Debug.Log ("x====" + x);
 			}
 			if (int.TryParse (vec_y, out y)) 
 			{
-				Debug.Log ("y====" + y);
+//				Debug.Log ("y====" + y);
 			}
 			if (int.TryParse (angle_temp, out angle)) 
 			{
-				Debug.Log ("angle===" + angle);
+//				Debug.Log ("angle===" + angle);
 			}
 
 			vectorList.Add(new Vector2(x,y));
