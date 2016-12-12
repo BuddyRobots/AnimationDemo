@@ -1,19 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/Others/AnimationCtrl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/AniDemo.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/Others/AnimationTest.cs" Line="84" Column="4" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/Others/AnimationCtrl.cs" Line="32" Column="22" NotebookId="1" />
-      <File FileName="Assets/Resources/rl.txt" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Resources/ll.txt" Line="5" Column="11" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/AniDemo.cs" Line="65" Column="3" />
+      <File FileName="Assets/Scripts/ZPF/Owl.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="46" Column="1" />
+      <File FileName="Assets/Scripts/WQ/Others/AnimationTest.cs" Line="40" Column="3" />
     </Files>
-    <FloatingWindows>
-      <FloatingWindow WindowId="1" X="32" Y="92" Width="1056" Height="900">
-        <Files>
-          <File FileName="Assets/Scripts/WQ/Others/GetData_Test.cs" Line="100" Column="50" />
-        </Files>
-      </FloatingWindow>
-    </FloatingWindows>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

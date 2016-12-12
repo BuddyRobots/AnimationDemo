@@ -35,6 +35,12 @@ public class AnimationTest : MonoBehaviour
 	private float time;
 	#endregion
 
+	void Awake()
+	{
+		Application.targetFrameRate=60;	
+	}
+
+
 	void Start () 
 	{
 		isPlaying=false;

@@ -43,6 +43,8 @@ public class GetData_Test :MonoBehaviour
 	void Awake()
 	{
 		_instance=this;
+//		Debug.Log("framerate"+Application.targetFrameRate);
+		Application.targetFrameRate = 60;//此处限定60帧
 	}
 
 
