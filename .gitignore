@@ -12,7 +12,9 @@ ProjectSettings/ProjectSettings.asset
 ProjectSettings/ProjectVersion.txt
 AnimationDemoXcode/*
 
-# excluding
+!AnimationDemoXcode/Classes
+AnimationDemoXcode/Classes/*
 !AnimationDemoXcode/Classes/test_tensorflow.h 
 !AnimationDemoXcode/Classes/test_tensorflow.mm 
-!AnimationDemoXcode/Models/*
+
+!AnimationDemoXcode/Models
