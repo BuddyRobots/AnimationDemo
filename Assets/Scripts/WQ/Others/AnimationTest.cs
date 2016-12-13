@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using MagicCircuit;
+using AnimationDemo;
 
 
 public class AnimationTest : MonoBehaviour 

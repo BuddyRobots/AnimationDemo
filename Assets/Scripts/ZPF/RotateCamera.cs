@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace MagicCircuit
+namespace AnimationDemo
 {
     public static class RotateCamera
     {

@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenCVForUnity;
-using MagicCircuit;
+using AnimationDemo;
 
 public class GetImage : MonoBehaviour
 {
