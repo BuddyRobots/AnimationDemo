@@ -5,7 +5,7 @@ ProjectSettings
 Temp
 Assembly-CSharp-Editor.csproj
 Assembly-CSharp.csproj
-MagicCircuit.userprefs
+AnimationDemo.userprefs
 
 
 # Xcode related
@@ -15,7 +15,6 @@ AnimationDemoXcode/Classes/*
 !AnimationDemoXcode/Classes/test_tensorflow.h 
 !AnimationDemoXcode/Classes/test_tensorflow.mm 
 !AnimationDemoXcode/Models
-!AnimationDemoXcode/Models/*
 
 
 # MAC-OSX related
