@@ -15,11 +15,10 @@ namespace AnimationDemo
 		[DllImport("__Internal")]
 		private static extern int dll_ReleaseMemory(IntPtr ptr);
 
-		private const string pngPath = @"Pictures/Photos/1479693874";
+		// Usage :
+		/*private const string pngPath = @"Pictures/Photos/1479693874";
 
-
-		// Use this for initialization
-		/*void Start () {
+        void Start () {
 			Debug.Log("test_tensorflow.cs : Start()!");
 
 			Texture2D texture = new Texture2D(WIDTH, HEIGHT);
@@ -33,21 +32,21 @@ namespace AnimationDemo
 
 		public static List<Texture2D> segment(Texture2D texture)
 		{
-			Mat originImage = new Mat(texture.height, texture.width, CvType.CV_8UC3);
+			Mat originImage = new Mat(texture.height, texture.width, CvType.CV_8UC4);
 			Utils.texture2DToMat(texture, originImage);
 
 			float[] dataArray = texture2d2tensorArray(texture);
 			float[] segmentationResult = call_dll_SendArray(dataArray);
 
-			int[] resultImageData = new int[Constant.HEIGHT*Constant.WIDTH];
+			int[] maskImageData = new int[Constant.HEIGHT*Constant.WIDTH];
 
-			for (var i = 0; i < resultImageData.Length; i++)
+			for (var i = 0; i < maskImageData.Length; i++)
 			{
 				float[] pixel = new float[Constant.NUM_OF_CLASS];
 				for (var j = 0; j < pixel.Length; j++)
 					pixel[j] = segmentationResult[i*Constant.NUM_OF_CLASS + j];
 				// Change klass 0 ~ 6 to parts -1(bg), 0 ~ 5
-				resultImageData[i] = softmax(pixel) - 1;
+				maskImageData[i] = softmax(pixel) - 1;
 			}
 
 			List<Mat> partMaskList = new List<Mat>();
@@ -57,7 +56,7 @@ namespace AnimationDemo
 			for (var i = 0; i < Constant.HEIGHT; i++)
 				for (var j = 0; j < Constant.WIDTH; j++)
 				{
-					int part = resultImageData[i*Constant.WIDTH + j];
+					int part = maskImageData[i*Constant.WIDTH + j];
 					try{
 						if (part == -1) continue;
 						partMaskList[part].put(i, j, (byte)255);
@@ -81,7 +80,7 @@ namespace AnimationDemo
 
 			for (var i = 0; i < partMaskList.Count; i++)
 			{
-				Mat resultImage = new Mat(Constant.HEIGHT, Constant.WIDTH, CvType.CV_8UC3, new Scalar(0, 0, 0));
+				Mat resultImage = new Mat(Constant.HEIGHT, Constant.WIDTH, CvType.CV_8UC4, new Scalar(0, 0, 0, 0));
 				originImage.copyTo(resultImage, partMaskList[i]);
 				Mat cropImage = cropROI(resultImage, partMaskList[i]);
 
