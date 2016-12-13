@@ -83,6 +83,7 @@ namespace AnimationDemo
 				Mat resultImage = new Mat(Constant.HEIGHT, Constant.WIDTH, CvType.CV_8UC4, new Scalar(0, 0, 0, 0));
 				originImage.copyTo(resultImage, partMaskList[i]);
 				Mat cropImage = cropROI(resultImage, partMaskList[i]);
+				removeBorder(cropImage);
 
 				Texture2D tmpTex = new Texture2D(cropImage.width(), cropImage.height());
 				Utils.matToTexture2D(cropImage, tmpTex);
@@ -174,6 +175,28 @@ namespace AnimationDemo
 			Mat result = new Mat(image, roi);
 
 			return result;
+		}
+
+
+		// To deal with random black lines on cropped image border.
+		private static void removeBorder(Mat image)
+		{
+			if (image.type() != CvType.CV_8UC4)
+			{
+				Debug.LogError("Segmentation.cs removeBorder() Err: Expect input CvType.CV_8UC4, got " + image.type());
+				return;
+			}
+			byte[] zero = new byte[4] {0, 0, 0, 0};
+			for (var i = 0; i < image.rows(); i++)
+			{
+				image.put(i, 0, zero);
+				image.put(i, image.cols() - 1, zero);
+			}
+			for (var j = 0; j < image.cols(); j++)
+			{
+				image.put(0, j, zero);
+				image.put(image.rows() - 1, j, zero);
+			}
 		}
 			
 

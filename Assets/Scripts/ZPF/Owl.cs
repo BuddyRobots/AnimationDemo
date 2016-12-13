@@ -1,37 +1,54 @@
 using UnityEngine;
 
-class Owl
+namespace AnimationDemo
 {
-	public Body body;
-	public Wing leftWing;
-	public Wing rightWing;
-	public Leg  leftLeg;
-	public Leg  rightLeg;
+	class Owl
+	{
+		public Body      body;
+		public LeftWing  leftWing;
+		public RightWing rightWing;
+		public LeftLeg   leftLeg;
+		public RightLeg  rightLeg;
 
-	Owl()
-	{}
+		Owl()
+		{}
 
-	~Owl()
-	{}
-}
+		~Owl()
+		{}
+	}
 
-class BodyPart
-{
-	public Vector2 position;
-	public double  rotation;
-}
+	class BodyPart
+	{
+		public Vector2 centerPoint {get; set;}
+		public Vector2 anchorPoint {get; set;}
+		public double  rotation    {get; set;}
+	}
 
-class Body : BodyPart
-{
-	
-}
-	
-class Wing : BodyPart
-{
+	class Body : BodyPart
+	{
+		
+	}
+		
+	class LeftWing : BodyPart
+	{
+		public LeftWing()
+		{
 
-}
+		}
+	}
 
-class Leg : BodyPart
-{
+	class RightWing : BodyPart
+	{
+		
+	}
 
+	class LeftLeg : BodyPart
+	{
+
+	}
+
+	class RightLeg : BodyPart
+	{
+		
+	}
 }
