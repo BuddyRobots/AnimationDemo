@@ -94,7 +94,7 @@ namespace AnimationDemo
 		}
 
 
-		private static Texture2D loadPNG(string filePath)
+		public static Texture2D loadPNG(string filePath)
 		{
 			return Resources.Load<Texture2D>(filePath);
 		}
