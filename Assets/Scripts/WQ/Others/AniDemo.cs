@@ -11,13 +11,24 @@ public class AniDemo : MonoBehaviour {
 
 
 
-	// 各个部位对应的角度
+	// 各个部位对应的角度------int
 	List<int> body_angles=new List<int>();
 	List<int> leftWing_angles=new List<int>();
 	List<int> rightWing_angles=new List<int>();
 	List<int> leftLeg_angles=new List<int>();
 	List<int> rightLeg_angles=new List<int>();
 	private List<List<int>> total_angleList=new List<List<int>>();
+
+	// 各个部位对应的角度------double
+	List<double> body_angles_double=new List<double>();
+	List<double> leftWing_angles_double=new List<double>();
+	List<double> rightWing_angles_double=new List<double>();
+	List<double> leftLeg_angles_double=new List<double>();
+	List<double> rightLeg_angles_double=new List<double>();
+	private List<List<double>> total_angleList_double=new List<List<double>>();
+
+
+
 
 	private Vector2 leftWing_offSet = new Vector2 (-214, -61);
 	private Vector2 rightWing_offSet = new Vector2 (188, -55);
@@ -45,9 +56,6 @@ public class AniDemo : MonoBehaviour {
 	private float time;
 
 
-
-
-
 	//for test...
 	private Texture2D tex;
 	private List<Texture2D> partTexList=new List<Texture2D>();
@@ -55,17 +63,26 @@ public class AniDemo : MonoBehaviour {
 	private string pngPath="Pictures/Photos/1479694037";
 	private const float heightRate=3.46f;
 
+
+	private List<string> jsonPaths=new List<string>();
+
+	private Owl owl;
+
 	void Start()
 	{
+		
 		uiTex=transform.Find("Tex").GetComponent<UITexture>();
 		uiTex.width=Constant.WIDTH;
 		uiTex.height=Constant.HEIGHT;
-		//		Debug.Log(uiTex.width+"   "+uiTex.height);
 
+		//get the whole texure and show
 		tex=new Texture2D(Constant.WIDTH,Constant.HEIGHT);
 		tex=MyUtils.loadPNG(pngPath);
 		uiTex.mainTexture=tex;
-		partTexList=Segmentation.segment(tex);
+
+
+		GetPartTexures();
+		GetPartData();
 
 		index=0;
 		length=0;
@@ -75,9 +92,73 @@ public class AniDemo : MonoBehaviour {
 	}
 
 
+
+
+
+	void GetPartTexures()
+	{
+		//init jsonpath
+		jsonPaths.Add(@"Json/body");
+		jsonPaths.Add(@"Json/leftwing");
+		jsonPaths.Add(@"Json/rightwing");
+		jsonPaths.Add(@"Json/leftleg");
+		jsonPaths.Add(@"Json/rightleg");
+
+		owl=new Owl(tex, jsonPaths);
+
+		//init partTexList
+		partTexList.Add(owl.body.texture);
+		partTexList.Add(owl.leftWing.texture);
+		partTexList.Add(owl.rightWing.texture);
+		partTexList.Add(owl.leftLeg.texture);
+		partTexList.Add(owl.rightLeg.texture);
+	}
+
+
+
+	void GetPartData()
+	{
+		
+		body_vectorDataList=owl.body.position;
+//		leftWing_vectorDataList=owl.leftWing.position;
+//		rightWing_vectorDataList=owl.rightWing.position;
+//		leftLeg_vectorDataList=owl.leftLeg.position;
+//		rightLeg_vectorDataList=owl.rightLeg.position;
+		SetPartVectorData_T(owl.leftWing.position,leftWing_vectorDataList,leftWing_offSet);//左翅膀数据
+		SetPartVectorData_T(owl.rightWing.position,rightWing_vectorDataList,rightWing_offSet);//右翅膀数据
+		SetPartVectorData_T(owl.leftLeg.position,leftLeg_vectorDataList,leftLeg_offSet);//左脚数据
+		SetPartVectorData_T(owl.rightLeg.position,rightLeg_vectorDataList,rightLeg_offSet);//右脚数据
+
+		total_posList.Add(body_vectorDataList);
+		total_posList.Add(leftWing_vectorDataList);
+		total_posList.Add(rightWing_vectorDataList);
+		total_posList.Add(leftLeg_vectorDataList);
+		total_posList.Add(rightLeg_vectorDataList);
+
+		body_angles_double=owl.body.rotation;
+		leftWing_angles_double=owl.leftWing.rotation;
+		rightWing_angles_double=owl.rightWing.rotation;
+		leftLeg_angles_double=owl.leftLeg.rotation;
+		rightLeg_angles_double=owl.rightLeg.rotation;
+
+		total_angleList_double.Add(body_angles_double);
+		total_angleList_double.Add(leftWing_angles_double);
+		total_angleList_double.Add(rightWing_angles_double);
+		total_angleList_double.Add(leftLeg_angles_double);
+		total_angleList_double.Add(rightLeg_angles_double);
+
+
+
+	}
+
+
+
+
+
+
 	void Init()
 	{
-		//for test...   -----texlist的值由图像识别返回
+		//for test...直接读取资源中的各部分的图片   -----texlist的值由图像识别返回
 		//获取纹理
 //		Texture tex_0=GetTexure("body");
 //		Texture tex_1=GetTexure("left_wing");
@@ -85,20 +166,25 @@ public class AniDemo : MonoBehaviour {
 //		Texture tex_3=GetTexure("left_leg");
 //		Texture tex_4=GetTexure("right_leg");
 	
-		//for test...slice the tex into 5 parts
+		//for test...把整图分割成小图再获取  slice the tex into 5 parts
+//
+//		Texture tex_0=partTexList[0];
+//		Texture tex_1=partTexList[1];
+//		Texture tex_2=partTexList[2];
+//		Texture tex_3=partTexList[3];
+//		Texture tex_4=partTexList[4];
+//
+//		//把纹理添加到纹理列表
+//		texList.Add(tex_0);
+//		texList.Add(tex_1);
+//		texList.Add(tex_2);
+//		texList.Add(tex_3);
+//		texList.Add(tex_4);
 
-		Texture tex_0=partTexList[0];
-		Texture tex_1=partTexList[1];
-		Texture tex_2=partTexList[2];
-		Texture tex_3=partTexList[3];
-		Texture tex_4=partTexList[4];
 
-		//把纹理添加到纹理列表
-		texList.Add(tex_0);
-		texList.Add(tex_1);
-		texList.Add(tex_2);
-		texList.Add(tex_3);
-		texList.Add(tex_4);
+		for (int i = 0; i < partTexList.Count; i++) {
+			texList.Add(partTexList[i]);
+		}
 
 //		widthList.Add(476);
 //		heightList.Add(534);
@@ -119,6 +205,10 @@ public class AniDemo : MonoBehaviour {
 			heightList.Add((int)(partTexList[i].height*heightRate));
 		}
 
+
+
+
+		/*     
 		//读取文本文件信息
 		GetData_Test._instance.ReadInfo();
 
@@ -175,10 +265,31 @@ public class AniDemo : MonoBehaviour {
 		total_posList.Add(leftLeg_vectorDataList);
 		total_posList.Add(rightLeg_vectorDataList);
 		#endregion
-
+		*/
 
 		//创建对象
 		GameObject parent=GameObject.Find("UI Root/PhotoRecognizingPanel(Clone)/Owl");
+//		for (int i = 0; i < texList.Count; i++) 
+//		{
+//			UITexture temp = NGUITools.AddChild<UITexture>(parent);
+//			temp.mainTexture=texList[i];
+//			temp.width=widthList[i];
+//			temp.height=heightList[i];
+//			temp.transform.localPosition=total_posList[i][0];
+//
+//			temp.transform.localRotation=Quaternion.AngleAxis((float)total_angleList[i][0],Vector3.forward);
+//
+//
+//			if (i==0) 
+//			{
+//				temp.depth=3;
+//			} else
+//			{
+//				temp.depth=2;
+//			}
+//				
+//			goList.Add(temp.gameObject);
+//		}	
 		for (int i = 0; i < texList.Count; i++) 
 		{
 			UITexture temp = NGUITools.AddChild<UITexture>(parent);
@@ -187,7 +298,7 @@ public class AniDemo : MonoBehaviour {
 			temp.height=heightList[i];
 			temp.transform.localPosition=total_posList[i][0];
 
-			temp.transform.localRotation=Quaternion.AngleAxis((float)total_angleList[i][0],Vector3.forward);
+			temp.transform.localRotation=Quaternion.AngleAxis((float)total_angleList_double[i][0],Vector3.forward);
 
 
 			if (i==0) 
@@ -197,7 +308,7 @@ public class AniDemo : MonoBehaviour {
 			{
 				temp.depth=2;
 			}
-				
+
 			goList.Add(temp.gameObject);
 		}	
 	}
@@ -230,10 +341,16 @@ public class AniDemo : MonoBehaviour {
 	void PlayAnimation()                                                                                              
 	{
 
+//		for (int i=0; i < texList.Count;i++) 
+//		{
+//			goList[i].transform.localPosition=total_posList[i%texList.Count][index%length];
+//			goList[i].transform.localRotation=Quaternion.AngleAxis((float)total_angleList[i%texList.Count][index%length],Vector3.forward);
+//			goList[i].transform.localScale=Vector3.one;
+//		}
 		for (int i=0; i < texList.Count;i++) 
 		{
 			goList[i].transform.localPosition=total_posList[i%texList.Count][index%length];
-			goList[i].transform.localRotation=Quaternion.AngleAxis((float)total_angleList[i%texList.Count][index%length],Vector3.forward);
+			goList[i].transform.localRotation=Quaternion.AngleAxis((float)total_angleList_double[i%texList.Count][index%length],Vector3.forward);
 			goList[i].transform.localScale=Vector3.one;
 		}
 		index++;
@@ -281,6 +398,18 @@ public class AniDemo : MonoBehaviour {
 			vector.x=vec_source[i].x+offset.x;
 			vector.y=vec_source[i].y+offset.y;
 			vec_dst.Add(vector+body_zeroOrigin_dataList[i]);
+
+		}
+	}
+
+	void SetPartVectorData_T(List<Vector2> vec_source,List<Vector2> vec_dst,Vector2 offset)
+	{
+		for (int i = 0; i < vec_source.Count; i++) 
+		{
+			Vector2 vector=new Vector2();
+			vector.x=vec_source[i].x+offset.x;
+			vector.y=vec_source[i].y+offset.y;
+			vec_dst.Add(vector+body_vectorDataList[i]);
 
 		}
 	}
