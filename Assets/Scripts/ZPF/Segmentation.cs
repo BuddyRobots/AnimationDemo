@@ -22,7 +22,29 @@ namespace AnimationDemo
 			Utils.texture2DToMat(texture, originImage);
 
 			float[] dataArray = texture2d2tensorArray(texture);
-			float[] segmentationResult = call_dll_SendArray(dataArray);
+
+
+
+
+
+
+
+
+
+
+			//float[] segmentationResult = call_dll_SendArray(dataArray);
+
+			float[] segmentationResult = new float[Constant.WIDTH*Constant.HEIGHT*Constant.NUM_OF_CLASS];
+
+
+
+
+
+
+
+
+
+
 
 			int[] maskImageData = new int[Constant.HEIGHT*Constant.WIDTH];
 
