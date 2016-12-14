@@ -8,7 +8,6 @@ Assembly-CSharp-Editor.csproj
 Assembly-CSharp.csproj
 AnimationDemo.userprefs
 
-
 # Xcode related
 AnimationDemoXcode/*
 !AnimationDemoXcode/Classes
