@@ -15,20 +15,6 @@ namespace AnimationDemo
 		[DllImport("__Internal")]
 		private static extern int dll_ReleaseMemory(IntPtr ptr);
 
-		// Usage :
-		/*private const string pngPath = @"Pictures/Photos/1479693874";
-
-        void Start () {
-			Debug.Log("test_tensorflow.cs : Start()!");
-
-			Texture2D texture = new Texture2D(WIDTH, HEIGHT);
-			texture = loadPNG(pngPath);
-
-			List<Texture2D> partTexList = segment(texture);
-
-			gameObject.GetComponent<Renderer>().material.mainTexture = partTexList[3];
-		}*/
-
 
 		public static List<Texture2D> segment(Texture2D texture)
 		{
