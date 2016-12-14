@@ -61,7 +61,7 @@ namespace AnimationDemo
 
 
 
-			Person thomas = JsonMapper.ToObject<Person>(json);
+//			Person thomas = JsonMapper.ToObject<Person>(json);
 
 
 
