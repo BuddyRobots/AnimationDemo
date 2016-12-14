@@ -45,15 +45,53 @@ public class AniDemo : MonoBehaviour {
 	private float time;
 
 
+
+
+
+	//for test...
+	private Texture2D tex;
+	private List<Texture2D> partTexList=new List<Texture2D>();
+	private UITexture uiTex;
+	private string pngPath="Pictures/Photos/1479694037";
+	private const float heightRate=3.46f;
+
+	void Start()
+	{
+		uiTex=transform.Find("Tex").GetComponent<UITexture>();
+		uiTex.width=Constant.WIDTH;
+		uiTex.height=Constant.HEIGHT;
+		//		Debug.Log(uiTex.width+"   "+uiTex.height);
+
+		tex=new Texture2D(Constant.WIDTH,Constant.HEIGHT);
+		tex=Segmentation.loadPNG(pngPath);
+		uiTex.mainTexture=tex;
+		partTexList=Segmentation.segment(tex);
+
+		index=0;
+		length=0;
+		isPlaying=false;
+		Init();
+		Play();
+	}
+
+
 	void Init()
 	{
 		//for test...   -----texlist的值由图像识别返回
 		//获取纹理
-		Texture tex_0=GetTexure("body");
-		Texture tex_1=GetTexure("left_wing");
-		Texture tex_2=GetTexure("right_wing");
-		Texture tex_3=GetTexure("left_leg");
-		Texture tex_4=GetTexure("right_leg");
+//		Texture tex_0=GetTexure("body");
+//		Texture tex_1=GetTexure("left_wing");
+//		Texture tex_2=GetTexure("right_wing");
+//		Texture tex_3=GetTexure("left_leg");
+//		Texture tex_4=GetTexure("right_leg");
+	
+		//for test...slice the tex into 5 parts
+
+		Texture tex_0=partTexList[0];
+		Texture tex_1=partTexList[1];
+		Texture tex_2=partTexList[2];
+		Texture tex_3=partTexList[3];
+		Texture tex_4=partTexList[4];
 
 		//把纹理添加到纹理列表
 		texList.Add(tex_0);
@@ -62,17 +100,24 @@ public class AniDemo : MonoBehaviour {
 		texList.Add(tex_3);
 		texList.Add(tex_4);
 
-		widthList.Add(476);
-		heightList.Add(534);
-		widthList.Add(210);
-		heightList.Add(158);
-		widthList.Add(242);
-		heightList.Add(168);
-		widthList.Add(84);
-		heightList.Add(126);
-		widthList.Add(90);
-		heightList.Add(134);
+//		widthList.Add(476);
+//		heightList.Add(534);
+//		widthList.Add(210);
+//		heightList.Add(158);
+//		widthList.Add(242);
+//		heightList.Add(168);
+//		widthList.Add(84);
+//		heightList.Add(126);
+//		widthList.Add(90);
+//		heightList.Add(134);
 
+		for (int i = 0; i < 5; i++) {
+			Debug.Log("partTexList["+i+"].width=="+partTexList[i].width);
+			Debug.Log("partTexList["+i+"].height=="+partTexList[i].height);
+
+			widthList.Add((int)(partTexList[i].width*heightRate));
+			heightList.Add((int)(partTexList[i].height*heightRate));
+		}
 
 		//读取文本文件信息
 		GetData_Test._instance.ReadInfo();
@@ -157,6 +202,8 @@ public class AniDemo : MonoBehaviour {
 		}	
 	}
 
+
+	/*
 	void Start () 
 	{
 		index=0;
@@ -165,7 +212,7 @@ public class AniDemo : MonoBehaviour {
 		Init();
 		Play();
 	}
-	
+	*/
 
 	void Update () 
 	{

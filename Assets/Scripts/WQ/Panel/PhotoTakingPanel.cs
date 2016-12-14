@@ -40,13 +40,13 @@ public class PhotoTakingPanel : MonoBehaviour
 	IEnumerator CountDown()
 	{
 		yield return new WaitForSeconds(1f);//1f for rest, real time is 3f..
-		countDown.gameObject.SetActive(true);
-
-		yield return new WaitForSeconds(1);
-		countDown.text = "2";
-		yield return new WaitForSeconds(1);
-		countDown.text = "1";
-		yield return new WaitForSeconds(1);
+//		countDown.gameObject.SetActive(true);
+//
+//		yield return new WaitForSeconds(1);
+//		countDown.text = "2";
+//		yield return new WaitForSeconds(1);
+//		countDown.text = "1";
+//		yield return new WaitForSeconds(1);
 
 
 		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);//识别界面需要从 拍摄界面Quad上的GetImage获取itemlist数据，所以这里暂时不能销毁拍摄界面
