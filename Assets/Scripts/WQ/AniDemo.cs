@@ -74,6 +74,7 @@ public class AniDemo : MonoBehaviour {
 		Play();
 	}
 
+
 	void Init()
 	{
 		//for test...   -----texlist的值由图像识别返回
