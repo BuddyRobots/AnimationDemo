@@ -23,7 +23,7 @@ public class SegmentTest : MonoBehaviour {
 		//		Debug.Log(uiTex.width+"   "+uiTex.height);
 
 		tex=new Texture2D(Constant.WIDTH,Constant.HEIGHT);
-		tex=Segmentation.loadPNG(pngPath);
+		tex=MyUtils.loadPNG(pngPath);
 		uiTex.mainTexture=tex;
 		partTexList=Segmentation.segment(tex);
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 namespace AnimationDemo
@@ -11,7 +12,7 @@ namespace AnimationDemo
 		public LeftLeg   leftLeg;
 		public RightLeg  rightLeg;
 
-		Owl(Texture2D _owlTexture)
+		public Owl(Texture2D _owlTexture)
 		{
 			List<Texture2D> partTexList = Segmentation.segment(_owlTexture);
 			body      = new Body     (partTexList[0]);
@@ -20,6 +21,14 @@ namespace AnimationDemo
 			leftLeg   = new LeftLeg  (partTexList[3]);
 			rightLeg  = new RightLeg (partTexList[4]);
 		}
+
+
+		public Owl(String jsonPath)
+		{
+			body = new Body();
+			body.calcAnimation(jsonPath);
+		}
+
 
 		~Owl()
 		{}
@@ -39,6 +48,32 @@ namespace AnimationDemo
 		{
 			texture = _texture;
 		}
+
+
+		public Body()
+		{}
+
+
+		public void calcAnimation(string jsonPath)
+		{
+			var asset = Resources.Load<TextAsset>(jsonPath);
+
+			//ReadJson readJson = JsonUtility.FromJson<ReadJson>(asset.text);
+
+			BodyPosition[] playerInstance;
+			playerInstance = MyUtils.JsonHelper.FromJson<BodyPosition>(asset.text);
+
+
+			Debug.Log(playerInstance.Length);
+		}
+
+
+		public class BodyPosition
+		{
+			public int x;
+			public int y;
+		}
+
 	}
 
 
