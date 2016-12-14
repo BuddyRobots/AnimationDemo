@@ -13,7 +13,8 @@ namespace AnimationDemo
 		public LeftLeg   leftLeg;
 		public RightLeg  rightLeg;
 
-		public Owl(Texture2D _owlTexture)
+
+		public Owl(Texture2D _owlTexture, List<String> _jsonPaths)
 		{
 			List<Texture2D> partTexList = Segmentation.segment(_owlTexture);
 			body      = new Body     (partTexList[0]);
@@ -21,25 +22,26 @@ namespace AnimationDemo
 			rightWing = new RightWing(partTexList[2]);
 			leftLeg   = new LeftLeg  (partTexList[3]);
 			rightLeg  = new RightLeg (partTexList[4]);
+
+			calcAnimation(_jsonPaths);
 		}
 
 
-		public Owl(String jsonPath)
+		private void calcAnimation(List<String> jsonPaths)
 		{
-			body = new Body();
-			body.calcAnimation(jsonPath);
+			if (jsonPaths.Count != 5)
+			{
+				Debug.LogError("Owl.cs calcAnimation() : Wrong number of json files passed! " +
+					"Expect 5, recieved " + jsonPaths.Count);
+				return;
+			}
+
+			body.calcAnimation(jsonPaths[0]);
+			leftWing.calcAnimation(jsonPaths[1]);
+			rightWing.calcAnimation(jsonPaths[2]);
+			leftLeg.calcAnimation(jsonPaths[3]);
+			rightLeg.calcAnimation(jsonPaths[4]);
 		}
-
-
-		~Owl()
-		{}
-
-		public void calcAnimation()
-		{
-			
-		}
-
-
 	}
 
 
@@ -51,31 +53,21 @@ namespace AnimationDemo
 		}
 
 
-		public Body()
-		{}
-
-
-		public void calcAnimation(string jsonPath)
+		public override void calcAnimation(string jsonPath)
 		{
 			var asset = Resources.Load<TextAsset>(jsonPath);
 
+			JsonData data = JsonMapper.ToObject(asset.text);
+			JsonData position_x = data["x"];
+			JsonData position_y = data["y"];
 
-
-//			Person thomas = JsonMapper.ToObject<Person>(json);
-
-
-
-
-
-
-
-
-
-
+			for (var i = 0; i < position_x.Count; i++)
+			{
+				position.Add(new Vector2(position_x[i], position_y[i]));
+				rotation.Add(0);
+			}
 
 		}
-
-
 	}
 
 
@@ -128,6 +120,23 @@ namespace AnimationDemo
 			public Vector2 centerPoint {get; set;}
 			public Vector2 anchorPoint {get; set;}
 			public double  rotation    {get; set;}
+		}
+
+
+		public virtual void calcAnimation(string jsonPath)
+		{
+			var asset = Resources.Load<TextAsset>(jsonPath);
+
+			JsonData data = JsonMapper.ToObject(asset.text);
+			JsonData vector_x_data = data["vector_x"];
+			JsonData vector_y_data = data["vector_y"];
+			JsonData rotation_data = data["rotation"];
+
+			for (var i = 0; i < vector_x_data.Count; i++)
+			{
+				position.Add(new Vector2(vector_x_data[i], vector_y_data[i]));
+				rotation.Add(rotation_data[i]);
+			}
 		}
 	}
 }
