@@ -66,6 +66,7 @@ namespace AnimationDemo
 				position.Add(new Vector2((float)position_x[i], (float)position_y[i]));
 				rotation.Add(0);
 			}
+
 		}
 	}
 
