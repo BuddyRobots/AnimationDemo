@@ -22,7 +22,7 @@ namespace AnimationDemo
 			Utils.texture2DToMat(texture, originImage);
 
 			float[] dataArray = texture2d2tensorArray(texture);
-			float[] segmentationResult = new float[Constant.WIDTH*Constant.HEIGHT*Constant.NUM_OF_CLASS];
+			float[] segmentationResult = call_dll_SendArray(dataArray);
 
 			int[] maskImageData = new int[Constant.HEIGHT*Constant.WIDTH];
 
@@ -77,6 +77,12 @@ namespace AnimationDemo
 			}
 
 			return partTextureList;
+		}
+
+
+		public static Texture2D loadPNG(string filePath)
+		{
+			return Resources.Load<Texture2D>(filePath);
 		}
 
 

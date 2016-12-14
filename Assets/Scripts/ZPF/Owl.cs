@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using LitJson;
 
 namespace AnimationDemo
 {
@@ -58,21 +59,22 @@ namespace AnimationDemo
 		{
 			var asset = Resources.Load<TextAsset>(jsonPath);
 
-			//ReadJson readJson = JsonUtility.FromJson<ReadJson>(asset.text);
-
-			BodyPosition[] playerInstance;
-			playerInstance = MyUtils.JsonHelper.FromJson<BodyPosition>(asset.text);
 
 
-			Debug.Log(playerInstance.Length);
+			Person thomas = JsonMapper.ToObject<Person>(json);
+
+
+
+
+
+
+
+
+
+
+
 		}
 
-
-		public class BodyPosition
-		{
-			public int x;
-			public int y;
-		}
 
 	}
 
