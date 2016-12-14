@@ -63,7 +63,7 @@ namespace AnimationDemo
 
 			for (var i = 0; i < position_x.Count; i++)
 			{
-				position.Add(new Vector2(position_x[i], position_y[i]));
+				position.Add(new Vector2((float)position_x[i], (float)position_y[i]));
 				rotation.Add(0);
 			}
 		}
@@ -133,8 +133,8 @@ namespace AnimationDemo
 
 			for (var i = 0; i < vector_x_data.Count; i++)
 			{
-				position.Add(new Vector2(vector_x_data[i], vector_y_data[i]));
-				rotation.Add(rotation_data[i]);
+				position.Add(new Vector2((float)vector_x_data[i], (float)vector_y_data[i]));
+				rotation.Add((double)rotation_data[i]);
 			}
 		}
 	}
