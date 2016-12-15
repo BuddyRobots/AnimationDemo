@@ -25,7 +25,7 @@ public class SegmentTest : MonoBehaviour {
 		tex=new Texture2D(Constant.WIDTH,Constant.HEIGHT);
 		tex=MyUtils.loadPNG(pngPath);
 		uiTex.mainTexture=tex;
-		partTexList=Segmentation.segment(tex);
+		//partTexList=Segmentation.segment(tex);
 
 	
 	}
@@ -43,7 +43,7 @@ public class SegmentTest : MonoBehaviour {
 		{
 			timeIndex=0;
 			callCount++;
-			partTexList=Segmentation.segment(tex);
+			//partTexList=Segmentation.segment(tex);
 			Debug.Log("call segment "+ callCount +" time");
 			
 		}
