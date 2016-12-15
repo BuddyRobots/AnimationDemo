@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using AnimationDemo;
-
+using UnityEngine.SceneManagement;
 	
-public class PhotoRecognizingPanel : MonoBehaviour 
+public class PhotoRecognizingPanel : SceneSinglton<PhotoRecognizingPanel> 
 {
 
 
-	public static PhotoRecognizingPanel _instance;
-
+//	public static PhotoRecognizingPanel Instance;
+	private GameObject manager;
 	private GameObject replayBtn;
 	private UITexture photoImage;//拍摄截取的图像
 	private bool isPhotoImageShowDone = false;
@@ -17,22 +17,21 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	void Awake()
 	{
-		_instance = this;
+//		Instance = this;
 	}
 
-
-		
-	void OnEnable()
+	void Start()
 	{
 		replayBtn=transform.Find("ReplayBtn").gameObject;
+		manager=GameObject.Find("Manager");
 		photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();//real code 
 		photoImage.gameObject.SetActive (false);
 		UIEventListener.Get(replayBtn).onClick = OnReplayBtnClick;
-
 		isPhotoImageShowDone = false;
 		StartCoroutine (ShowPhotoImage ());//进入识别界面的第一步是显示拍摄的照片
 
 	}
+		
 		
 	IEnumerator ShowPhotoImage()// 显示拍摄的图片
 	{
@@ -41,16 +40,14 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		yield return new WaitForSeconds (1f);
 		isPhotoImageShowDone = true;
 	}
-
-	void Update () 
-	{
-		
-	}
 		
 	void OnReplayBtnClick(GameObject btn)
 	{
-		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel );
-		PanelTranslate.Instance.DestoryAllPanel();
+//		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel );
+//		PanelTranslate.Instance.DestoryAllPanel();
+
+		SceneManager.LoadSceneAsync("scene_PhotoTaking");
+//		GameObject.DontDestroyOnLoad(manager);
 	}
 		
 }

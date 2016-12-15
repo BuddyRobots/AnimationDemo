@@ -2,24 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine.SceneManagement;
 
-public class PhotoTakingPanel : MonoBehaviour 
+public class PhotoTakingPanel : SceneSinglton<PhotoTakingPanel> 
 {
-	public static PhotoTakingPanel _instance;
+//	public static PhotoTakingPanel _instance;
 	private GameObject confirmBtn;
+	private GameObject manager;
 	private UISprite noticeImg;
 	private UILabel countDown;
 
 
 	void Awake () 
 	{	
-		_instance = this;
+//		_instance = this;
 
 	}
 
 	void Start()
 	{
 		confirmBtn = transform.Find ("ConfirmBtn").gameObject;
+		manager=GameObject.Find("Manager");
 		noticeImg=transform.Find("Notice").GetComponent<UISprite>();
 		countDown = transform.Find ("CountDown").GetComponent<UILabel> ();
 		noticeImg.gameObject.SetActive (false);
@@ -49,9 +52,15 @@ public class PhotoTakingPanel : MonoBehaviour
 //		yield return new WaitForSeconds(1);
 
 
-		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);//识别界面需要从 拍摄界面Quad上的GetImage获取itemlist数据，所以这里暂时不能销毁拍摄界面
-		PanelOff();
+
+
+
+//		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);//识别界面需要从 拍摄界面Quad上的GetImage获取itemlist数据，所以这里暂时不能销毁拍摄界面
+//		PanelOff();
 //		PanelTranslate.Instance.DestoryThisPanel();
+
+		SceneManager.LoadSceneAsync("scene_PhotoRecognize");
+		GameObject.DontDestroyOnLoad(manager);
 	}
 
 	public void PanelOff()
