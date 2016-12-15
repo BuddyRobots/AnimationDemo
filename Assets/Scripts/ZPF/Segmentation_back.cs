@@ -8,7 +8,7 @@ using OpenCVForUnity;
 
 namespace AnimationDemo
 {
-	public static class Segmentation
+	public static class Segmentation_back
 	{
 		[DllImport("__Internal")]
 		private static extern IntPtr dll_SendArray(IntPtr array, int channel, int width, int height, int klass);
@@ -16,7 +16,71 @@ namespace AnimationDemo
 		private static extern int dll_ReleaseMemory(IntPtr ptr);
 
 
-		public static void segment(Texture2D texture, out List<Texture2D>_partTexList, out List<Mat> _partMaskList, out List<OpenCVForUnity.Rect> _partBBList)
+		public static List<Texture2D> segment(Texture2D texture)
+		{
+			Mat originImage = new Mat(texture.height, texture.width, CvType.CV_8UC4);
+			Utils.texture2DToMat(texture, originImage);
+
+			float[] dataArray = texture2d2tensorArray(texture);
+			float[] segmentationResult = call_dll_SendArray(dataArray);
+
+			int[] maskImageData = new int[Constant.HEIGHT*Constant.WIDTH];
+
+			for (var i = 0; i < maskImageData.Length; i++)
+			{
+				float[] pixel = new float[Constant.NUM_OF_CLASS];
+				for (var j = 0; j < pixel.Length; j++)
+					pixel[j] = segmentationResult[i*Constant.NUM_OF_CLASS + j];
+				// Change klass 0 ~ 6 to parts -1(bg), 0 ~ 5
+				maskImageData[i] = softmax(pixel) - 1;
+			}
+
+			List<Mat> partMaskList = new List<Mat>();
+			for (var i = 0; i < Constant.NUM_OF_PARTS; i++)
+				partMaskList.Add(new Mat(Constant.HEIGHT, Constant.WIDTH, CvType.CV_8UC1, new Scalar(0)));
+
+			for (var i = 0; i < Constant.HEIGHT; i++)
+				for (var j = 0; j < Constant.WIDTH; j++)
+				{
+					int part = maskImageData[i*Constant.WIDTH + j];
+					try{
+						if (part == -1) continue;
+						partMaskList[part].put(i, j, (byte)255);
+					}
+					catch(Exception ex)
+					{
+						Debug.Log("partImageList.count = " + partMaskList.Count);
+						Debug.Log("part = " + part + " " + ex.Message);
+						break;
+					}
+				}
+
+			for (var i = 0; i < partMaskList.Count; i++)
+			{
+				Imgproc.morphologyEx(partMaskList[i], partMaskList[i],
+					Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE,
+					new Size(Constant.MORPH_KERNEL_SIZE, Constant.MORPH_KERNEL_SIZE)));
+			}
+
+			List<Texture2D> partTextureList = new List<Texture2D>();
+
+			for (var i = 0; i < partMaskList.Count; i++)
+			{
+				Mat resultImage = new Mat(Constant.HEIGHT, Constant.WIDTH, CvType.CV_8UC4, new Scalar(0, 0, 0, 0));
+				originImage.copyTo(resultImage, partMaskList[i]);
+				Mat cropImage = cropROI(resultImage, partMaskList[i]);
+				removeBorder(cropImage);
+
+				Texture2D tmpTex = new Texture2D(cropImage.width(), cropImage.height());
+				Utils.matToTexture2D(cropImage, tmpTex);
+				partTextureList.Add(tmpTex);
+			}
+
+			return partTextureList;
+		}
+
+
+		/*public static void segment(Texture2D texture, out List<Texture2D>partTexList, out List<Mat> _partMaskList, out List<OpenCVForUnity.Rect> _partBBList)
 		{
 			Mat originImage = new Mat(texture.height, texture.width, CvType.CV_8UC4);
 			Utils.texture2DToMat(texture, originImage);
@@ -60,26 +124,24 @@ namespace AnimationDemo
 				Imgproc.morphologyEx(partMaskList[i], partMaskList[i],
 					Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE,
 						new Size(Constant.MORPH_KERNEL_SIZE, Constant.MORPH_KERNEL_SIZE)));
-			}				
-				
+			}
+
 			_partMaskList = partMaskList;
-			_partBBList = getROIList(partMaskList);
 
 			List<Texture2D> partTextureList = new List<Texture2D>();
+
 			for (var i = 0; i < partMaskList.Count; i++)
 			{
 				Mat resultImage = new Mat(Constant.HEIGHT, Constant.WIDTH, CvType.CV_8UC4, new Scalar(0, 0, 0, 0));
 				originImage.copyTo(resultImage, partMaskList[i]);
-				Mat cropImage = cropROI(resultImage, _partBBList[i]);
+				Mat cropImage = cropROI(resultImage, partMaskList[i]);
 				removeBorder(cropImage);
 
 				Texture2D tmpTex = new Texture2D(cropImage.width(), cropImage.height());
 				Utils.matToTexture2D(cropImage, tmpTex);
 				partTextureList.Add(tmpTex);
 			}
-
-			_partTexList = partTextureList;
-		}
+		}*/
 
 
 		private static float[] texture2d2tensorArray(Texture2D texture)
@@ -104,7 +166,7 @@ namespace AnimationDemo
 			Utils.texture2DToMat(texture, image);
 			return image;
 		}
-
+			
 
 		private static float[] call_dll_SendArray(float[] dataArray)
 		{
@@ -145,26 +207,18 @@ namespace AnimationDemo
 		}
 
 
-		private static List<OpenCVForUnity.Rect> getROIList(List<Mat> partMaskList)
+		private static Mat cropROI(Mat image, Mat mask)
 		{
-			List<OpenCVForUnity.Rect> roiList = new List<OpenCVForUnity.Rect>();
-			for (var i = 0; i < partMaskList.Count; i++)
-			{
-				// Find Contours
-				List<MatOfPoint> contours = new List<MatOfPoint>();
-				Mat hierarchy = new Mat();
-				Imgproc.findContours(partMaskList[i], contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
+			// Find Contours
+			List<MatOfPoint> contours = new List<MatOfPoint>();
+			Mat hierarchy = new Mat();
+			Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
 
-				OpenCVForUnity.Rect roi = Imgproc.boundingRect(contours[0]);
-				roiList.Add(roi);
-			}
-			return roiList;
-		}
+			OpenCVForUnity.Rect roi = Imgproc.boundingRect(contours[0]);
 
+			Mat result = new Mat(image, roi);
 
-		private static Mat cropROI(Mat image, OpenCVForUnity.Rect roi)
-		{
-			return new Mat(image, roi);
+			return result;
 		}
 
 
@@ -188,7 +242,7 @@ namespace AnimationDemo
 				image.put(image.rows() - 1, j, zero);
 			}
 		}
-
+			
 
 		private static void test_createPicture(ref Texture2D texture, ref Mat image)
 		{
