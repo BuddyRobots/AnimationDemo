@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using LitJson;
 using OpenCVForUnity;
-using UnityEditor;
+using UnityEngine.UI;
+using System.Threading;
 
 
 namespace AnimationDemo
@@ -59,11 +60,12 @@ namespace AnimationDemo
 
 		private void calcOffset()
 		{
-			body.calcOffset(body.getCenterPoint());
-			leftWing.calcOffset(body.getCenterPoint());
-			rightWing.calcOffset(body.getCenterPoint());
-			leftLeg.calcOffset(body.getCenterPoint());
-			rightLeg.calcOffset(body.getCenterPoint());
+			Vector2 bodyCenter = body.getCenterPoint();
+			body.calcImageOffset(bodyCenter);
+			leftWing.calcImageOffset(bodyCenter);
+			rightWing.calcImageOffset(bodyCenter);
+			leftLeg.calcImageOffset(bodyCenter);
+			rightLeg.calcImageOffset(bodyCenter);
 		}
 
 
@@ -230,6 +232,8 @@ namespace AnimationDemo
 			animeVector = new List<Vector2>();
 			centerPoint = new Vector2();
 			anchorPoint = new Vector2();
+			imageOffset = new List<Vector2>();
+			imageVector = new List<Vector2>();
 
 			texture = _texture;
 			mask = _mask;
@@ -268,13 +272,23 @@ namespace AnimationDemo
 		}
 
 
-		public void calcOffset(Vector2 parentCenter)
+		public void calcImageOffset(Vector2 parentCenter)
 		{
 			for (var i = 0; i < animeOffset.Count; i++)
 			{
 				imageOffset.Add(new Vector2((anchorPoint.x - parentCenter.x), (parentCenter.y - anchorPoint.y)));
 			}
 		}
+
+
+		/*public void calcImageVector()
+		{
+			imageVector.Add(centerPoint)
+
+
+
+			double ratio = 
+		}*/
 
 
 		public void calcPosition()
