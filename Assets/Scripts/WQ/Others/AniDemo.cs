@@ -10,7 +10,7 @@ public class AniDemo : MonoBehaviour {
 	private List<Texture> texList=new List<Texture>();
 
 
-
+	/*
 	// 各个部位对应的角度------int
 	List<int> body_angles=new List<int>();
 	List<int> leftWing_angles=new List<int>();
@@ -18,6 +18,7 @@ public class AniDemo : MonoBehaviour {
 	List<int> leftLeg_angles=new List<int>();
 	List<int> rightLeg_angles=new List<int>();
 	private List<List<int>> total_angleList=new List<List<int>>();
+	*/
 
 	// 各个部位对应的角度------double
 	List<double> body_angles_double=new List<double>();
@@ -57,9 +58,9 @@ public class AniDemo : MonoBehaviour {
 
 
 	//for test...
-	private Texture2D tex;
+	private Texture2D tex;//the whole texture , parts are sliced according to it
 	private List<Texture2D> partTexList=new List<Texture2D>();
-	private UITexture uiTex;
+	private UITexture uiTex;// just for test to check if the tex is got successfully, can be deleted
 	private string pngPath="Pictures/Photos/1479694037";
 	private const float heightRate=3.46f;
 
