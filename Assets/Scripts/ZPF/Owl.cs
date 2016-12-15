@@ -146,9 +146,8 @@ namespace AnimationDemo
 		protected Vector2 anchorPoint;
 
 
-		private BodyPart()
+		public BodyPart()
 		{
-			texture = new Texture2D();
 			position = new List<Vector2>();
 			rotation = new List<double>();
 			offset = new Vector2();
