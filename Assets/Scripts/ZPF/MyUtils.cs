@@ -7,9 +7,7 @@ namespace AnimationDemo
 	{
 		public static string loadJson(string path)
 		{
-			string filePath = "Json/" + path.Replace(".json", "");
-
-			TextAsset targetFile = Resources.Load<TextAsset>(filePath);
+			TextAsset targetFile = Resources.Load<TextAsset>(path);
 
 			return targetFile.text;
 		}
