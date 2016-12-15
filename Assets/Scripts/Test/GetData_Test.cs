@@ -13,7 +13,6 @@ public class GetData_Test :MonoBehaviour
 	public TextAsset leftLeg_vectorInfoText;
 	public TextAsset rightLeg_vectorInfoText;
 
-
 	[HideInInspector]
 	public  List<Vector2> body_vectorDataList;
 	[HideInInspector]
@@ -24,9 +23,6 @@ public class GetData_Test :MonoBehaviour
 	public List<Vector2>  leftLeg_vectorDataList;
 	[HideInInspector]
 	public List<Vector2>  rightLeg_vectorDataList;
-
-
-
 
 	[HideInInspector]
 	public List<int> leftWing_angleList;
@@ -96,23 +92,6 @@ public class GetData_Test :MonoBehaviour
 		string body_Text = body_vectorInfoText.text;//取到文本里面所有的字符串
 		string[] bodyData_origin = body_Text.Split ('\n');//用换行来取
 
-		//获取宽高
-		/*
-		string[] widthHeight = bodyData_origin [0].Split (',');
-		string width = widthHeight [0].Split (':') [1];
-		string height = widthHeight [1].Split (':') [1];
-		int w, h;
-		if (int.TryParse (width, out w)) {
-			//			Debug.Log("width====" + w);
-
-		}
-		if (int.TryParse (height, out h)) {
-			//			Debug.Log("height====" + h);
-		}
-		widthAndHeightList.Add (w);
-		widthAndHeightList.Add (h);
-		*/
-
 		//获取身体坐标信息
 		string[] bodyVectors = new string[bodyData_origin.Length - 1];
 		for (int i = 1; i < bodyData_origin.Length; i++) 
@@ -142,41 +121,6 @@ public class GetData_Test :MonoBehaviour
 
 		string leftWing_text = leftWing_vectorInfoText.text;
 		GetDataByTxtStr(leftWing_text, leftWing_vectorDataList, leftWing_angleList);
-
-
-//		string leftWing_text = leftWing_vectorInfoText.text;
-//		string[] leftWingData_origin = leftWing_text.Split ('\n');
-//		string[] leftWingVectors = new string[leftWingData_origin.Length - 1]; 
-//		for (int i = 1; i < leftWingData_origin.Length; i++) 
-//		{
-//			leftWingVectors [i - 1] = leftWingData_origin [i];
-//		}
-//		foreach (var item in leftWingVectors)
-//		{
-//			string[] dataSplit = item.Split (',');
-//			string vec_x = dataSplit [0];
-//			string vec_y = dataSplit [1];
-//			string angle_temp = dataSplit [2];
-//
-//			int x;
-//			int y;
-//			int angle;
-//			if (int.TryParse (vec_x, out x)) 
-//			{
-////				Debug.Log ("x====" + x);
-//			}
-//			if (int.TryParse (vec_y, out y)) 
-//			{
-////				Debug.Log ("y====" + y);
-//			}
-//			if (int.TryParse (angle_temp, out angle)) 
-//			{
-////				Debug.Log ("angle===" + angle);
-//			}
-//
-//
-//			leftWing_vectorDataList.Add(new Vector2(x,y));
-//			leftWing_angleList.Add(angle);
 
 		#endregion
 

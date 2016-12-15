@@ -160,9 +160,9 @@ namespace AnimationDemo
 
 			for (var i = 0; i < vector_x_data.Count; i++)
 			{
-				vector.Add(new Vector2((float)vector_x_data[i], (float)vector_y_data[i]));
+				vector.Add(new Vector2((int)vector_x_data[i], (int)vector_y_data[i]));
 				position.Add(offset + vector[i]); 
-				rotation.Add((double)rotation_data[i]);
+				rotation.Add((int)rotation_data[i]);
 			}
 		}
 	}

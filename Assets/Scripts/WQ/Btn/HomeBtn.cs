@@ -15,8 +15,13 @@ public class HomeBtn : SceneSinglton<HomeBtn>
 	void onClick1(GameObject go)
 	{
 		//跳转到选关界面
-		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
-		PanelTranslate.Instance.DestoryAllPanel();
+//		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
+//		PanelTranslate.Instance.DestoryAllPanel();
+
+		//change to scene_LevelSelect       to to......
+
+
+
 	}
 }
 	
