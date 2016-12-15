@@ -62,9 +62,14 @@ namespace AnimationDemo
 			JsonData position_y = data["y"];
 			Debug.Log("position_x[0]----"+position_x[0]);
 			Debug.Log("position_y[0]----"+position_y[0]);
-//			if (position_x[0].IsInt) {
-//				Debug.Log("--------position_x is int ");
-//			}
+			if (position_x[0].IsInt) {
+				Debug.Log("--------position_x is int ");
+			}
+			else 
+			{
+				Debug.Log("--------position_x is not int ");
+
+			}
 
 			for (var i = 0; i < position_x.Count; i++)
 			{
