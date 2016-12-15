@@ -140,11 +140,14 @@ namespace AnimationDemo
 			JsonData vector_x_data = data["vector_x"];
 			JsonData vector_y_data = data["vector_y"];
 			JsonData rotation_data = data["rotation"];
+			JsonData offset_x_data = data["offset_x"];
+			JsonData offset_y_data = data["offset_y"];
 
 			for (var i = 0; i < vector_x_data.Count; i++)
 			{
 				vector.Add(new Vector2((int)vector_x_data[i], (int)vector_y_data[i]));
-				position.Add(offset + vector[i]); 
+				offset.Add(new Vector2((int)offset_x_data[i], (int)offset_y_data[i]));
+				position.Add(offset[i] + vector[i]); 
 				rotation.Add((int)rotation_data[i]);
 			}
 		}
