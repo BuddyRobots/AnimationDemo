@@ -47,7 +47,7 @@ public class AniDemo : MonoBehaviour
 	private List<Texture2D> partTexList=new List<Texture2D>();
 	private UITexture uiTex;// just for test to check if the tex is got successfully, can be deleted
 	private string pngPath="Pictures/Photos/1479694037";
-	private const float heightRate=3.46f;
+	private const float heightRate=1f;
 
 
 	private List<string> jsonPaths=new List<string>();
