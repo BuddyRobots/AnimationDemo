@@ -70,26 +70,10 @@ namespace AnimationDemo
 			JsonData data = JsonMapper.ToObject(asset.text);
 			JsonData position_x = data["x"];
 			JsonData position_y = data["y"];
-			Debug.Log("position_x[0]----"+position_x[0]);
-			Debug.Log("position_y[0]----"+position_y[0]);
-			if (position_x[0].IsInt) {
-				Debug.Log("--------position_x is int ");
-			}
-			else 
-			{
-				Debug.Log("--------position_x is not int ");
-
-			}
-
-
-			Debug.Log("position_x.Count = " + position_x.Count);
-			Debug.Log("position_y.Count = " + position_y.Count);
-
 
 			for (var i = 0; i < position_x.Count; i++)
 			{
 				position.Add(new Vector2((int)position_x[i], (int)position_y[i]));
-
 				rotation.Add(0);
 			}
 		}
@@ -139,18 +123,18 @@ namespace AnimationDemo
 		public List<double>  rotation;
 
 		// TODO List<Vector2> offset to support anchor point movement.
-		protected Vector2 offset;
+		protected List<Vector2> offset;
 		protected List<Vector2> vector;
 
 		protected Vector2 centerPoint;
 		protected Vector2 anchorPoint;
 
 
-		public BodyPart()
+		protected BodyPart()
 		{
 			position = new List<Vector2>();
 			rotation = new List<double>();
-			offset = new Vector2();
+			offset = new List<Vector2>();
 			vector = new List<Vector2>();
 			centerPoint = new Vector2();
 			anchorPoint = new Vector2();
