@@ -272,7 +272,7 @@ namespace AnimationDemo
 		{
 			for (var i = 0; i < animeOffset.Count; i++)
 			{
-				imageOffset.Add(anchorPoint - parentCenter);
+				imageOffset.Add(new Vector2((anchorPoint.x - parentCenter.x), (parentCenter.y - anchorPoint.y)));
 			}
 		}
 
