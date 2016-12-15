@@ -81,9 +81,13 @@ namespace AnimationDemo
 
 			}
 
+
+			Debug.Log("position_x.Count = " + position_x.Count);
+			Debug.Log("position_y.Count = " + position_y.Count);
+
+
 			for (var i = 0; i < position_x.Count; i++)
 			{
-//				position.Add(new Vector2((float)position_x[i], (float)position_y[i]));
 				position.Add(new Vector2((int)position_x[i], (int)position_y[i]));
 
 				rotation.Add(0);
@@ -140,6 +144,18 @@ namespace AnimationDemo
 
 		protected Vector2 centerPoint;
 		protected Vector2 anchorPoint;
+
+
+		private BodyPart()
+		{
+			texture = new Texture2D();
+			position = new List<Vector2>();
+			rotation = new List<double>();
+			offset = new Vector2();
+			vector = new List<Vector2>();
+			centerPoint = new Vector2();
+			anchorPoint = new Vector2();
+		}
 
 
 		protected void calcCenterPoint(OpenCVForUnity.Rect boundingBox)
