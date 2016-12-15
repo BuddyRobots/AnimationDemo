@@ -60,23 +60,6 @@ namespace AnimationDemo
 		{
 			texture = _texture;
 		}
-
-
-		public override void calcAnimation(string jsonPath)
-		{
-			Debug.Log(jsonPath);
-			var asset = Resources.Load<TextAsset>(jsonPath);
-
-			JsonData data = JsonMapper.ToObject(asset.text);
-			JsonData position_x = data["x"];
-			JsonData position_y = data["y"];
-
-			for (var i = 0; i < position_x.Count; i++)
-			{
-				position.Add(new Vector2((int)position_x[i], (int)position_y[i]));
-				rotation.Add(0);
-			}
-		}
 	}
 
 
