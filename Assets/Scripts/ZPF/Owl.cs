@@ -70,10 +70,17 @@ namespace AnimationDemo
 			JsonData data = JsonMapper.ToObject(asset.text);
 			JsonData position_x = data["x"];
 			JsonData position_y = data["y"];
+			Debug.Log("position_x[0]----"+position_x[0]);
+			Debug.Log("position_y[0]----"+position_y[0]);
+//			if (position_x[0].IsInt) {
+//				Debug.Log("--------position_x is int ");
+//			}
 
 			for (var i = 0; i < position_x.Count; i++)
 			{
-				position.Add(new Vector2((float)position_x[i], (float)position_y[i]));
+//				position.Add(new Vector2((float)position_x[i], (float)position_y[i]));
+				position.Add(new Vector2((int)position_x[i], (int)position_y[i]));
+
 				rotation.Add(0);
 			}
 		}
