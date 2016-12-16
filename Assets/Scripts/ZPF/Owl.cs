@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using LitJson;
 using OpenCVForUnity;
-using UnityEngine.UI;
-using System.Threading;
 
 
 namespace AnimationDemo
