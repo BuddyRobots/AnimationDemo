@@ -65,7 +65,7 @@ public class AniDemo : MonoBehaviour
 //		tex=new Texture2D(Constant.MODEL_WIDTH,Constant.MODEL_HEIGHT);
 //		tex=MyUtils.loadPNG(pngPath);
 		tex=Manager.Instance.texture;
-		Debug.Log("width---"+tex.width+"height---"+tex.height);
+//		Debug.Log("width---"+tex.width+"height---"+tex.height);
 
 //		uiTex.mainTexture=tex;
 

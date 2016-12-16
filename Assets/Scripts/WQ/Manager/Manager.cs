@@ -82,7 +82,7 @@ public class Manager : MonoBehaviour
 	void Start() 
 	{
 		Manager.isMusicOn=true;
-		bgAudio=GameObject.Find("Manager").GetComponent<AudioSource>();
+		bgAudio=GameObject.Find("Manager(Clone)").GetComponent<AudioSource>();
 
 	}
 
