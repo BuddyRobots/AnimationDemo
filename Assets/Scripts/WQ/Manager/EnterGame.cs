@@ -11,7 +11,7 @@ public class EnterGame : MonoBehaviour
 	{
 		manager=GameObject.Find("Manager");
 		SceneManager.LoadScene("scene_PhotoTaking");
-		GameObject.DontDestroyOnLoad(manager);
+//		GameObject.DontDestroyOnLoad(manager);
 	
 	}
 
