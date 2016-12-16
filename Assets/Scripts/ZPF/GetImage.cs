@@ -28,6 +28,7 @@ public class GetImage : MonoBehaviour
 	public bool isBtnClicked=false;
 
 	private SliderCtrlManager sliderCtrlManager;
+	Mat resultImage = new Mat(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH, CvType.CV_8UC3);
 
 
 	void Start()
@@ -88,6 +89,8 @@ public class GetImage : MonoBehaviour
 				return;
 
 			Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
+
+
 			if (webCamTexture.didUpdateThisFrame)
 			{
 				Utils.webCamTextureToMat(webCamTexture, frameImg);
@@ -96,10 +99,18 @@ public class GetImage : MonoBehaviour
 				#elif UNITY_IPHONE
 				RotateCamera.rotate(ref frameImg);
 				#endif
-	
 
-				texture.Resize(frameImg.cols(), frameImg.rows());
-				Utils.matToTexture2D(frameImg, texture);
+				// Test CropImage
+				if (isBtnClicked)
+				{
+					resultImage = CropImage.crop(frameImg, sliderCtrlManager.sliderValueList);
+					isBtnClicked = false;
+				}
+
+
+
+				texture.Resize(resultImage.cols(), resultImage.rows());
+				Utils.matToTexture2D(resultImage, texture);
 	
 			}
 			frameImg.Dispose();

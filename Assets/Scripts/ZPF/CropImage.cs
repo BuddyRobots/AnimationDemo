@@ -31,9 +31,20 @@ public static class CropImage
 		Imgproc.findContours(grayImage, contours, hierarchy, Imgproc.RETR_EXTERNAL,
 			Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
 
-		OpenCVForUnity.Rect roi = Imgproc.boundingRect(contours[0]);
-		Debug.Log("CropImage.cs crop() : contour area = " + Imgproc.contourArea(contours[0]));
+		int maxAreaIdex = 0;
+		double maxArea = 0;
+		for (var i = 0; i < contours.Count; i++)
+		{
+			double area = Imgproc.contourArea(contours[i]);
+			Debug.Log("CropImage.cs crop() : contours["+i+"].Area = " + area);
+			if (area > maxArea)
+			{
+				maxArea = area;
+				maxAreaIdex = i;
+			}
+		}	
 
+		OpenCVForUnity.Rect roi = Imgproc.boundingRect(contours[maxAreaIdex]);
 		OpenCVForUnity.Rect bb = new OpenCVForUnity.Rect(new Point(Math.Max(roi.tl().x - 50.0, 0), Math.Max(roi.tl().y - 50.0, 0)),
 			new Point(Math.Min(roi.br().x + 50.0, sourceImage.cols()), Math.Min(roi.br().y + 50.0, sourceImage.rows())));
 		Mat croppedImage = new Mat(sourceImage, bb);
