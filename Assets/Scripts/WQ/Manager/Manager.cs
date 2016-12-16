@@ -8,14 +8,18 @@ public class Manager : AllSceneSinglton<Manager>
 	public static bool isMusicOn=true;
 	[HideInInspector]
 	public AudioSource bgAudio;
-	[HideInInspector]
-	public GameObject manager;
+//	[HideInInspector]
+//	public GameObject manager;
 
-	void Start () 
+	[HideInInspector]
+	public  Texture2D texture;
+
+	void OnEnable() 
 	{
-		manager=this.gameObject;
+//		manager=this.gameObject;
 		Manager.isMusicOn=true;
 		bgAudio=GameObject.Find("Manager").GetComponent<AudioSource>();
+
 	}
 
 
@@ -23,8 +27,8 @@ public class Manager : AllSceneSinglton<Manager>
 	{
 		if (Manager.isMusicOn)
 		{
-
-			if (!bgAudio.isPlaying) 
+			
+			if (bgAudio && !bgAudio.isPlaying) 
 			{
 				bgAudio.Play ();
 			}
@@ -33,7 +37,7 @@ public class Manager : AllSceneSinglton<Manager>
 		{
 
 			//关闭音乐 
-			if (bgAudio.isPlaying) 
+			if (bgAudio && bgAudio.isPlaying) 
 			{
 				Debug.Log("pause");
 				bgAudio.Pause ();
