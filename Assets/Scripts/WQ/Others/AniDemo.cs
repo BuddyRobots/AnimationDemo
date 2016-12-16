@@ -58,11 +58,11 @@ public class AniDemo : MonoBehaviour
 	{
 		
 		uiTex=transform.Find("Tex").GetComponent<UITexture>();
-		uiTex.width=Constant.WIDTH;
-		uiTex.height=Constant.HEIGHT;
+		uiTex.width=Constant.MODEL_WIDTH;
+		uiTex.height=Constant.MODEL_HEIGHT;
 
 		//get the whole texure and show
-		tex=new Texture2D(Constant.WIDTH,Constant.HEIGHT);
+		tex=new Texture2D(Constant.MODEL_WIDTH,Constant.MODEL_HEIGHT);
 		tex=MyUtils.loadPNG(pngPath);
 		uiTex.mainTexture=tex;
 

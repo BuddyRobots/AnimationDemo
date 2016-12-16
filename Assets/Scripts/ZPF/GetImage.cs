@@ -32,7 +32,6 @@ public class GetImage : MonoBehaviour
 
 	void Start()
 	{
-
 		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
 	}
 
