@@ -85,9 +85,11 @@ public class SliderCtrlManager : MonoBehaviour {
 		sliderValueList[5]=(int.Parse(u_max_text.text));
 
 
-		for (int i = 0; i < sliderValueList.Count; i++) {
-			Debug.Log("sliderValueList["+i+"]=="+sliderValueList[i]);
-		}
+//		for (int i = 0; i < sliderValueList.Count; i++) {
+//			Debug.Log("sliderValueList["+i+"]=="+sliderValueList[i]);
+//		}
+
+		GetImage._instance.isBtnClicked=true;
 
 	}
 }
