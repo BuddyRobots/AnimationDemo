@@ -101,16 +101,19 @@ public class GetImage : MonoBehaviour
 				#endif
 
 				// Test CropImage
-				if (isBtnClicked)
-				{
-					resultImage = CropImage.crop(frameImg, sliderCtrlManager.sliderValueList);
-					isBtnClicked = false;
-				}
+//				if (isBtnClicked)
+//				{
+//					resultImage = CropImage.crop(frameImg, sliderCtrlManager.sliderValueList);
+//					isBtnClicked = false;
+//				}
 
 
+//
+//				texture.Resize(resultImage.cols(), resultImage.rows());
+//				Utils.matToTexture2D(resultImage, texture);
 
-				texture.Resize(resultImage.cols(), resultImage.rows());
-				Utils.matToTexture2D(resultImage, texture);
+				texture.Resize(frameImg.cols(), frameImg.rows());
+				Utils.matToTexture2D(frameImg, texture);
 	
 			}
 			frameImg.Dispose();

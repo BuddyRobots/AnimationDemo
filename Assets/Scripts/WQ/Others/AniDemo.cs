@@ -46,7 +46,7 @@ public class AniDemo : MonoBehaviour
 	private Texture2D tex;//the whole texture , parts are sliced according to it
 	private List<Texture2D> partTexList=new List<Texture2D>();
 	private UITexture uiTex;// just for test to check if the tex is got successfully, can be deleted
-	private string pngPath="Pictures/Photos/1479694037";
+//	private string pngPath="Pictures/Photos/1479694037";
 	private const float heightRate=1f;
 
 
@@ -57,14 +57,17 @@ public class AniDemo : MonoBehaviour
 	void Start()
 	{
 		
-		uiTex=transform.Find("Tex").GetComponent<UITexture>();
-		uiTex.width=Constant.MODEL_WIDTH;
-		uiTex.height=Constant.MODEL_HEIGHT;
+//		uiTex=transform.Find("Tex").GetComponent<UITexture>();
+//		uiTex.width=Constant.MODEL_WIDTH;
+//		uiTex.height=Constant.MODEL_HEIGHT;
 
 		//get the whole texure and show
-		tex=new Texture2D(Constant.MODEL_WIDTH,Constant.MODEL_HEIGHT);
-		tex=MyUtils.loadPNG(pngPath);
-		uiTex.mainTexture=tex;
+//		tex=new Texture2D(Constant.MODEL_WIDTH,Constant.MODEL_HEIGHT);
+//		tex=MyUtils.loadPNG(pngPath);
+		tex=Manager.Instance.texture;
+		Debug.Log("width---"+tex.width+"height---"+tex.height);
+
+//		uiTex.mainTexture=tex;
 
 
 		GetPartTexures();
@@ -73,7 +76,6 @@ public class AniDemo : MonoBehaviour
 
 		index=0;
 		length=0;
-//		length=GetData_Test._instance.body_vectorDataList.Count;
 		length=owl.body.position.Count;
 		isPlaying=false;
 		Init();
