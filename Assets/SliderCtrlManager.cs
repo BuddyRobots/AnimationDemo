@@ -27,7 +27,7 @@ public class SliderCtrlManager : MonoBehaviour {
 
 	void Start()
 	{
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 6; i++) {
 			sliderValueList.Add(0);
 		}
 		UIEventListener.Get(btn).onClick=OnBtnClick;
@@ -77,12 +77,12 @@ public class SliderCtrlManager : MonoBehaviour {
 
 //		int.Parse(h_min_text.text);
 
-		sliderValueList.Add(int.Parse(h_min_text.text));
-		sliderValueList.Add(int.Parse(h_max_text.text));
-		sliderValueList.Add(int.Parse(s_min_text.text));
-		sliderValueList.Add(int.Parse(s_max_text.text));
-		sliderValueList.Add(int.Parse(u_min_text.text));
-		sliderValueList.Add(int.Parse(u_max_text.text));
+		sliderValueList[0]=(int.Parse(h_min_text.text));
+		sliderValueList[1]=(int.Parse(h_max_text.text));
+		sliderValueList[2]=(int.Parse(s_min_text.text));
+		sliderValueList[3]=(int.Parse(s_max_text.text));
+		sliderValueList[4]=(int.Parse(u_min_text.text));
+		sliderValueList[5]=(int.Parse(u_max_text.text));
 
 
 		for (int i = 0; i < sliderValueList.Count; i++) {
