@@ -61,11 +61,14 @@ namespace AnimationDemo
 			_partMaskList = partMaskList;
 			_partBBList = getROIList(partMaskList);
 
+			Mat originImageAlpha = new Mat();
+			Imgproc.cvtColor(originImage, originImageAlpha, Imgproc.COLOR_BGR2BGRA);
+
 			List<Texture2D> partTextureList = new List<Texture2D>();
 			for (var i = 0; i < partMaskList.Count; i++)
 			{
 				Mat resultImage = new Mat(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH, CvType.CV_8UC4, new Scalar(0, 0, 0, 0));
-				originImage.copyTo(resultImage, partMaskList[i]);
+				originImageAlpha.copyTo(resultImage, partMaskList[i]);
 				Mat cropImage = cropROI(resultImage, _partBBList[i]);
 				removeBorder(cropImage);
 
