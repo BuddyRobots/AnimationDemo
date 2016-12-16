@@ -68,15 +68,6 @@ public class SliderCtrlManager : MonoBehaviour {
 	
 	void OnBtnClick(GameObject go)
 	{
-//		int.TryParse(h_min_text.text,out sliderValueList[0]);
-//		int.TryParse(h_max_text.text,out sliderValueList[1]);
-//		int.TryParse(s_min_text.text,out sliderValueList[2]);
-//		int.TryParse(s_max_text.text,out sliderValueList[3]);
-//		int.TryParse(u_min_text.text,out sliderValueList[4]);
-//		int.TryParse(u_max_text.text,out sliderValueList[5]);
-
-//		int.Parse(h_min_text.text);
-
 		sliderValueList[0]=(int.Parse(h_min_text.text));
 		sliderValueList[1]=(int.Parse(h_max_text.text));
 		sliderValueList[2]=(int.Parse(s_min_text.text));
