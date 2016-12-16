@@ -74,6 +74,6 @@ public class SliderCtrlManager : MonoBehaviour {
 			Debug.Log("sliderValueList["+i+"]=="+sliderValueList[i]);
 		}
 
-
+		GetImage._instance.isBtnClicked=true;
 	}
 }

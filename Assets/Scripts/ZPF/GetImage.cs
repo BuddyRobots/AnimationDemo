@@ -25,7 +25,15 @@ public class GetImage : MonoBehaviour
 	private int webCam_height = 480;
 
 	public bool isStartUpdate=true;
+	public bool isBtnClicked=false;
 
+	private SliderCtrlManager sliderCtrlManager;
+
+
+	void Start()
+	{
+		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
+	}
 
 	void OnEnable()
 	{
