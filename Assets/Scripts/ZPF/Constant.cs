@@ -24,5 +24,6 @@
 
 		// WangQian
 		public const float ANIMATION_FRAME_INTERVAL   = 0.04f;//1秒24帧
+
 	}
 }

@@ -6,19 +6,11 @@ using UnityEngine.SceneManagement;
 	
 public class PhotoRecognizingPanel : SceneSinglton<PhotoRecognizingPanel> 
 {
-
-
-//	public static PhotoRecognizingPanel Instance;
 	private GameObject manager;
 	private GameObject replayBtn;
 	private UITexture photoImage;//拍摄截取的图像
 	private bool isPhotoImageShowDone = false;
 
-
-	void Awake()
-	{
-//		Instance = this;
-	}
 
 	void Start()
 	{
@@ -43,11 +35,8 @@ public class PhotoRecognizingPanel : SceneSinglton<PhotoRecognizingPanel>
 		
 	void OnReplayBtnClick(GameObject btn)
 	{
-//		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel );
-//		PanelTranslate.Instance.DestoryAllPanel();
-
-		SceneManager.LoadSceneAsync("scene_PhotoTaking");
-//		GameObject.DontDestroyOnLoad(manager);
+		SceneManager.LoadScene("scene_PhotoTaking");
+		GameObject.DontDestroyOnLoad(manager);
 	}
 		
 }
