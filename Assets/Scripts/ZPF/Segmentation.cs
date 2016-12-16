@@ -16,12 +16,9 @@ namespace AnimationDemo
 		private static extern int dll_ReleaseMemory(IntPtr ptr);
 
 
-		public static void segment(Texture2D texture, out List<Texture2D>_partTexList, out List<Mat> _partMaskList, out List<OpenCVForUnity.Rect> _partBBList)
+		public static void segment(Mat originImage, out List<Texture2D>_partTexList, out List<Mat> _partMaskList, out List<OpenCVForUnity.Rect> _partBBList)
 		{
-			Mat originImage = new Mat(texture.height, texture.width, CvType.CV_8UC4);
-			Utils.texture2DToMat(texture, originImage);
-
-			float[] dataArray = texture2d2tensorArray(texture);
+			float[] dataArray = mat2tensorArray(originImage);
 			float[] segmentationResult = call_dll_SendArray(dataArray);
 
 			int[] maskImageData = new int[Constant.MODEL_HEIGHT*Constant.MODEL_WIDTH];
@@ -81,10 +78,8 @@ namespace AnimationDemo
 		}
 
 
-		private static float[] texture2d2tensorArray(Texture2D texture)
+		private static float[] mat2tensorArray(Mat image)
 		{
-			Mat image = texture2d2mat(texture);
-
 			byte [] byteArray  = new byte [image.rows()*image.cols()*image.channels()];
 			float[] floatArray = new float[image.rows()*image.cols()*image.channels()];
 
@@ -94,14 +89,6 @@ namespace AnimationDemo
 				floatArray[i] = (float)(1 - (float)byteArray[i]/255.0);
 
 			return floatArray;
-		}
-
-
-		private static Mat texture2d2mat(Texture2D texture)
-		{
-			Mat image = new Mat(texture.height, texture.width, CvType.CV_8UC3);
-			Utils.texture2DToMat(texture, image);
-			return image;
 		}
 
 
