@@ -18,7 +18,7 @@ namespace AnimationDemo
 		private List<Texture2D>           partTexList;
 		private List<Mat>                 partMaskList;
 		private List<OpenCVForUnity.Rect> partBBList;
-
+		 
 		public Owl(Texture2D _owlTexture, List<string> _jsonPaths)
 		{
 			partTexList  = new List<Texture2D>();
@@ -101,6 +101,19 @@ namespace AnimationDemo
 
 		private static Mat zoomCropped(Mat croppedImage)
 		{
+			// TODO
+			int croppedWidth = croppedImage.cols();
+			int croppedHeight = croppedImage.rows();
+
+			if (croppedWidth > croppedHeight)
+			{
+				
+			}
+
+
+
+
+			// Original implementation
 			double scale = 0.0;
 
 			if (croppedImage.cols() > croppedImage.rows())
