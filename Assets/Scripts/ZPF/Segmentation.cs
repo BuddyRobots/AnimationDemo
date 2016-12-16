@@ -24,7 +24,7 @@ namespace AnimationDemo
 			float[] dataArray = texture2d2tensorArray(texture);
 			float[] segmentationResult = call_dll_SendArray(dataArray);
 
-			int[] maskImageData = new int[Constant.HEIGHT*Constant.WIDTH];
+			int[] maskImageData = new int[Constant.MODEL_HEIGHT*Constant.MODEL_WIDTH];
 
 			for (var i = 0; i < maskImageData.Length; i++)
 			{
@@ -37,12 +37,12 @@ namespace AnimationDemo
 
 			List<Mat> partMaskList = new List<Mat>();
 			for (var i = 0; i < Constant.NUM_OF_PARTS; i++)
-				partMaskList.Add(new Mat(Constant.HEIGHT, Constant.WIDTH, CvType.CV_8UC1, new Scalar(0)));
+				partMaskList.Add(new Mat(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH, CvType.CV_8UC1, new Scalar(0)));
 
-			for (var i = 0; i < Constant.HEIGHT; i++)
-				for (var j = 0; j < Constant.WIDTH; j++)
+			for (var i = 0; i < Constant.MODEL_HEIGHT; i++)
+				for (var j = 0; j < Constant.MODEL_WIDTH; j++)
 				{
-					int part = maskImageData[i*Constant.WIDTH + j];
+					int part = maskImageData[i*Constant.MODEL_WIDTH + j];
 					try{
 						if (part == -1) continue;
 						partMaskList[part].put(i, j, (byte)255);
@@ -57,9 +57,8 @@ namespace AnimationDemo
 
 			for (var i = 0; i < partMaskList.Count; i++)
 			{
-				Imgproc.morphologyEx(partMaskList[i], partMaskList[i],
-					Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE,
-						new Size(Constant.MORPH_KERNEL_SIZE, Constant.MORPH_KERNEL_SIZE)));
+				Imgproc.morphologyEx(partMaskList[i], partMaskList[i], Imgproc.MORPH_OPEN,
+					Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(Constant.MORPH_KERNEL_SIZE, Constant.MORPH_KERNEL_SIZE)));
 			}				
 				
 			_partMaskList = partMaskList;
@@ -68,7 +67,7 @@ namespace AnimationDemo
 			List<Texture2D> partTextureList = new List<Texture2D>();
 			for (var i = 0; i < partMaskList.Count; i++)
 			{
-				Mat resultImage = new Mat(Constant.HEIGHT, Constant.WIDTH, CvType.CV_8UC4, new Scalar(0, 0, 0, 0));
+				Mat resultImage = new Mat(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH, CvType.CV_8UC4, new Scalar(0, 0, 0, 0));
 				originImage.copyTo(resultImage, partMaskList[i]);
 				Mat cropImage = cropROI(resultImage, _partBBList[i]);
 				removeBorder(cropImage);
@@ -113,12 +112,12 @@ namespace AnimationDemo
 				{
 					IntPtr array = (IntPtr)p;
 					// do you stuff here
-					IntPtr returnArray = dll_SendArray(array, Constant.CHANNEL, Constant.WIDTH, Constant.HEIGHT, Constant.NUM_OF_CLASS);			
+					IntPtr returnArray = dll_SendArray(array, Constant.MODEL_CHANNEL, Constant.MODEL_WIDTH, Constant.MODEL_HEIGHT, Constant.NUM_OF_CLASS);			
 
 					Debug.Log("test_tensorflow.cs call_dll_SendArray.cs : finished running model!");
 
-					float[] result = new float[Constant.WIDTH*Constant.HEIGHT*Constant.NUM_OF_CLASS];
-					Marshal.Copy(returnArray, result, 0, Constant.WIDTH*Constant.HEIGHT*Constant.NUM_OF_CLASS);					
+					float[] result = new float[Constant.MODEL_WIDTH*Constant.MODEL_HEIGHT*Constant.NUM_OF_CLASS];
+					Marshal.Copy(returnArray, result, 0, Constant.MODEL_WIDTH*Constant.MODEL_HEIGHT*Constant.NUM_OF_CLASS);					
 
 					GC.KeepAlive(returnArray);
 
@@ -197,7 +196,7 @@ namespace AnimationDemo
 			for (var i = 0; i < image.rows(); i++)
 				for (var j = 0; j < image.cols(); j++)
 					for (var k = 0; k < image.channels(); k++)
-						data[i*Constant.WIDTH*Constant.CHANNEL + j*Constant.CHANNEL + k] = (byte)((2 - k)*255/(Constant.CHANNEL - 1));
+						data[i*Constant.MODEL_WIDTH*Constant.MODEL_CHANNEL + j*Constant.MODEL_CHANNEL + k] = (byte)((2 - k)*255/(Constant.MODEL_CHANNEL - 1));
 
 			image.put(0, 0, data);
 			Utils.matToTexture2D(image, texture);

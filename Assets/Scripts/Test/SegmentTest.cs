@@ -18,11 +18,11 @@ public class SegmentTest : MonoBehaviour {
 	void Start () 
 	{
 		uiTex=transform.GetComponent<UITexture>();
-		uiTex.width=Constant.WIDTH;
-		uiTex.height=Constant.HEIGHT;
+		uiTex.width=Constant.MODEL_WIDTH;
+		uiTex.height=Constant.MODEL_HEIGHT;
 		//		Debug.Log(uiTex.width+"   "+uiTex.height);
 
-		tex=new Texture2D(Constant.WIDTH,Constant.HEIGHT);
+		tex=new Texture2D(Constant.MODEL_WIDTH,Constant.MODEL_HEIGHT);
 		tex=MyUtils.loadPNG(pngPath);
 		uiTex.mainTexture=tex;
 		//partTexList=Segmentation.segment(tex);
