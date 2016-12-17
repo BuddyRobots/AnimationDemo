@@ -21,15 +21,15 @@ namespace AnimationDemo
 			float[] dataArray = mat2tensorArray(modelSizeImage);
 			float[] segmentationResult = call_dll_SendArray(dataArray);
 
-			int[] maskImageData = new int[Constant.MODEL_HEIGHT*Constant.MODEL_WIDTH];
+			byte[] maskImageData = new byte[Constant.MODEL_HEIGHT*Constant.MODEL_WIDTH];
 
 			for (var i = 0; i < maskImageData.Length; i++)
 			{
 				float[] pixel = new float[Constant.NUM_OF_CLASS];
 				for (var j = 0; j < pixel.Length; j++)
 					pixel[j] = segmentationResult[i*Constant.NUM_OF_CLASS + j];
-				// Change klass 0 ~ 6 to parts -1(bg), 0 ~ 5
-				maskImageData[i] = softmax(pixel) - 1;
+				// klass 0(bg), 1 ~ 5(parts)
+				maskImageData[i] = (byte)softmax(pixel);
 			}
 
 			Mat maskImage = new Mat(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH, CvType.CV_8UC1);
@@ -44,8 +44,39 @@ namespace AnimationDemo
 			int originHeight = originMaskImage.rows();
 			int originWidth  = originMaskImage.cols();
 
-			int[] maskImageData = new int[originHeight*originWidth];
+			// klass 0(bg), 1 ~ 5(parts)
+			byte[] maskImageData = new byte[originHeight*originWidth];
 			originMaskImage.get(0, 0, maskImageData);
+
+
+
+
+
+
+			int[] statistics = new int[5];
+			for (var i = 0; i < maskImageData.Length; i++)
+			{
+				int part = maskImageData[i] - 1;
+				if (part != -1)
+				{
+					try
+					{
+						statistics[part]++;
+					}
+					catch(Exception ex)
+					{
+						Debug.Log("Segmentation.cs getLists() : part = " + part);
+					}
+				}
+			}
+			for (var i = 0; i < 5; i++)
+				Debug.Log("Segmentation.cs getLists() : statistic["+i+"] = " + statistics[i]);
+
+
+
+
+
+
 
 			List<Mat> partMaskList = new List<Mat>();
 			for (var i = 0; i < Constant.NUM_OF_PARTS; i++)
@@ -54,10 +85,10 @@ namespace AnimationDemo
 			for (var i = 0; i < originHeight; i++)
 				for (var j = 0; j < originWidth; j++)
 				{
-					int part = maskImageData[i*originWidth + j];
+					int part = maskImageData[i*originWidth + j] - 1;
 					try{
 						if (part == -1) continue;
-						partMaskList[part].put(i, j, (byte)255);
+						partMaskList[part].put(i, j, (byte)254);
 					}
 					catch(Exception ex)
 					{
@@ -67,14 +98,64 @@ namespace AnimationDemo
 					}
 				}
 
+
+
+			for (var i = 0; i < partMaskList.Count; i++)
+				Debug.Log("Segmentation.cs getLists() : partMaskList["+i+"].Count = " + Core.countNonZero(partMaskList[i]));
+
+		
+
+
+
+
 			for (var i = 0; i < partMaskList.Count; i++)
 			{
-				Imgproc.morphologyEx(partMaskList[i], partMaskList[i], Imgproc.MORPH_OPEN,
+				Imgproc.morphologyEx(partMaskList[i], partMaskList[i], Imgproc.MORPH_CLOSE,
 					Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(Constant.MORPH_KERNEL_SIZE, Constant.MORPH_KERNEL_SIZE)));
 			}				
 
+			for (var i = 0; i < partMaskList.Count; i++)
+				Debug.Log("Segmentation.cs getLists() : after Morph partMaskList["+i+"].Count = " + Core.countNonZero(partMaskList[i]));
+
+
+
+
+
+
+
+
+
 			_partMaskList = partMaskList;
 			_partBBList = getROIList(partMaskList);
+
+
+			for (var i = 0; i < partMaskList.Count; i++)
+				Debug.Log("Segmentation.cs getLists() : _partBBList["+i+"].Size = " + _partBBList[i].size());
+
+
+
+			int top    = (int)_partBBList[1].tl().y;
+			int bottom = (int)_partBBList[1].br().y;
+			int right  = (int)_partBBList[1].br().x - 1;
+			List<int> yList = new List<int>();
+			for (var i = top; i < bottom; i++)
+			{
+				int value = (int)_partMaskList[1].get(i, right)[0];
+				Debug.Log("Segmentation.cs getLists() : value = " + value);
+
+				if (value > 200)
+					yList.Add(i);
+			}
+			if (yList.Count == 0)
+				Debug.Log("Owl.cs LeftWing findAnchorPoint() : did not find anchorPoint!!");
+			
+
+
+
+
+
+
+
 
 			Mat originImageAlpha = new Mat();
 			Imgproc.cvtColor(originImage, originImageAlpha, Imgproc.COLOR_BGR2BGRA);
@@ -95,11 +176,13 @@ namespace AnimationDemo
 			_partTexList = partTextureList;
 		}
 
+	
 
 
 
 
-		/*public static void segment(Mat originImage, out List<Texture2D>_partTexList, out List<Mat> _partMaskList, out List<OpenCVForUnity.Rect> _partBBList)
+
+		public static void segment(Mat originImage, out List<Texture2D>_partTexList, out List<Mat> _partMaskList, out List<OpenCVForUnity.Rect> _partBBList)
 		{
 			float[] dataArray = mat2tensorArray(originImage);
 			float[] segmentationResult = call_dll_SendArray(dataArray);
@@ -161,7 +244,19 @@ namespace AnimationDemo
 			}
 
 			_partTexList = partTextureList;
-		}*/
+		}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		private static float[] mat2tensorArray(Mat image)
@@ -225,9 +320,26 @@ namespace AnimationDemo
 				// Find Contours
 				List<MatOfPoint> contours = new List<MatOfPoint>();
 				Mat hierarchy = new Mat();
-				Imgproc.findContours(partMaskList[i], contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
+				Mat mask = partMaskList[i].clone();
+				Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
 
-				OpenCVForUnity.Rect roi = Imgproc.boundingRect(contours[0]);
+				double maxArea = 0.0;
+				int maxIdx = 0;
+				for (var j = 0; j < contours.Count; j++)
+				{
+					double area = Imgproc.contourArea(contours[j]);
+					if (area > maxArea)
+					{
+						maxArea = area;
+						maxIdx = j;
+					}
+
+					Debug.Log("Segmentation.cs geROIList() : contours["+i+"].area = " + area);
+				}
+
+				Debug.Log("Segmentation.cs getROIList : maxIdx = " + maxIdx);
+
+				OpenCVForUnity.Rect roi = Imgproc.boundingRect(contours[maxIdx]);
 				roiList.Add(roi);
 			}
 			return roiList;

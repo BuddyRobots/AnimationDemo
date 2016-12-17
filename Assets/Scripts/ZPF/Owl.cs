@@ -44,17 +44,24 @@ namespace AnimationDemo
 
 
 
-
-			// TODO
 			//Segmentation.segment(croppedImage, out partTexList, out partMaskList, out partBBList);
+
+
+
+
 			Mat modelMaskImage = Segmentation.segment(croppedImage);
-			Mat originMaskImage = new Mat();
-			Imgproc.resize(modelMaskImage, originMaskImage, originalSize);
+			Mat originMaskImage = new Mat(originalSize, CvType.CV_8UC1);
+			Imgproc.resize(modelMaskImage, originMaskImage, originalSize, 0, 0, Imgproc.INTER_NEAREST);
+
+
+			Debug.Log("Owl.cs Owl() : originMaskImage.size = " + originMaskImage.size());
+			Debug.Log("Owl.cs Owl() : originImage.size = " + originImage.size());
+
+
 			Segmentation.getLists(originImage, originMaskImage, out partTexList, out partMaskList, out partBBList);
 
-
-
-
+			for (var i = 0; i < 5; i++)
+				Debug.Log("Owl.cs Owl : partTexList["+i+"].Size = " + partTexList[i].width + "x" + partTexList[i].height);
 
 
 			body      = new Body     (partTexList[0], partMaskList[0], partBBList[0]);
@@ -248,11 +255,16 @@ namespace AnimationDemo
 		{
 			int top    = (int)bb.tl().y;
 			int bottom = (int)bb.br().y;
-			int right  = (int)bb.br().x;
+			int right  = (int)bb.br().x - 1;
 			List<int> yList = new List<int>();
 			for (var i = top; i < bottom; i++)
-				if (mask.get(i, right)[0] > 200)
+			{
+				int value = (int)mask.get(i, right)[0];
+				Debug.Log("Owl.cs LeftWing findAnchorPoint() : value = " + value);
+
+				if (value > 200)
 					yList.Add(i);
+			}
 			if (yList.Count == 0)
 				Debug.Log("Owl.cs LeftWing findAnchorPoint() : did not find anchorPoint!!");
 			anchorPoint = new Vector2(right, MyUtils.average(yList));
