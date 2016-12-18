@@ -54,8 +54,11 @@ public class PhotoTakingPanel : SceneSinglton<PhotoTakingPanel>
 	void ChangeScene()
 	{
 		Manager.Instance.texture=GetImage._instance.texture;
-//		Debug.Log("Manager.Instance.texture===="+Manager.Instance.texture);
-//		Debug.Log("Manager.Instance.texture width---"+Manager.Instance.texture.width+"  height---  "+Manager.Instance.texture.height);
+		if (Manager.Instance.texture!=null) 
+		{
+			Debug.Log("Manager.Instance.texture width ="+Manager.Instance.texture.width+" , height ="+Manager.Instance.texture.height);
+		}
+
 		SceneManager.LoadSceneAsync("scene_PhotoRecognize");
 //		GameObject.DontDestroyOnLoad(manager);
 	}

@@ -64,8 +64,6 @@ public class Manager : MonoBehaviour
 	[HideInInspector]
 	public  Texture2D texture;
 
-
-
 	void Awake()
 	{
 
