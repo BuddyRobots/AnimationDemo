@@ -18,7 +18,12 @@ namespace AnimationDemo
 		private List<Texture2D>           partTexList;
 		private List<Mat>                 partMaskList;
 		private List<OpenCVForUnity.Rect> partBBList;
+
+		private Mat   originImage;
+		private Point originPoint;
+		private Size  originalSize;
 		 
+
 		public Owl(Texture2D _owlTexture, List<string> _jsonPaths)
 		{
 			partTexList  = new List<Texture2D>();
@@ -34,8 +39,31 @@ namespace AnimationDemo
 			thresList.Add(255);
 
 			Mat croppedImage = cropTexToModelSizeMat(_owlTexture, thresList);
-			Segmentation.segment(croppedImage, out partTexList, out partMaskList, out partBBList);
 
+			Mat modelMaskImage = Segmentation.segment(croppedImage);
+			Mat originMaskImage = new Mat(originalSize, CvType.CV_8UC1);
+			Imgproc.resize(modelMaskImage, originMaskImage, originalSize, 0, 0, Imgproc.INTER_NEAREST);
+
+
+
+			///
+			Debug.Log("Owl.cs Owl() : originMaskImage.size = " + originMaskImage.size());
+			Debug.Log("Owl.cs Owl() : originImage.size = " + originImage.size());
+			///
+
+
+
+			Segmentation.getLists(originImage, originMaskImage, out partTexList, out partMaskList, out partBBList);
+
+
+
+			///
+			for (var i = 0; i < 5; i++)
+				Debug.Log("Owl.cs Owl : partTexList["+i+"].Size = " + partTexList[i].width + "x" + partTexList[i].height);
+			///
+
+
+					
 			body      = new Body     (partTexList[0], partMaskList[0], partBBList[0]);
 			leftWing  = new LeftWing (partTexList[1], partMaskList[1], partBBList[1]);
 			rightWing = new RightWing(partTexList[2], partMaskList[2], partBBList[2]);
@@ -44,11 +72,12 @@ namespace AnimationDemo
 
 			calcPartAnimation(_jsonPaths);
 			calcOffset();
+			calcImageVector();
 			calcPosition();
 		}
 
 
-		private static Mat cropTexToModelSizeMat(Texture2D sourceTex, List<int> thresList)
+		private Mat cropTexToModelSizeMat(Texture2D sourceTex, List<int> thresList)
 		{
 			Mat sourceImage = new Mat(sourceTex.height, sourceTex.width, CvType.CV_8UC3);
 			Utils.texture2DToMat(sourceTex, sourceImage);
@@ -94,50 +123,62 @@ namespace AnimationDemo
 			Mat croppedImage = new Mat(sourceImage, bb);
 
 			// Zoom to 224*224
-			Mat resultImage = zoomCropped(croppedImage);
-			return resultImage;
+			zoomCropped(ref croppedImage, ref bb);
+			// We have the originPoint & originalSize in the frame cordinate here.
+			originPoint = bb.tl();
+			originalSize = bb.size();
+
+			return croppedImage;
 		}
 
 
-		private static Mat zoomCropped(Mat croppedImage)
+		private void zoomCropped(ref Mat croppedImage, ref OpenCVForUnity.Rect bb)
 		{
-			// TODO
 			int croppedWidth = croppedImage.cols();
 			int croppedHeight = croppedImage.rows();
+			OpenCVForUnity.Rect expandedBB;
 
 			if (croppedWidth > croppedHeight)
 			{
-				
+				int topMargin = (croppedWidth - croppedHeight)/2;
+				int botMargin = topMargin;
+
+				// Needed due to percision loss when /2
+				if ((croppedHeight + topMargin*2) != croppedWidth)
+					botMargin = croppedWidth - croppedHeight - topMargin;
+											
+				Core.copyMakeBorder(croppedImage, croppedImage, topMargin, botMargin, 0, 0, Core.BORDER_REPLICATE);
+				expandedBB = new OpenCVForUnity.Rect(
+					new Point(bb.tl().x, bb.tl().y - topMargin),
+					new Point(bb.br().x, bb.br().y + botMargin));
+			}
+			else if (croppedHeight > croppedWidth)
+			{
+				int lefMargin = (croppedHeight - croppedWidth)/2;
+				int rigMargin = lefMargin;
+
+				// Need due to percision loss when /2
+				if ((croppedWidth + lefMargin*2) != croppedHeight)
+					rigMargin = croppedHeight - croppedWidth - lefMargin;
+
+				Core.copyMakeBorder(croppedImage, croppedImage, 0, 0, lefMargin, rigMargin, Core.BORDER_REPLICATE);
+				expandedBB = new OpenCVForUnity.Rect(
+					new Point(bb.tl().x - lefMargin, bb.tl().y),
+					new Point(bb.br().x + rigMargin, bb.br().y));
+			}
+			else
+			{
+				expandedBB = bb;
 			}
 
-
-
-
-			// Original implementation
-			double scale = 0.0;
-
-			if (croppedImage.cols() > croppedImage.rows())
-				scale = (double)Constant.MODEL_WIDTH / croppedImage.cols();
-			else
-				scale = (double)Constant.MODEL_HEIGHT / croppedImage.rows();
+			originImage = croppedImage.clone();
 
 			Mat scaleImage = new Mat();
-			Imgproc.resize(croppedImage, scaleImage, new Size(), scale, scale, Imgproc.INTER_AREA);
+			Imgproc.resize(croppedImage, scaleImage, new Size(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH));
 
-			int horMargin = (Constant.MODEL_WIDTH - scaleImage.cols())/2;
-			int verMargin = (Constant.MODEL_HEIGHT - scaleImage.rows())/2;
-
-			Mat resultImage = new Mat();
-			Core.copyMakeBorder(scaleImage, resultImage, verMargin, verMargin,
-				horMargin, horMargin, Core.BORDER_REPLICATE);
-
-			if (resultImage.cols() != Constant.MODEL_WIDTH)
-				Core.copyMakeBorder(resultImage, resultImage, 0, 0,
-					Constant.MODEL_WIDTH - resultImage.cols(), 0, Core.BORDER_REPLICATE);
-			if (resultImage.rows() != Constant.MODEL_HEIGHT)
-				Core.copyMakeBorder(resultImage, resultImage, Constant.MODEL_HEIGHT - resultImage.rows(), 0,
-					0, 0, Core.BORDER_REPLICATE);
-			return resultImage;
+			// Return croppedImage[224*224*3] bb(original cordinate expandedBB)
+			croppedImage = scaleImage;
+			bb = expandedBB;
 		}
 
 
@@ -169,13 +210,24 @@ namespace AnimationDemo
 		}
 
 
+
+		private void calcImageVector()
+		{
+			body.calcImageVector();
+			leftWing.calcImageVector();
+			rightWing.calcImageVector();
+			leftLeg.calcImageVector();
+			rightLeg.calcImageVector();
+		}
+
+
 		private void calcPosition()
 		{
 			body.calcPosition();
-			leftWing.calcPosition();
-			rightWing.calcPosition();
-			leftLeg.calcPosition();
-			rightLeg.calcPosition();
+			leftWing.calcPosition(body.position);
+			rightWing.calcPosition(body.position);
+			leftLeg.calcPosition(body.position);
+			rightLeg.calcPosition(body.position);
 		}
 	}
 
@@ -199,6 +251,13 @@ namespace AnimationDemo
 		{
 			return centerPoint;
 		}
+
+
+		public void calcPosition()
+		{
+			for (var i = 0; i < animePosition.Count; i++)
+				position.Add(imageOffset[i] + imageVector[i]);
+		}
 	}
 
 
@@ -215,13 +274,23 @@ namespace AnimationDemo
 		{
 			int top    = (int)bb.tl().y;
 			int bottom = (int)bb.br().y;
-			int right  = (int)bb.br().x;
+			int right  = (int)bb.br().x - 1;
 			List<int> yList = new List<int>();
 			for (var i = top; i < bottom; i++)
+			{
 				if (mask.get(i, right)[0] > 200)
 					yList.Add(i);
+				Debug.Log("Owl.cs LeftWing findAnchorPoint() : mask.get(i, right)[0] = " + mask.get(i, right)[0]);
+			}
+
+
+			for (var i = 0; i < yList.Count; i++)
+				Debug.Log("Owl.cs LeftWing findAnchorPoint() : yList["+i+"] = " + yList[i]);
+
+
+
 			if (yList.Count == 0)
-				Debug.Log("Owl.cs LeftWing findAnchorPoint() : did not find anchorPoint!!");
+				Debug.Log("Owl.cs RightWing findAnchorPoint() : did not find anchorPoint!!");
 			anchorPoint = new Vector2(right, MyUtils.average(yList));
 		}
 	}
@@ -381,20 +450,43 @@ namespace AnimationDemo
 		}
 
 
-		/*public void calcImageVector()
+		public void calcImageVector()
 		{
-			imageVector.Add(centerPoint)
+			Vector2 initImageVector = new Vector2((centerPoint.x - anchorPoint.x), (anchorPoint.y - centerPoint.y));
 
 
 
-			double ratio = 
-		}*/
+			///
+			Debug.Log("Owl.cs calcImageVector() : anchorPoint.y = " + anchorPoint.y + " centerPoint.y = " + centerPoint.y);
+			Debug.Log("Owl.cs calcImageVector() : initImageVector = " + initImageVector);
+			///
 
 
-		public void calcPosition()
+
+			float ratio = 1;
+			float initAnimeVectorMagnitude = animeVector[0].magnitude;
+			if (initAnimeVectorMagnitude != 0)
+				ratio = initImageVector.magnitude / initAnimeVectorMagnitude;
+
+
+
+			///
+			Debug.Log("Owl.cs calcImageVector() : ratio = " + ratio);
+			///
+
+
+
+
+
+			for (var i = 0; i < animeVector.Count; i++)
+				imageVector.Add(new Vector2(animeVector[i].x*ratio, animeVector[i].y*ratio));
+		}
+
+
+		public void calcPosition(List<Vector2> parentPosition)
 		{
 			for (var i = 0; i < animePosition.Count; i++)
-				position.Add(imageOffset[i] + animePosition[i]);
+				position.Add(parentPosition[i] + imageOffset[i] + imageVector[i]);
 		}
 	}
 }
