@@ -33,17 +33,25 @@ public class GetImage : MonoBehaviour
 
 	void Start()
 	{
+		Debug.Log("-----get image start ");
+
 		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
+		Debug.Log("-----get image start over");
+
 	}
 
 	void OnEnable()
 	{
+		Debug.Log("-----get image onenable");
+
 		_instance = this;
 		StartCoroutine(init());
+		Debug.Log("-----get image onenable over");
 	}
 
 	private IEnumerator init()
 	{
+		Debug.Log("-----get image init()");
 		if (webCamTexture != null)
 		{
 			webCamTexture.Stop();
@@ -79,12 +87,15 @@ public class GetImage : MonoBehaviour
 				yield return 0;
 			}
 		}
+		Debug.Log("-----get image init()  over");
 	}
 		
 	void Update()
 	{
+		Debug.Log("---get image update() start");
 		if (isStartUpdate) 
 		{
+			Debug.Log("---get image iStartupdae==true");
 			if (!initDone)
 				return;
 
@@ -93,6 +104,8 @@ public class GetImage : MonoBehaviour
 
 			if (webCamTexture.didUpdateThisFrame)
 			{
+				Debug.Log("---get image webCamTexture.didUpdateThisFrame ==true ");
+
 				Utils.webCamTextureToMat(webCamTexture, frameImg);
 
 				#if UNITY_EDITOR
@@ -114,9 +127,14 @@ public class GetImage : MonoBehaviour
 
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
+
+				Debug.Log("---Utils.matToTexture2D(frameImg, texture) ");
 	
 			}
-			frameImg.Dispose();
+			Debug.Log("-----frameImg  ------ before dispose");
+//			frameImg.Dispose();
+			Debug.Log("-----frameImg  ------ after dispose");
+
 		}
 
 	}

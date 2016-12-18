@@ -43,16 +43,20 @@ public class AniDemo : MonoBehaviour
 	private Texture2D tex;//the whole texture , parts are sliced according to it
 	private List<Texture2D> partTexList=new List<Texture2D>();
 	private UITexture uiTex;// just for test to check if the tex is got successfully, can be deleted
-//	private string pngPath="Pictures/Photos/1479694037";
+	private string pngPath="Pictures/Photos/1479694037";
 	private const float heightRate=1f;
 
 	private List<string> jsonPaths=new List<string>();
 
 	private Owl owl;
+	public UITexture uitex;
 
 	void Start()
 	{
 		tex=Manager.Instance.texture;
+
+//		tex= MyUtils.loadPNG(pngPath);
+		uitex.GetComponent<UITexture>().mainTexture=tex;
 		GetPartTexures();
 		GetPartData();
 
@@ -131,7 +135,7 @@ public class AniDemo : MonoBehaviour
 			
 
 		//创建对象
-		GameObject parent=GameObject.Find("UI Root/PhotoRecognizingPanel(Clone)/Owl");
+		GameObject parent=GameObject.Find("UI Root/PhotoRecognizingPanel/Owl");
 		for (int i = 0; i < texList.Count; i++) 
 		{
 			UITexture temp = NGUITools.AddChild<UITexture>(parent);
@@ -149,7 +153,14 @@ public class AniDemo : MonoBehaviour
 				temp.depth=2;
 			}
 			goList.Add(temp.gameObject);
-		}	
+		}
+
+//		UITexture temp_test = NGUITools.AddChild<UITexture>(parent);
+//		temp_test.mainTexture=Resources.Load<Texture>("Pictures/Owl/body");
+//		temp_test.color=Color.black;
+//		temp_test.width=252;
+//		temp_test.height=219;
+//		temp_test.transform.localPosition=Vector3.zero;
 	}
 		
 

@@ -15,7 +15,7 @@ public class PhotoRecognizingPanel : SceneSinglton<PhotoRecognizingPanel>
 	void Start()
 	{
 		replayBtn=transform.Find("ReplayBtn").gameObject;
-		manager=GameObject.Find("Manager(Clone)");
+		manager=GameObject.Find("Manager");
 		photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();//real code 
 		photoImage.gameObject.SetActive (false);
 		UIEventListener.Get(replayBtn).onClick = OnReplayBtnClick;
@@ -36,7 +36,8 @@ public class PhotoRecognizingPanel : SceneSinglton<PhotoRecognizingPanel>
 	void OnReplayBtnClick(GameObject btn)
 	{
 		SceneManager.LoadSceneAsync("scene_PhotoTaking");
-//		GameObject.DontDestroyOnLoad(manager);
+		GameObject.DontDestroyOnLoad(manager);
+		Debug.Log("--------------LoadSceneAsync to scene_PhotoTaking");
 	}
 		
 }
