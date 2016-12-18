@@ -116,7 +116,7 @@ namespace AnimationDemo
 			for (var i = 0; i < contours.Count; i++)
 			{
 				double area = Imgproc.contourArea(contours[i]);
-				Debug.Log("CropImage.cs crop() : contours["+i+"].Area = " + area);
+//				Debug.Log("CropImage.cs crop() : contours["+i+"].Area = " + area);
 				if (area > maxArea)
 				{
 					maxArea = area;

@@ -35,8 +35,9 @@ public class PhotoRecognizingPanel : SceneSinglton<PhotoRecognizingPanel>
 		
 	void OnReplayBtnClick(GameObject btn)
 	{
-		SceneManager.LoadScene("scene_PhotoTaking");
-//		GameObject.DontDestroyOnLoad(manager);
+		SceneManager.LoadSceneAsync("scene_PhotoTaking");
+		GameObject.DontDestroyOnLoad(manager);
+		Debug.Log("--------------LoadSceneAsync to scene_PhotoTaking");
 	}
 		
 }
