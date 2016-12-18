@@ -40,30 +40,30 @@ namespace AnimationDemo
 
 			Mat croppedImage = cropTexToModelSizeMat(_owlTexture, thresList);
 
-
-
-
-
-			//Segmentation.segment(croppedImage, out partTexList, out partMaskList, out partBBList);
-
-
-
-
 			Mat modelMaskImage = Segmentation.segment(croppedImage);
 			Mat originMaskImage = new Mat(originalSize, CvType.CV_8UC1);
 			Imgproc.resize(modelMaskImage, originMaskImage, originalSize, 0, 0, Imgproc.INTER_NEAREST);
 
 
+
+			///
 			Debug.Log("Owl.cs Owl() : originMaskImage.size = " + originMaskImage.size());
 			Debug.Log("Owl.cs Owl() : originImage.size = " + originImage.size());
+			///
+
 
 
 			Segmentation.getLists(originImage, originMaskImage, out partTexList, out partMaskList, out partBBList);
 
+
+
+			///
 			for (var i = 0; i < 5; i++)
 				Debug.Log("Owl.cs Owl : partTexList["+i+"].Size = " + partTexList[i].width + "x" + partTexList[i].height);
+			///
 
 
+					
 			body      = new Body     (partTexList[0], partMaskList[0], partBBList[0]);
 			leftWing  = new LeftWing (partTexList[1], partMaskList[1], partBBList[1]);
 			rightWing = new RightWing(partTexList[2], partMaskList[2], partBBList[2]);
@@ -72,6 +72,7 @@ namespace AnimationDemo
 
 			calcPartAnimation(_jsonPaths);
 			calcOffset();
+			calcImageVector();
 			calcPosition();
 		}
 
@@ -209,13 +210,24 @@ namespace AnimationDemo
 		}
 
 
+
+		private void calcImageVector()
+		{
+			body.calcImageVector();
+			leftWing.calcImageVector();
+			rightWing.calcImageVector();
+			leftLeg.calcImageVector();
+			rightLeg.calcImageVector();
+		}
+
+
 		private void calcPosition()
 		{
 			body.calcPosition();
-			leftWing.calcPosition();
-			rightWing.calcPosition();
-			leftLeg.calcPosition();
-			rightLeg.calcPosition();
+			leftWing.calcPosition(body.position);
+			rightWing.calcPosition(body.position);
+			leftLeg.calcPosition(body.position);
+			rightLeg.calcPosition(body.position);
 		}
 	}
 
@@ -239,6 +251,13 @@ namespace AnimationDemo
 		{
 			return centerPoint;
 		}
+
+
+		public void calcPosition()
+		{
+			for (var i = 0; i < animePosition.Count; i++)
+				position.Add(imageOffset[i] + imageVector[i]);
+		}
 	}
 
 
@@ -259,14 +278,19 @@ namespace AnimationDemo
 			List<int> yList = new List<int>();
 			for (var i = top; i < bottom; i++)
 			{
-				int value = (int)mask.get(i, right)[0];
-				Debug.Log("Owl.cs LeftWing findAnchorPoint() : value = " + value);
-
-				if (value > 200)
+				if (mask.get(i, right)[0] > 200)
 					yList.Add(i);
+				Debug.Log("Owl.cs LeftWing findAnchorPoint() : mask.get(i, right)[0] = " + mask.get(i, right)[0]);
 			}
+
+
+			for (var i = 0; i < yList.Count; i++)
+				Debug.Log("Owl.cs LeftWing findAnchorPoint() : yList["+i+"] = " + yList[i]);
+
+
+
 			if (yList.Count == 0)
-				Debug.Log("Owl.cs LeftWing findAnchorPoint() : did not find anchorPoint!!");
+				Debug.Log("Owl.cs RightWing findAnchorPoint() : did not find anchorPoint!!");
 			anchorPoint = new Vector2(right, MyUtils.average(yList));
 		}
 	}
@@ -426,20 +450,43 @@ namespace AnimationDemo
 		}
 
 
-		/*public void calcImageVector()
+		public void calcImageVector()
 		{
-			imageVector.Add(centerPoint)
+			Vector2 initImageVector = new Vector2((centerPoint.x - anchorPoint.x), (anchorPoint.y - centerPoint.y));
 
 
 
-			double ratio = 
-		}*/
+			///
+			Debug.Log("Owl.cs calcImageVector() : anchorPoint.y = " + anchorPoint.y + " centerPoint.y = " + centerPoint.y);
+			Debug.Log("Owl.cs calcImageVector() : initImageVector = " + initImageVector);
+			///
 
 
-		public void calcPosition()
+
+			float ratio = 1;
+			float initAnimeVectorMagnitude = animeVector[0].magnitude;
+			if (initAnimeVectorMagnitude != 0)
+				ratio = initImageVector.magnitude / initAnimeVectorMagnitude;
+
+
+
+			///
+			Debug.Log("Owl.cs calcImageVector() : ratio = " + ratio);
+			///
+
+
+
+
+
+			for (var i = 0; i < animeVector.Count; i++)
+				imageVector.Add(new Vector2(animeVector[i].x*ratio, animeVector[i].y*ratio));
+		}
+
+
+		public void calcPosition(List<Vector2> parentPosition)
 		{
 			for (var i = 0; i < animePosition.Count; i++)
-				position.Add(imageOffset[i] + animePosition[i]);
+				position.Add(parentPosition[i] + imageOffset[i] + imageVector[i]);
 		}
 	}
 }
