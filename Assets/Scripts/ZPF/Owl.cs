@@ -87,13 +87,23 @@ namespace AnimationDemo
 			List<Mat> hsvList = new List<Mat>();
 			Imgproc.cvtColor(sourceImage, hsvImage, Imgproc.COLOR_BGR2HSV);
 			// InRange
-			Mat grayImage = new Mat(sourceImage.rows(), sourceImage.cols(), CvType.CV_8UC3);
+			Mat grayImage = new Mat(sourceImage.rows(), sourceImage.cols(), CvType.CV_8UC1);
 			Core.inRange(hsvImage,
 				new Scalar(thresList[0], thresList[2], thresList[4]),
 				new Scalar(thresList[1], thresList[3], thresList[5]),
 				grayImage);
 			Imgproc.morphologyEx(grayImage, grayImage, Imgproc.MORPH_OPEN,
 				Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5, 5)));
+
+
+
+			///
+			Debug.Log("Owl.cs cropTexToModelSizeMat() : sourceTex.size = " + sourceTex.width + "x" + sourceTex.height);
+			Debug.Log("Owl.cs cropTexToModelSizeMat() : sourceImage.size = " + sourceImage.size());
+			Debug.Log("Owl.cs cropTexToModelSizeMat() : grayImage.size = " + grayImage.size());
+			///
+
+
 			
 			// Find Contours
 			List<MatOfPoint> contours = new List<MatOfPoint>();
@@ -122,11 +132,18 @@ namespace AnimationDemo
 					      Math.Min(roi.br().y + 50.0, sourceImage.rows())));
 			Mat croppedImage = new Mat(sourceImage, bb);
 
+
+
+			///
+			Debug.Log("Owl.cs cropTexToModelSizeMat() : roi.size = " + roi.size());
+			Debug.Log("Owl.cs cropTexToModelSizeMat() : bb.size = " + bb.size());
+			Debug.Log("Owl.cs cropTexToModelSizeMat() : croppedImage.size = " + croppedImage.size());
+			///
+
+
+
 			// Zoom to 224*224
-			zoomCropped(ref croppedImage, ref bb);
-			// We have the originPoint & originalSize in the frame cordinate here.
-			originPoint = bb.tl();
-			originalSize = bb.size();
+			zoomCropped(ref croppedImage, ref bb);		
 
 			return croppedImage;
 		}
@@ -171,7 +188,20 @@ namespace AnimationDemo
 				expandedBB = bb;
 			}
 
+
+
+			///
+			Debug.Log("Owl.cs zoomCropped() : bb.size = " + bb.size());
+			Debug.Log("Owl.cs zoomCropped() : expandedBB.size = " + expandedBB.size());
+			///
+
+
+
+
+			// We have the originPoint & originalSize in the frame cordinate here.
+			originPoint = expandedBB.tl();
 			originImage = croppedImage.clone();
+			originalSize = expandedBB.size();
 
 			Mat scaleImage = new Mat();
 			Imgproc.resize(croppedImage, scaleImage, new Size(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH));
@@ -255,8 +285,9 @@ namespace AnimationDemo
 
 		public void calcPosition()
 		{
+			// TODO coordinate issue!
 			for (var i = 0; i < animePosition.Count; i++)
-				position.Add(imageOffset[i] + imageVector[i]);
+				position.Add(centerPoint + imageOffset[i] + imageVector[i]);
 		}
 	}
 
@@ -277,18 +308,8 @@ namespace AnimationDemo
 			int right  = (int)bb.br().x - 1;
 			List<int> yList = new List<int>();
 			for (var i = top; i < bottom; i++)
-			{
 				if (mask.get(i, right)[0] > 200)
 					yList.Add(i);
-				Debug.Log("Owl.cs LeftWing findAnchorPoint() : mask.get(i, right)[0] = " + mask.get(i, right)[0]);
-			}
-
-
-			for (var i = 0; i < yList.Count; i++)
-				Debug.Log("Owl.cs LeftWing findAnchorPoint() : yList["+i+"] = " + yList[i]);
-
-
-
 			if (yList.Count == 0)
 				Debug.Log("Owl.cs RightWing findAnchorPoint() : did not find anchorPoint!!");
 			anchorPoint = new Vector2(right, MyUtils.average(yList));
