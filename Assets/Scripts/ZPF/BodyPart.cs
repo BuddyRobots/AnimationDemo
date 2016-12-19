@@ -146,11 +146,11 @@ namespace AnimationDemo
 		}
 
 
-		public void calcPosition()
+		public void calcPosition(Point originPoint)
 		{
 			// TODO coordinate issue!
 			for (var i = 0; i < animePosition.Count; i++)
-				position.Add(centerPoint + imageOffset[i] + imageVector[i]);
+				position.Add(new Vector2((float)originPoint.x, (float)originPoint.y) + centerPoint + imageOffset[i] + imageVector[i]);
 		}
 	}
 

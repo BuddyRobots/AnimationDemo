@@ -28,7 +28,7 @@ public class GetImage : MonoBehaviour
 	public bool isBtnClicked = false;
 
 	private SliderCtrlManager sliderCtrlManager;
-	private Mat frameImg;
+	private Mat frameImage;
 
 
 	void Start()
@@ -36,11 +36,13 @@ public class GetImage : MonoBehaviour
 //		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
 	}
 
+
 	void OnEnable()
 	{
 		_instance = this;
 		StartCoroutine(init());
 	}
+
 
 	private IEnumerator init()
 	{
@@ -81,6 +83,7 @@ public class GetImage : MonoBehaviour
 		}
 	}
 		
+
 	void Update()
 	{
 		if (isStartUpdate) 
@@ -90,16 +93,16 @@ public class GetImage : MonoBehaviour
 		
 			if (webCamTexture.didUpdateThisFrame)
 			{
-				frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-				Utils.webCamTextureToMat(webCamTexture, frameImg);
+				frameImage = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
+				Utils.webCamTextureToMat(webCamTexture, frameImage);
 
 				#if UNITY_EDITOR
 				#elif UNITY_IPHONE
 				RotateCamera.rotate(ref frameImg);
 				#endif
 
-				texture.Resize(frameImg.cols(), frameImg.rows());
-				Utils.matToTexture2D(frameImg, texture);
+				texture.Resize(frameImage.cols(), frameImage.rows());
+				Utils.matToTexture2D(frameImage, texture);
 			}
 		}
 	}

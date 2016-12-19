@@ -250,7 +250,7 @@ namespace AnimationDemo
 
 		private void calcPosition()
 		{
-			body.calcPosition();
+			body.calcPosition(originPoint);
 			leftWing.calcPosition(body.position);
 			rightWing.calcPosition(body.position);
 			leftLeg.calcPosition(body.position);
