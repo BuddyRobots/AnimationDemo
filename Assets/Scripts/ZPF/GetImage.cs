@@ -27,7 +27,7 @@ public class GetImage : MonoBehaviour
 	public bool isStartUpdate = true;
 	public bool isBtnClicked = false;
 
-	private SliderCtrlManager sliderCtrlManager;
+//	private SliderCtrlManager sliderCtrlManager;
 	private Mat frameImage;
 
 	void Start()
