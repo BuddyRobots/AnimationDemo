@@ -74,6 +74,15 @@ namespace AnimationDemo
 			calcOffset();
 			calcImageVector();
 			calcPosition();
+
+
+
+			///
+			Debug.Log("Owl.cs Owl() : body.centerPoint = " + body.getCenterPoint());
+			///
+
+
+		
 		}
 
 
@@ -187,16 +196,6 @@ namespace AnimationDemo
 			{
 				expandedBB = bb;
 			}
-
-
-
-			///
-			Debug.Log("Owl.cs zoomCropped() : bb.size = " + bb.size());
-			Debug.Log("Owl.cs zoomCropped() : expandedBB.size = " + expandedBB.size());
-			///
-
-
-
 
 			// We have the originPoint & originalSize in the frame cordinate here.
 			originPoint = expandedBB.tl();
@@ -459,6 +458,15 @@ namespace AnimationDemo
 			float x = (float)(bb.tl().x + bb.br().x)/2;
 			float y = (float)(bb.tl().y + bb.br().y)/2;
 			centerPoint = new Vector2(x, y);
+
+
+
+			///
+			Debug.Log("Owl.cs BadyPart findCenterPoint() : centerPoint = " + centerPoint);
+			///
+
+
+
 		}
 
 
@@ -475,29 +483,10 @@ namespace AnimationDemo
 		{
 			Vector2 initImageVector = new Vector2((centerPoint.x - anchorPoint.x), (anchorPoint.y - centerPoint.y));
 
-
-
-			///
-			Debug.Log("Owl.cs calcImageVector() : anchorPoint.y = " + anchorPoint.y + " centerPoint.y = " + centerPoint.y);
-			Debug.Log("Owl.cs calcImageVector() : initImageVector = " + initImageVector);
-			///
-
-
-
 			float ratio = 1;
 			float initAnimeVectorMagnitude = animeVector[0].magnitude;
 			if (initAnimeVectorMagnitude != 0)
 				ratio = initImageVector.magnitude / initAnimeVectorMagnitude;
-
-
-
-			///
-			Debug.Log("Owl.cs calcImageVector() : ratio = " + ratio);
-			///
-
-
-
-
 
 			for (var i = 0; i < animeVector.Count; i++)
 				imageVector.Add(new Vector2(animeVector[i].x*ratio, animeVector[i].y*ratio));
