@@ -33,13 +33,16 @@ public class GetImage : MonoBehaviour
 
 	void Start()
 	{
-		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
+
+//		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
+
 	}
 
 	void OnEnable()
 	{
 		_instance = this;
 		StartCoroutine(init());
+
 	}
 
 	private IEnumerator init()
@@ -83,13 +86,14 @@ public class GetImage : MonoBehaviour
 		
 	void Update()
 	{
+
 		if (isStartUpdate) 
 		{
+
 			if (!initDone)
 				return;
-
+		
 			Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-
 
 			if (webCamTexture.didUpdateThisFrame)
 			{
@@ -114,9 +118,12 @@ public class GetImage : MonoBehaviour
 
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
-	
+
+			
 			}
+
 			frameImg.Dispose();
+
 		}
 
 	}

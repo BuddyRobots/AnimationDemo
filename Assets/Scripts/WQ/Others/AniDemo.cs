@@ -173,7 +173,7 @@ public class AniDemo : MonoBehaviour
 			
 
 		//创建对象
-		GameObject parent=GameObject.Find("UI Root/PhotoRecognizingPanel(Clone)/Owl");
+		GameObject parent=GameObject.Find("UI Root/PhotoRecognizingPanel/Owl");
 		for (int i = 0; i < texList.Count; i++) 
 		{
 			UITexture temp = NGUITools.AddChild<UITexture>(parent);
