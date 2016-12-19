@@ -236,7 +236,6 @@ namespace AnimationDemo
 		}
 
 
-
 		private void calcImageVector()
 		{
 			body.calcImageVector();

@@ -148,9 +148,20 @@ namespace AnimationDemo
 
 		public void calcPosition(Point originPoint)
 		{
-			// TODO coordinate issue!
+			// TODO simplify this!
 			for (var i = 0; i < animePosition.Count; i++)
-				position.Add(new Vector2((float)originPoint.x, (float)originPoint.y) + centerPoint + imageOffset[i] + imageVector[i]);
+			{
+				Vector2 imagePosition = new Vector2((float)originPoint.x + imageVector[i].x, (float)originPoint.y - imageVector[i].y) + centerPoint + imageOffset[i]/* + imageVector[i]*/;
+				Vector2 camQuadPosition = transform(imagePosition);
+				position.Add(camQuadPosition);
+			}				
+		}
+
+
+		private Vector2 transform(Vector2 imagePosition)
+		{
+			Vector2 result = new Vector2(imagePosition.x - 305, 375 - imagePosition.y);
+			return result;
 		}
 	}
 
