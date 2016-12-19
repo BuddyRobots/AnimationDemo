@@ -40,13 +40,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		isPhotoImageShowDone = true;
 	}
 
-	void Update () 
-	{
 
-	}
 
 	void OnReplayBtnClick(GameObject btn)
 	{
+		GetImage._instance.isStartUpdate=true;
 		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel );
 		PanelTranslate.Instance.DestoryAllPanel();
 	}

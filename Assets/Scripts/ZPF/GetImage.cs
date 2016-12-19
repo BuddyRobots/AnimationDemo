@@ -38,6 +38,7 @@ public class GetImage : MonoBehaviour
 
 	void OnEnable()
 	{
+		isStartUpdate=true;
 		_instance = this;
 		StartCoroutine(init());
 	}
