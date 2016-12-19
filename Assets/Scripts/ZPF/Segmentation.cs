@@ -167,16 +167,6 @@ namespace AnimationDemo
 				List<MatOfPoint> contours = new List<MatOfPoint>();
 				Mat hierarchy = new Mat();
 				Mat mask = partMaskList[i].clone();
-
-
-
-				///
-				Debug.Log("Segmentation.cs getROIList() mask.size = " + mask.cols() + "x" + mask.rows());
-				///
-
-
-
-
 				Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
 
 				// Find max contour id
@@ -192,16 +182,6 @@ namespace AnimationDemo
 					}
 				}
 				OpenCVForUnity.Rect roi = Imgproc.boundingRect(contours[maxIdx]);
-
-
-
-				///
-				Debug.Log("Segmentation.cs getROIList() : roiList["+i+"].size = " + roi.size());
-				///
-
-
-
-
 				roiList.Add(roi);
 			}
 			return roiList;

@@ -65,11 +65,11 @@ public class GetImage : MonoBehaviour
 		{
 			if (webCamTexture.didUpdateThisFrame)
 			{
-			    frameImg = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC3);
+				frameImage = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC3);
 				webCam_width  = webCamTexture.width;
 				webCam_height = webCamTexture.height;
 
-				texture = new Texture2D(frameImg.cols(), frameImg.rows(), TextureFormat.RGBA32, false);
+				texture = new Texture2D(frameImage.cols(), frameImage.rows(), TextureFormat.RGBA32, false);
 				gameObject.GetComponent<Renderer>().material.mainTexture = texture;
 
 				initDone = true;
@@ -97,7 +97,7 @@ public class GetImage : MonoBehaviour
 
 				#if UNITY_EDITOR
 				#elif UNITY_IPHONE
-				RotateCamera.rotate(ref frameImg);
+				RotateCamera.rotate(ref frameImage);
 				#endif
 
 				texture.Resize(frameImage.cols(), frameImage.rows());

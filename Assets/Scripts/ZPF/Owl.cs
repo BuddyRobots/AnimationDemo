@@ -47,7 +47,6 @@ namespace AnimationDemo
 
 			///
 			Debug.Log("Owl.cs Owl() : originMaskImage.size = " + originMaskImage.size());
-			Debug.Log("Owl.cs Owl() : originImage.size = " + originImage.size());
 			///
 
 
@@ -73,6 +72,15 @@ namespace AnimationDemo
 			calcOffset();
 			calcImageVector();
 			calcPosition();
+
+
+
+			///
+			Debug.Log("Owl.cs Owl() : originPoint = " + originPoint);
+			///
+
+
+
 		}
 
 
@@ -93,16 +101,6 @@ namespace AnimationDemo
 				grayImage);
 			Imgproc.morphologyEx(grayImage, grayImage, Imgproc.MORPH_OPEN,
 				Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5, 5)));
-
-
-
-			///
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : sourceTex.size = " + sourceTex.width + "x" + sourceTex.height);
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : sourceImage.size = " + sourceImage.size());
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : grayImage.size = " + grayImage.size());
-			///
-
-
 			
 			// Find Contours
 			List<MatOfPoint> contours = new List<MatOfPoint>();
