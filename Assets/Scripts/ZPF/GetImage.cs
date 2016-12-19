@@ -27,10 +27,9 @@ public class GetImage : MonoBehaviour
 	public bool isStartUpdate=true;
 	public bool isBtnClicked=false;
 
-//	private SliderCtrlManager sliderCtrlManager;
-	Mat frameImg;
-	Mat resultImage;
-
+	private SliderCtrlManager sliderCtrlManager;
+	private Mat frameImg;
+	private Mat resultImage;
 
 	void Start()
 	{
@@ -39,14 +38,12 @@ public class GetImage : MonoBehaviour
 
 	void OnEnable()
 	{
-		
 		_instance = this;
 		StartCoroutine(init());
 	}
 
 	private IEnumerator init()
 	{
-		
 		if (webCamTexture != null)
 		{
 			webCamTexture.Stop();
