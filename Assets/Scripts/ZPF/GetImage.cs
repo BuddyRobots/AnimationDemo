@@ -30,7 +30,6 @@ public class GetImage : MonoBehaviour
 	private SliderCtrlManager sliderCtrlManager;
 	private Mat frameImage;
 
-
 	void Start()
 	{
 //		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
@@ -66,7 +65,7 @@ public class GetImage : MonoBehaviour
 		{
 			if (webCamTexture.didUpdateThisFrame)
 			{
-				Mat frameImg = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC3);
+			    frameImg = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC3);
 				webCam_width  = webCamTexture.width;
 				webCam_height = webCamTexture.height;
 

@@ -73,15 +73,6 @@ namespace AnimationDemo
 			calcOffset();
 			calcImageVector();
 			calcPosition();
-
-
-
-			///
-			Debug.Log("Owl.cs Owl() : body.centerPoint = " + body.getCenterPoint());
-			///
-
-
-		
 		}
 
 
@@ -195,6 +186,16 @@ namespace AnimationDemo
 				expandedBB = bb;
 			}
 
+
+
+			///
+			Debug.Log("Owl.cs zoomCropped() : bb.size = " + bb.size());
+			Debug.Log("Owl.cs zoomCropped() : expandedBB.size = " + expandedBB.size());
+			///
+
+
+
+
 			// We have the originPoint & originalSize in the frame cordinate here.
 			originPoint = expandedBB.tl();
 			originImage = croppedImage.clone();
@@ -256,5 +257,5 @@ namespace AnimationDemo
 			leftLeg.calcPosition(body.position);
 			rightLeg.calcPosition(body.position);
 		}
-	}		
+	}
 }

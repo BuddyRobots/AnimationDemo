@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{A0798350-C6C2-94C8-E24C-977CA3B66D71}") = "AnimationDemo_sceneChange", "Assembly-CSharp.csproj", "{79B7FB21-1E3E-43FF-EFBE-6C29C51A68ED}"
+EndProject
+Project("{A0798350-C6C2-94C8-E24C-977CA3B66D71}") = "AnimationDemo_sceneChange", "Assembly-CSharp-Editor.csproj", "{8BCF85FD-4103-2F10-3598-A2FCF808EDAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79B7FB21-1E3E-43FF-EFBE-6C29C51A68ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79B7FB21-1E3E-43FF-EFBE-6C29C51A68ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79B7FB21-1E3E-43FF-EFBE-6C29C51A68ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79B7FB21-1E3E-43FF-EFBE-6C29C51A68ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BCF85FD-4103-2F10-3598-A2FCF808EDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BCF85FD-4103-2F10-3598-A2FCF808EDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BCF85FD-4103-2F10-3598-A2FCF808EDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BCF85FD-4103-2F10-3598-A2FCF808EDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

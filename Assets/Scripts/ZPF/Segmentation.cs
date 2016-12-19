@@ -44,6 +44,14 @@ namespace AnimationDemo
 			int originHeight = originMaskImage.rows();
 			int originWidth  = originMaskImage.cols();
 
+
+
+			///
+			Debug.Log("Segmentation.cs getLists() : originMaskImage.size = " + originWidth + "x" + originHeight);
+			///
+
+
+
 			// klass 0(bg), 1 ~ 5(parts)
 			byte[] maskImageData = new byte[originHeight*originWidth];
 			originMaskImage.get(0, 0, maskImageData);
@@ -67,7 +75,7 @@ namespace AnimationDemo
 						break;
 					}
 				}
-			
+
 			/*for (var i = 0; i < partMaskList.Count; i++)
 			{
 				Imgproc.morphologyEx(partMaskList[i], partMaskList[i], Imgproc.MORPH_CLOSE,
@@ -159,6 +167,16 @@ namespace AnimationDemo
 				List<MatOfPoint> contours = new List<MatOfPoint>();
 				Mat hierarchy = new Mat();
 				Mat mask = partMaskList[i].clone();
+
+
+
+				///
+				Debug.Log("Segmentation.cs getROIList() mask.size = " + mask.cols() + "x" + mask.rows());
+				///
+
+
+
+
 				Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
 
 				// Find max contour id
@@ -174,6 +192,16 @@ namespace AnimationDemo
 					}
 				}
 				OpenCVForUnity.Rect roi = Imgproc.boundingRect(contours[maxIdx]);
+
+
+
+				///
+				Debug.Log("Segmentation.cs getROIList() : roiList["+i+"].size = " + roi.size());
+				///
+
+
+
+
 				roiList.Add(roi);
 			}
 			return roiList;
