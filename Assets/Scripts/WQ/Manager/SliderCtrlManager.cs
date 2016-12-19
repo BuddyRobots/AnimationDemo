@@ -27,10 +27,10 @@ public class SliderCtrlManager : MonoBehaviour {
 
 	void Start()
 	{
-//		for (int i = 0; i < 6; i++) {
-//			sliderValueList.Add(0);
-//		}
-//		UIEventListener.Get(btn).onClick=OnBtnClick;
+		for (int i = 0; i < 6; i++) {
+			sliderValueList.Add(0);
+		}
+		UIEventListener.Get(btn).onClick=OnBtnClick;
 	}
 
 

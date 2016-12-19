@@ -2,62 +2,65 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine.SceneManagement;
 
-public class PhotoTakingPanel : SceneSinglton<PhotoTakingPanel> 
+public class PhotoTakingPanel : MonoBehaviour 
 {
+	public static PhotoTakingPanel _instance;
 	private GameObject confirmBtn;
-	private GameObject manager;
+	private UISprite noticeImg;
+	private UILabel countDown;
 
-	private Transform notice;
-	private Transform countDown;
 
-	private UILabel countDownLabel;
+	void Awake () 
+	{	
+		_instance = this;
 
-	private Vector3 noticePos=new Vector3(0,63);
-	private Vector3 countDownPos=new Vector3(0,-150);
+	}
 
 	void Start()
 	{
-		Debug.Log("------phototaking --start()");
 		confirmBtn = transform.Find ("ConfirmBtn").gameObject;
-		manager=GameObject.Find("Manager");
-		notice=transform.Find("Notice");
-		countDown=transform.Find ("CountDown");
-		countDownLabel = countDown.GetComponent<UILabel> ();
+		noticeImg=transform.Find("Notice").GetComponent<UISprite>();
+		countDown = transform.Find ("CountDown").GetComponent<UILabel> ();
+		noticeImg.gameObject.SetActive (false);
+		countDown.gameObject.SetActive (false);
 
 		UIEventListener.Get(confirmBtn).onClick = OnConfirmBtnClick;
-		Debug.Log("------phototaking --start()--over");
 	}
 
 	void OnConfirmBtnClick(GameObject btn)
 	{
-		notice.localPosition=noticePos;
-		StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
-	
+		if (!noticeImg.gameObject.activeSelf) 
+		{
+			noticeImg.gameObject.SetActive (true);
+			StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
+		}
 	}
 
 	IEnumerator CountDown()
 	{
 		yield return new WaitForSeconds(1f);//1f for rest, real time is 3f..
-		countDown.localPosition=countDownPos;
+		//		countDown.gameObject.SetActive(true);
+		//
+		//		yield return new WaitForSeconds(1);
+		//		countDown.text = "2";
+		//		yield return new WaitForSeconds(1);
+		//		countDown.text = "1";
+		//		yield return new WaitForSeconds(1);
 
-		yield return new WaitForSeconds(1);
-		countDownLabel.text = "2";
-		yield return new WaitForSeconds(1);
-		countDownLabel.text = "1";
-		yield return new WaitForSeconds(1);
-	
-		countDownLabel.text = " ";
 
-		ChangeScene();
+		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);//识别界面需要从 拍摄界面Quad上的GetImage获取itemlist数据，所以这里暂时不能销毁拍摄界面
+		PanelOff();
+		//		PanelTranslate.Instance.DestoryThisPanel();
 	}
 
-	void ChangeScene()
+	public void PanelOff()
 	{
-		Manager.Instance.texture=GetImage._instance.texture;
-//		SceneManager.LoadSceneAsync("scene_PhotoRecognize");
-		SceneManager.LoadScene("scene_PhotoRecognize");
-		GameObject.DontDestroyOnLoad(manager);
+		countDown.text = "3";
+		countDown.gameObject.SetActive (false);
+		noticeImg.gameObject.SetActive (false);
+
+		GetImage._instance.isStartUpdate=false;
+		PanelTranslate.Instance.DestoryThisPanel();
 	}
 }

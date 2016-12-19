@@ -27,7 +27,7 @@ public class GetImage : MonoBehaviour
 	public bool isStartUpdate=true;
 	public bool isBtnClicked=false;
 
-	private SliderCtrlManager sliderCtrlManager;
+//	private SliderCtrlManager sliderCtrlManager;
 	Mat frameImg;
 	Mat resultImage;
 
@@ -39,15 +39,14 @@ public class GetImage : MonoBehaviour
 
 	void OnEnable()
 	{
-		Debug.Log("-----get image onenable");
-
+		
 		_instance = this;
 		StartCoroutine(init());
 	}
 
 	private IEnumerator init()
 	{
-		Debug.Log("-----get image init()");
+		
 		if (webCamTexture != null)
 		{
 			webCamTexture.Stop();
@@ -68,7 +67,7 @@ public class GetImage : MonoBehaviour
 		{
 			if (webCamTexture.didUpdateThisFrame)
 			{
-				Mat frameImg = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC3);
+			    frameImg = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC3);
 				webCam_width  = webCamTexture.width;
 				webCam_height = webCamTexture.height;
 
