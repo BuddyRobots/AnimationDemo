@@ -19,6 +19,7 @@ public class PhotoTakingPanel : SceneSinglton<PhotoTakingPanel>
 
 	void Start()
 	{
+		Debug.Log("------phototaking --start()");
 		confirmBtn = transform.Find ("ConfirmBtn").gameObject;
 		manager=GameObject.Find("Manager");
 		notice=transform.Find("Notice");
@@ -26,6 +27,7 @@ public class PhotoTakingPanel : SceneSinglton<PhotoTakingPanel>
 		countDownLabel = countDown.GetComponent<UILabel> ();
 
 		UIEventListener.Get(confirmBtn).onClick = OnConfirmBtnClick;
+		Debug.Log("------phototaking --start()--over");
 	}
 
 	void OnConfirmBtnClick(GameObject btn)
@@ -54,9 +56,8 @@ public class PhotoTakingPanel : SceneSinglton<PhotoTakingPanel>
 	void ChangeScene()
 	{
 		Manager.Instance.texture=GetImage._instance.texture;
-//		Debug.Log("Manager.Instance.texture===="+Manager.Instance.texture);
-//		Debug.Log("Manager.Instance.texture width---"+Manager.Instance.texture.width+"  height---  "+Manager.Instance.texture.height);
-		SceneManager.LoadSceneAsync("scene_PhotoRecognize");
-//		GameObject.DontDestroyOnLoad(manager);
+//		SceneManager.LoadSceneAsync("scene_PhotoRecognize");
+		SceneManager.LoadScene("scene_PhotoRecognize");
+		GameObject.DontDestroyOnLoad(manager);
 	}
 }
