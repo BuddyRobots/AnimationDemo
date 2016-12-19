@@ -94,14 +94,20 @@ public class GetImage : MonoBehaviour
 		
 			if (webCamTexture.didUpdateThisFrame)
 			{
-				Utils.webCamTextureToMat(webCamTexture, frameImg);
-
-
-
 				///
 				Debug.Log("GetImage.cs Update() : webCamTexture.size = " + webCamTexture.width + "x" + webCamTexture.height);
 				Debug.Log("GetImage.cs Update() : frameImg.size = " + frameImg.size());
 				///
+
+
+
+
+
+				Utils.webCamTextureToMat(webCamTexture, frameImg);
+
+
+
+
 
 
 
