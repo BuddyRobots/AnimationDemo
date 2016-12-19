@@ -462,7 +462,7 @@ namespace AnimationDemo
 
 
 			///
-			Debug.Log("Owl.cs BadyPart findCenterPoint() : centerPoint = " + centerPoint);
+			Debug.Log("Owl.cs BadyPart findCenterPoint() : centerPoint = " + centerPoint); 
 			///
 
 

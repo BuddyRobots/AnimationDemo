@@ -28,21 +28,13 @@ public class GetImage : MonoBehaviour
 	public bool isBtnClicked=false;
 
 	private SliderCtrlManager sliderCtrlManager;
-	Mat resultImage = new Mat(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH, CvType.CV_8UC3);
+	Mat frameImg;
+	Mat resultImage;
 
 
 	void Start()
 	{
-<<<<<<< HEAD
-
 //		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
-=======
-		Debug.Log("-----get image start ");
-
-		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
-		Debug.Log("-----get image start over");
->>>>>>> b6b9369dae7cd2796aa5c112079a3287efff5f99
-
 	}
 
 	void OnEnable()
@@ -51,11 +43,6 @@ public class GetImage : MonoBehaviour
 
 		_instance = this;
 		StartCoroutine(init());
-<<<<<<< HEAD
-
-=======
-		Debug.Log("-----get image onenable over");
->>>>>>> b6b9369dae7cd2796aa5c112079a3287efff5f99
 	}
 
 	private IEnumerator init()
@@ -96,31 +83,20 @@ public class GetImage : MonoBehaviour
 				yield return 0;
 			}
 		}
-		Debug.Log("-----get image init()  over");
+	
+		frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
+		resultImage = new Mat(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH, CvType.CV_8UC3);
 	}
 		
 	void Update()
 	{
-<<<<<<< HEAD
-
 		if (isStartUpdate) 
 		{
-
-=======
-		Debug.Log("---get image update() start");
-		if (isStartUpdate) 
-		{
-			Debug.Log("---get image iStartupdae==true");
->>>>>>> b6b9369dae7cd2796aa5c112079a3287efff5f99
 			if (!initDone)
 				return;
 		
-			Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-
 			if (webCamTexture.didUpdateThisFrame)
 			{
-				Debug.Log("---get image webCamTexture.didUpdateThisFrame ==true ");
-
 				Utils.webCamTextureToMat(webCamTexture, frameImg);
 
 				#if UNITY_EDITOR
@@ -142,23 +118,7 @@ public class GetImage : MonoBehaviour
 
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
-
-<<<<<<< HEAD
-			
 			}
-
-			frameImg.Dispose();
-=======
-				Debug.Log("---Utils.matToTexture2D(frameImg, texture) ");
-	
-			}
-			Debug.Log("-----frameImg  ------ before dispose");
-//			frameImg.Dispose();
-			Debug.Log("-----frameImg  ------ after dispose");
->>>>>>> b6b9369dae7cd2796aa5c112079a3287efff5f99
-
 		}
-
 	}
-
 }
