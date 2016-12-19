@@ -29,7 +29,6 @@ public class GetImage : MonoBehaviour
 
 	private SliderCtrlManager sliderCtrlManager;
 	private Mat frameImg;
-	private Mat resultImage;
 
 
 	void Start()
@@ -80,9 +79,6 @@ public class GetImage : MonoBehaviour
 				yield return 0;
 			}
 		}
-	
-		frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-		resultImage = new Mat(Constant.MODEL_HEIGHT, Constant.MODEL_WIDTH, CvType.CV_8UC3);
 	}
 		
 	void Update()
@@ -94,39 +90,13 @@ public class GetImage : MonoBehaviour
 		
 			if (webCamTexture.didUpdateThisFrame)
 			{
-				///
-				Debug.Log("GetImage.cs Update() : webCamTexture.size = " + webCamTexture.width + "x" + webCamTexture.height);
-				Debug.Log("GetImage.cs Update() : frameImg.size = " + frameImg.size());
-				///
-
-
-
-
-
+				frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
 				Utils.webCamTextureToMat(webCamTexture, frameImg);
-
-
-
-
-
-
 
 				#if UNITY_EDITOR
 				#elif UNITY_IPHONE
 				RotateCamera.rotate(ref frameImg);
 				#endif
-
-				// Test CropImage
-//				if (isBtnClicked)
-//				{
-//					resultImage = CropImage.crop(frameImg, sliderCtrlManager.sliderValueList);
-//					isBtnClicked = false;
-//				}
-
-
-//
-//				texture.Resize(resultImage.cols(), resultImage.rows());
-//				Utils.matToTexture2D(resultImage, texture);
 
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
