@@ -24,8 +24,8 @@ public class GetImage : MonoBehaviour
 	private int webCam_width  = 640;
 	private int webCam_height = 480;
 
-	public bool isStartUpdate=true;
-	public bool isBtnClicked=false;
+	public bool isStartUpdate = true;
+	public bool isBtnClicked = false;
 
 	private SliderCtrlManager sliderCtrlManager;
 	private Mat frameImg;
@@ -93,7 +93,22 @@ public class GetImage : MonoBehaviour
 		
 			if (webCamTexture.didUpdateThisFrame)
 			{
+				///
+				Debug.Log("GetImage.cs Update() : webCamTexture.size = " + webCamTexture.width + "x" + webCamTexture.height);
+				Debug.Log("GetImage.cs Update() : frameImg.size = " + frameImg.size());
+				///
+
+
+
+
+
 				Utils.webCamTextureToMat(webCamTexture, frameImg);
+
+
+
+
+
+
 
 				#if UNITY_EDITOR
 				#elif UNITY_IPHONE
