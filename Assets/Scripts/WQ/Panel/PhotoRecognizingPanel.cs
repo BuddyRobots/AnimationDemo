@@ -16,7 +16,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	private UISprite mask;
 	private float maskTime=0;
-	private  float maskTimer=1f;
+	private  float maskTimer=2f;
 
 	private bool isMaskTrans=true;
 
