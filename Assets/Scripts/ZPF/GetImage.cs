@@ -33,10 +33,15 @@ public class GetImage : MonoBehaviour
 
 	void Start()
 	{
+<<<<<<< HEAD
+
+//		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
+=======
 		Debug.Log("-----get image start ");
 
 		sliderCtrlManager=GameObject.Find("SliderCtrlManager").GetComponent<SliderCtrlManager>();
 		Debug.Log("-----get image start over");
+>>>>>>> b6b9369dae7cd2796aa5c112079a3287efff5f99
 
 	}
 
@@ -46,7 +51,11 @@ public class GetImage : MonoBehaviour
 
 		_instance = this;
 		StartCoroutine(init());
+<<<<<<< HEAD
+
+=======
 		Debug.Log("-----get image onenable over");
+>>>>>>> b6b9369dae7cd2796aa5c112079a3287efff5f99
 	}
 
 	private IEnumerator init()
@@ -92,15 +101,21 @@ public class GetImage : MonoBehaviour
 		
 	void Update()
 	{
+<<<<<<< HEAD
+
+		if (isStartUpdate) 
+		{
+
+=======
 		Debug.Log("---get image update() start");
 		if (isStartUpdate) 
 		{
 			Debug.Log("---get image iStartupdae==true");
+>>>>>>> b6b9369dae7cd2796aa5c112079a3287efff5f99
 			if (!initDone)
 				return;
-
+		
 			Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-
 
 			if (webCamTexture.didUpdateThisFrame)
 			{
@@ -128,12 +143,19 @@ public class GetImage : MonoBehaviour
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
 
+<<<<<<< HEAD
+			
+			}
+
+			frameImg.Dispose();
+=======
 				Debug.Log("---Utils.matToTexture2D(frameImg, texture) ");
 	
 			}
 			Debug.Log("-----frameImg  ------ before dispose");
 //			frameImg.Dispose();
 			Debug.Log("-----frameImg  ------ after dispose");
+>>>>>>> b6b9369dae7cd2796aa5c112079a3287efff5f99
 
 		}
 
