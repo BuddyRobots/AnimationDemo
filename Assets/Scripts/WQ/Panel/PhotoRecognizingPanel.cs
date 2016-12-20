@@ -7,12 +7,10 @@ using AnimationDemo;
 public class PhotoRecognizingPanel : MonoBehaviour 
 {
 
-
 	public static PhotoRecognizingPanel _instance;
 
 	private GameObject replayBtn;
 	private UITexture photoImage;//拍摄截取的图像
-	private bool isPhotoImageShowDone = false;
 
 	private UISprite mask;
 	private float maskTime=0;
@@ -30,23 +28,16 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		replayBtn=transform.Find("ReplayBtn").gameObject;
 		photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();//real code 
 		mask=transform.Find("Bg/Mask").GetComponent<UISprite>();
-		mask.alpha=0;
 
-
-
-		photoImage.gameObject.SetActive (false);
 		UIEventListener.Get(replayBtn).onClick = OnReplayBtnClick;
+		Init();
 
-		isPhotoImageShowDone = false;
+	}
 
-
+	void Init()
+	{
+		mask.alpha=0;
 		photoImage.mainTexture = GetImage._instance.texture;
-
-
-
-
-//		StartCoroutine (ShowPhotoImage ());//进入识别界面的第一步是显示拍摄的照片
-
 	}
 
 
@@ -63,15 +54,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			mask.alpha=Mathf.Lerp (0, 1f,maskTime/maskTimer);
 		}
 	}
-
-//	IEnumerator ShowPhotoImage()// 显示拍摄的图片
-//	{
-//		photoImage.gameObject.SetActive (true);
-//		photoImage.mainTexture = GetImage._instance.texture;
-//		yield return new WaitForSeconds (1f);
-//		isPhotoImageShowDone = true;
-//	}
-
 
 
 	void OnReplayBtnClick(GameObject btn)

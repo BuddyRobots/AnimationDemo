@@ -17,16 +17,7 @@ public class AniDemo : MonoBehaviour
 	List<double> rightLeg_angles_double=new List<double>();
 	private List<List<double>> total_angleList_double=new List<List<double>>();
 
-//	private Vector2 leftWing_offSet = new Vector2 (-214, -61);
-//	private Vector2 rightWing_offSet = new Vector2 (188, -55);
-//	private Vector2 leftLeg_offSet = new Vector2 (-67, -232);
-//	private Vector2 rightLeg_offSet = new Vector2 (44, -230);
-//	private Vector2 toOriginPoint_offset;//假设图片初始位置是（0，0），该变量是数据的起始位置到原点的差向量
-
 	private List<Vector2> body_vectorDataList = new List<Vector2> ();//该集合用来存储已经转换了坐标轴（但是没有转化原点）的数据
-//	private List<Vector2> body_offset_dataList = new List<Vector2> ();//该集合用来存储偏移量数据
-//	private List<Vector2> body_zeroOrigin_dataList = new List<Vector2> ();//该集合用来存储转化了原点的数据，可以直接用
-
 	private List<Vector2> leftWing_vectorDataList = new List<Vector2> ();
 	private List<Vector2> rightWing_vectorDataList = new List<Vector2> ();
 	private List<Vector2> leftLeg_vectorDataList = new List<Vector2> ();
@@ -41,12 +32,10 @@ public class AniDemo : MonoBehaviour
 	private int length;
 	private float time;
 
-
-	//for test...
 	private Texture2D tex;//the whole texture , parts are sliced according to it
 	private List<Texture2D> partTexList=new List<Texture2D>();
-	private UITexture uiTex;// just for test to check if the tex is got successfully, can be deleted
-	private string pngPath="Pictures/Photos/1479694037";
+
+//	private string pngPath="Pictures/Photos/1479694037";
 	private const float heightRate=1f;
 
 	private List<string> jsonPaths=new List<string>();
@@ -55,18 +44,7 @@ public class AniDemo : MonoBehaviour
 
 	void Start()
 	{
-		
-//		uiTex=transform.Find("Tex").GetComponent<UITexture>();
-//		uiTex.width=Constant.MODEL_WIDTH;
-//		uiTex.height=Constant.MODEL_HEIGHT;
-
-		//get the whole texure and show
-//		tex=new Texture2D(Constant.MODEL_WIDTH,Constant.MODEL_HEIGHT);
-//		tex=MyUtils.loadPNG(pngPath);
-//		tex=Manager.Instance.texture;
 		tex=GetImage._instance.texture;
-
-//		uiTex.mainTexture=tex;
 
 		GetPartTexures();
 		GetPartData();
@@ -103,8 +81,6 @@ public class AniDemo : MonoBehaviour
 
 	void GetPartData()
 	{
-		
-
 		body_vectorDataList=owl.body.position;
 		leftWing_vectorDataList=owl.leftWing.position;
 		rightWing_vectorDataList=owl.rightWing.position;
@@ -133,20 +109,17 @@ public class AniDemo : MonoBehaviour
 
 	void Init()
 	{
-
-		for (int i = 0; i < partTexList.Count; i++) {
+		for (int i = 0; i < partTexList.Count; i++) 
+		{
 			texList.Add(partTexList[i]);
 		}
 			
-		for (int i = 0; i < 5; i++) {
-			Debug.Log("partTexList["+i+"].width=="+partTexList[i].width);
-			Debug.Log("partTexList["+i+"].height=="+partTexList[i].height);
-
+		for (int i = 0; i < 5; i++) 
+		{
 			widthList.Add((int)(partTexList[i].width*heightRate));
 			heightList.Add((int)(partTexList[i].height*heightRate));
 		}
 			
-
 		//创建对象
 		GameObject parent=GameObject.Find("UI Root/PhotoRecognizingPanel(Clone)/Owl");
 		for (int i = 0; i < texList.Count; i++) 
@@ -156,9 +129,7 @@ public class AniDemo : MonoBehaviour
 			temp.width=widthList[i];
 			temp.height=heightList[i];
 			temp.transform.localPosition=total_posList[i][0];
-
 			temp.transform.localRotation=Quaternion.AngleAxis((float)total_angleList_double[i][0],Vector3.forward);
-
 
 			if (i==0) 
 			{
@@ -196,34 +167,10 @@ public class AniDemo : MonoBehaviour
 		}
 		index++;
 	}
-
-
-
-
-	//获取部分的位置坐标信息
-//	void SetPartVectorData(List<Vector2> vec_source,List<Vector2> vec_dst,Vector2 offset)
-//	{
-//		for (int i = 0; i < vec_source.Count; i++) 
-//		{
-//			Vector2 vector=new Vector2();
-//			vector.x=vec_source[i].x+offset.x;
-//			vector.y=vec_source[i].y+offset.y;
-//			vec_dst.Add(vector+body_zeroOrigin_dataList[i]);//部分都挪至以原点为中心的位置
-////			vec_dst.Add(vector+body_vectorDataList[i]);//部分不挪至原点
-//		}
-//	}
-
+		
 	public void Play()
 	{
 		isPlaying=true;
 	}
-
-
-	//	private Texture GetTexure(string name)
-	//	{
-	//		string path="Pictures/Owl/";
-	//		return Resources.Load<Texture>(path+name);
-	//
-	//	}
 
 }

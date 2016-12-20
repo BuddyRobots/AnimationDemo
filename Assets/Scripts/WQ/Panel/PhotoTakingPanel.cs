@@ -48,10 +48,8 @@ public class PhotoTakingPanel : MonoBehaviour
 		countDown.text = "1";
 		yield return new WaitForSeconds(1);
 
-
 		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);//识别界面需要从 拍摄界面Quad上的GetImage获取itemlist数据，所以这里暂时不能销毁拍摄界面
 		PanelOff();
-		//		PanelTranslate.Instance.DestoryThisPanel();
 	}
 
 	public void PanelOff()
