@@ -23,7 +23,7 @@ namespace AnimationDemo
 		private Size  originalSize;
 		 
 
-		public Owl(Texture2D _owlTexture, List<string> _jsonPaths)
+		public Owl(Texture2D _owlTexture, List<string> _jsonPathList)
 		{
 			partTexList  = new List<Texture2D>();
 			partMaskList = new List<Mat>();
@@ -45,13 +45,12 @@ namespace AnimationDemo
 
 			Segmentation.getLists(originImage, originMaskImage, out partTexList, out partMaskList, out partBBList);
 					
-			body      = new Body     (partTexList[0], partMaskList[0], partBBList[0]);
-			leftWing  = new LeftWing (partTexList[1], partMaskList[1], partBBList[1]);
-			rightWing = new RightWing(partTexList[2], partMaskList[2], partBBList[2]);
-			leftLeg   = new LeftLeg  (partTexList[3], partMaskList[3], partBBList[3]);
-			rightLeg  = new RightLeg (partTexList[4], partMaskList[4], partBBList[4]);
+			body      = new Body     (partTexList[0], partMaskList[0], partBBList[0], _jsonPathList[0]);
+			leftWing  = new LeftWing (partTexList[1], partMaskList[1], partBBList[1], _jsonPathList[1]);
+			rightWing = new RightWing(partTexList[2], partMaskList[2], partBBList[2], _jsonPathList[2]);
+			leftLeg   = new LeftLeg  (partTexList[3], partMaskList[3], partBBList[3], _jsonPathList[3]);
+			rightLeg  = new RightLeg (partTexList[4], partMaskList[4], partBBList[4], _jsonPathList[4]);
 
-			calcPartAnimation(_jsonPaths);
 			calcOffset();
 			calcImageVector();
 			calcPosition();
@@ -158,23 +157,6 @@ namespace AnimationDemo
 			// Return croppedImage[224*224*3] bb(original cordinate expandedBB)
 			croppedImage = scaleImage;
 			bb = expandedBB;
-		}
-
-
-		private void calcPartAnimation(List<string> jsonPaths)
-		{
-			if (jsonPaths.Count != 5)
-			{
-				Debug.LogError("Owl.cs calcAnimation() : Wrong number of json files passed! " +
-					"Expect 5, Recieved " + jsonPaths.Count);
-				return;
-			}
-
-			body.calcAnimation(jsonPaths[0]);
-			leftWing.calcAnimation(jsonPaths[1]);
-			rightWing.calcAnimation(jsonPaths[2]);
-			leftLeg.calcAnimation(jsonPaths[3]);
-			rightLeg.calcAnimation(jsonPaths[4]);
 		}
 
 

@@ -11,10 +11,11 @@ namespace AnimationDemo
 		public Texture2D texture;
 		public List<Vector2> position;
 		public List<double>  rotation;
-		protected List<Vector2> animePosition;
 
-		protected Mat mask;
-		protected OpenCVForUnity.Rect bb;
+		protected readonly int NUM_OF_FRAME;
+
+		protected Mat originMask;
+		protected OpenCVForUnity.Rect minimalBB;
 
 		// Animation template offset & vector
 		protected List<Vector2> animeOffset;
@@ -27,11 +28,10 @@ namespace AnimationDemo
 		protected Vector2 anchorPoint;
 
 
-		protected BodyPart(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb)
+		protected BodyPart(Texture2D _texture, Mat _originMask, OpenCVForUnity.Rect _minimalBB, string _jsonPath)
 		{
 			position = new List<Vector2>();
 			rotation = new List<double>();
-			animePosition = new List<Vector2>();
 			animeOffset = new List<Vector2>();
 			animeVector = new List<Vector2>();
 			centerPoint = new Vector2();
@@ -40,35 +40,15 @@ namespace AnimationDemo
 			imageVector = new List<Vector2>();
 
 			texture = _texture;
-			mask = _mask;
-			bb = _bb;
+			originMask = _originMask;
+			minimalBB = _minimalBB;
 
+			NUM_OF_FRAME = calcAnimation(_jsonPath);
 			findCenterPoint();
 		}
 
 
-		protected BodyPart(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb, string jsonPath)
-		{
-			position = new List<Vector2>();
-			rotation = new List<double>();
-			animePosition = new List<Vector2>();
-			animeOffset = new List<Vector2>();
-			animeVector = new List<Vector2>();
-			centerPoint = new Vector2();
-			anchorPoint = new Vector2();
-			imageOffset = new List<Vector2>();
-			imageVector = new List<Vector2>();
-
-			texture = _texture;
-			mask = _mask;
-			bb = _bb;
-
-			calcAnimation(jsonPath);
-			findCenterPoint();
-		}
-
-
-		public virtual void calcAnimation(string jsonPath)
+		private int calcAnimation(string jsonPath)
 		{
 			var asset = Resources.Load<TextAsset>(jsonPath);
 
@@ -79,30 +59,29 @@ namespace AnimationDemo
 			JsonData vector_y_data = data["vector_y"];
 			JsonData rotation_data = data["rotation"];
 
-			for (var i = 0; i < vector_x_data.Count; i++)
+			int num_of_frame = rotation_data.Count;
+			for (var i = 0; i < num_of_frame; i++)
 			{
 				animeOffset.Add(new Vector2((int)offset_x_data[i], (int)offset_y_data[i]));
 				animeVector.Add(new Vector2((int)vector_x_data[i], (int)vector_y_data[i]));
-				animePosition.Add(animeOffset[i] + animeVector[i]);
 				rotation.Add((int)rotation_data[i]);
 			}
+			return num_of_frame;
 		}
 
 
 		protected void findCenterPoint()
 		{
-			float x = (float)(bb.tl().x + bb.br().x)/2;
-			float y = (float)(bb.tl().y + bb.br().y)/2;
+			float x = (float)(minimalBB.tl().x + minimalBB.br().x)/2;
+			float y = (float)(minimalBB.tl().y + minimalBB.br().y)/2;
 			centerPoint = new Vector2(x, y);
 		}
 
 
 		public void calcImageOffset(Vector2 parentCenter)
 		{
-			for (var i = 0; i < animeOffset.Count; i++)
-			{
+			for (var i = 0; i < NUM_OF_FRAME; i++)
 				imageOffset.Add(new Vector2((anchorPoint.x - parentCenter.x), (parentCenter.y - anchorPoint.y)));
-			}
 		}
 
 
@@ -115,14 +94,14 @@ namespace AnimationDemo
 			if (initAnimeVectorMagnitude != 0)
 				ratio = initImageVector.magnitude / initAnimeVectorMagnitude;
 
-			for (var i = 0; i < animeVector.Count; i++)
+			for (var i = 0; i < NUM_OF_FRAME; i++)
 				imageVector.Add(new Vector2(animeVector[i].x*ratio, animeVector[i].y*ratio));
 		}
 
 
 		public void calcPosition(List<Vector2> parentPosition)
 		{
-			for (var i = 0; i < animePosition.Count; i++)
+			for (var i = 0; i < NUM_OF_FRAME; i++)
 				position.Add(parentPosition[i] + imageOffset[i] + imageVector[i]);
 		}
 	}
@@ -130,8 +109,8 @@ namespace AnimationDemo
 
 	class Body : BodyPart
 	{
-		public Body(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb)
-			: base(_texture, _mask, _bb)
+		public Body(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb, string _jsonPath)
+			: base(_texture, _mask, _bb, _jsonPath)
 		{
 			findAnchorPoint();
 		}
@@ -152,7 +131,7 @@ namespace AnimationDemo
 		public void calcPosition(Point originPoint)
 		{
 			// TODO simplify this!
-			for (var i = 0; i < animePosition.Count; i++)
+			for (var i = 0; i < NUM_OF_FRAME; i++)
 			{
 				Vector2 imagePosition = new Vector2((float)originPoint.x + imageVector[i].x, (float)originPoint.y - imageVector[i].y) + centerPoint + imageOffset[i]/* + imageVector[i]*/;
 				Vector2 camQuadPosition = transform(imagePosition);
@@ -171,8 +150,8 @@ namespace AnimationDemo
 
 	class LeftWing : BodyPart
 	{
-		public LeftWing(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb)
-			: base(_texture, _mask, _bb)
+		public LeftWing(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb, string _jsonPath)
+			: base(_texture, _mask, _bb, _jsonPath)
 		{
 			findAnchorPoint();
 		}
@@ -180,16 +159,15 @@ namespace AnimationDemo
 
 		private void findAnchorPoint()
 		{
-			int top    = (int)bb.tl().y;
-			int bottom = (int)bb.br().y;
-			int right  = (int)bb.br().x - 1;
+			int top    = (int)minimalBB.tl().y;
+			int bottom = (int)minimalBB.br().y;
+			int right  = (int)minimalBB.br().x - 1;
 			List<int> yList = new List<int>();
 			for (var i = top; i < bottom; i++)
-				if (mask.get(i, right)[0] > 200)
+				if (originMask.get(i, right)[0] > 200)
 					yList.Add(i);
 			if (yList.Count == 0)
-				Debug.Log("Owl.cs RightWing findAnchorPoint() : did not find anchorPoin" +
-					"t!!");
+				Debug.Log("Owl.cs RightWing findAnchorPoint() : did not find anchorPoint!!");
 			anchorPoint = new Vector2(right, MyUtils.average(yList));
 		}
 	}
@@ -197,8 +175,8 @@ namespace AnimationDemo
 
 	class RightWing : BodyPart
 	{
-		public RightWing(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb)
-			: base(_texture, _mask, _bb)
+		public RightWing(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb, string _jsonPath)
+			: base(_texture, _mask, _bb, _jsonPath)
 		{
 			findAnchorPoint();
 		}
@@ -206,12 +184,12 @@ namespace AnimationDemo
 
 		private void findAnchorPoint()
 		{
-			int top    = (int)bb.tl().y;
-			int bottom = (int)bb.br().y;
-			int left   = (int)bb.tl().x;
+			int top    = (int)minimalBB.tl().y;
+			int bottom = (int)minimalBB.br().y;
+			int left   = (int)minimalBB.tl().x;
 			List<int> yList = new List<int>();
 			for (var i = top; i < bottom; i++)
-				if (mask.get(i, left)[0] > 200)
+				if (originMask.get(i, left)[0] > 200)
 					yList.Add(i);
 			if (yList.Count == 0)
 				Debug.Log("Owl.cs RightWing findAnchorPoint() : did not find anchorPoint!!");
@@ -222,8 +200,8 @@ namespace AnimationDemo
 
 	class LeftLeg : BodyPart
 	{
-		public LeftLeg(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb)
-			: base(_texture, _mask, _bb)
+		public LeftLeg(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb, string _jsonPath)
+			: base(_texture, _mask, _bb, _jsonPath)
 		{
 			findAnchorPoint();
 		}
@@ -231,12 +209,12 @@ namespace AnimationDemo
 
 		private void findAnchorPoint()
 		{
-			int top   = (int)bb.tl().y;
-			int left  = (int)bb.tl().x;
-			int right = (int)bb.br().x;
+			int top   = (int)minimalBB.tl().y;
+			int left  = (int)minimalBB.tl().x;
+			int right = (int)minimalBB.br().x;
 			List<int> xList = new List<int>();
 			for (var j = left; j < right; j++)
-				if (mask.get(top, j)[0] > 200)
+				if (originMask.get(top, j)[0] > 200)
 					xList.Add(j);
 			if (xList.Count == 0)
 				Debug.Log("Owl.cs LeftLeg findAnchorPoint() : did not find anchorPoint!!");
@@ -247,8 +225,8 @@ namespace AnimationDemo
 
 	class RightLeg : BodyPart
 	{
-		public RightLeg(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb)
-			: base(_texture, _mask, _bb)
+		public RightLeg(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb, string _jsonPath)
+			: base(_texture, _mask, _bb, _jsonPath)
 		{
 			findAnchorPoint();
 		}
@@ -256,12 +234,12 @@ namespace AnimationDemo
 
 		private void findAnchorPoint()
 		{
-			int top   = (int)bb.tl().y;
-			int left  = (int)bb.tl().x;
-			int right = (int)bb.br().x;
+			int top   = (int)minimalBB.tl().y;
+			int left  = (int)minimalBB.tl().x;
+			int right = (int)minimalBB.br().x;
 			List<int> xList = new List<int>();
 			for (var j = left; j < right; j++)
-				if (mask.get(top, j)[0] > 200)
+				if (originMask.get(top, j)[0] > 200)
 					xList.Add(j);
 			if (xList.Count == 0)
 				Debug.Log("Owl.cs RightLeg findAnchorPoint() : did not find anchorPoint!!");
