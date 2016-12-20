@@ -23,7 +23,7 @@ namespace AnimationDemo
 		private Size  originalSize;
 		 
 
-		public Owl(Texture2D _owlTexture, List<string> _jsonPaths)
+		public Owl(Texture2D _owlTexture, List<string> _jsonPathList)
 		{
 			partTexList  = new List<Texture2D>();
 			partMaskList = new List<Mat>();
@@ -43,44 +43,17 @@ namespace AnimationDemo
 			Mat originMaskImage = new Mat(originalSize, CvType.CV_8UC1);
 			Imgproc.resize(modelMaskImage, originMaskImage, originalSize, 0, 0, Imgproc.INTER_NEAREST);
 
-
-
-			///
-			Debug.Log("Owl.cs Owl() : originMaskImage.size = " + originMaskImage.size());
-			///
-
-
-
 			Segmentation.getLists(originImage, originMaskImage, out partTexList, out partMaskList, out partBBList);
-
-
-
-			///
-			for (var i = 0; i < 5; i++)
-				Debug.Log("Owl.cs Owl : partTexList["+i+"].Size = " + partTexList[i].width + "x" + partTexList[i].height);
-			///
-
-
 					
-			body      = new Body     (partTexList[0], partMaskList[0], partBBList[0]);
-			leftWing  = new LeftWing (partTexList[1], partMaskList[1], partBBList[1]);
-			rightWing = new RightWing(partTexList[2], partMaskList[2], partBBList[2]);
-			leftLeg   = new LeftLeg  (partTexList[3], partMaskList[3], partBBList[3]);
-			rightLeg  = new RightLeg (partTexList[4], partMaskList[4], partBBList[4]);
+			body      = new Body     (partTexList[0], partMaskList[0], partBBList[0], _jsonPathList[0]);
+			leftWing  = new LeftWing (partTexList[1], partMaskList[1], partBBList[1], _jsonPathList[1]);
+			rightWing = new RightWing(partTexList[2], partMaskList[2], partBBList[2], _jsonPathList[2]);
+			leftLeg   = new LeftLeg  (partTexList[3], partMaskList[3], partBBList[3], _jsonPathList[3]);
+			rightLeg  = new RightLeg (partTexList[4], partMaskList[4], partBBList[4], _jsonPathList[4]);
 
-			calcPartAnimation(_jsonPaths);
 			calcOffset();
 			calcImageVector();
 			calcPosition();
-
-
-
-			///
-			Debug.Log("Owl.cs Owl() : originPoint = " + originPoint);
-			///
-
-
-
 		}
 
 
@@ -127,17 +100,6 @@ namespace AnimationDemo
 				new Point(Math.Min(roi.br().x + 50.0, sourceImage.cols()),
 					      Math.Min(roi.br().y + 50.0, sourceImage.rows())));
 			Mat croppedImage = new Mat(sourceImage, bb);
-
-
-
-			///
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : roi.size = " + roi.size());
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : bb.size = " + bb.size());
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : croppedImage.size = " + croppedImage.size());
-			///
-
-
-
 			// Zoom to 224*224
 			zoomCropped(ref croppedImage, ref bb);		
 
@@ -184,16 +146,6 @@ namespace AnimationDemo
 				expandedBB = bb;
 			}
 
-
-
-			///
-			Debug.Log("Owl.cs zoomCropped() : bb.size = " + bb.size());
-			Debug.Log("Owl.cs zoomCropped() : expandedBB.size = " + expandedBB.size());
-			///
-
-
-
-
 			// We have the originPoint & originalSize in the frame cordinate here.
 			originPoint = expandedBB.tl();
 			originImage = croppedImage.clone();
@@ -205,23 +157,6 @@ namespace AnimationDemo
 			// Return croppedImage[224*224*3] bb(original cordinate expandedBB)
 			croppedImage = scaleImage;
 			bb = expandedBB;
-		}
-
-
-		private void calcPartAnimation(List<string> jsonPaths)
-		{
-			if (jsonPaths.Count != 5)
-			{
-				Debug.LogError("Owl.cs calcAnimation() : Wrong number of json files passed! " +
-					"Expect 5, Recieved " + jsonPaths.Count);
-				return;
-			}
-
-			body.calcAnimation(jsonPaths[0]);
-			leftWing.calcAnimation(jsonPaths[1]);
-			rightWing.calcAnimation(jsonPaths[2]);
-			leftLeg.calcAnimation(jsonPaths[3]);
-			rightLeg.calcAnimation(jsonPaths[4]);
 		}
 
 
