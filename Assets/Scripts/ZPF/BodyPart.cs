@@ -47,6 +47,27 @@ namespace AnimationDemo
 		}
 
 
+		protected BodyPart(Texture2D _texture, Mat _mask, OpenCVForUnity.Rect _bb, string jsonPath)
+		{
+			position = new List<Vector2>();
+			rotation = new List<double>();
+			animePosition = new List<Vector2>();
+			animeOffset = new List<Vector2>();
+			animeVector = new List<Vector2>();
+			centerPoint = new Vector2();
+			anchorPoint = new Vector2();
+			imageOffset = new List<Vector2>();
+			imageVector = new List<Vector2>();
+
+			texture = _texture;
+			mask = _mask;
+			bb = _bb;
+
+			calcAnimation(jsonPath);
+			findCenterPoint();
+		}
+
+
 		public virtual void calcAnimation(string jsonPath)
 		{
 			var asset = Resources.Load<TextAsset>(jsonPath);
@@ -73,15 +94,6 @@ namespace AnimationDemo
 			float x = (float)(bb.tl().x + bb.br().x)/2;
 			float y = (float)(bb.tl().y + bb.br().y)/2;
 			centerPoint = new Vector2(x, y);
-
-
-
-			///
-			Debug.Log("Owl.cs BadyPart findCenterPoint() : centerPoint = " + centerPoint); 
-			///
-
-
-
 		}
 
 
@@ -91,15 +103,6 @@ namespace AnimationDemo
 			{
 				imageOffset.Add(new Vector2((anchorPoint.x - parentCenter.x), (parentCenter.y - anchorPoint.y)));
 			}
-
-
-
-			///
-			Debug.Log("BodyPart.cs calcImageOffset() : imageOffset[0] = " + imageOffset[0]);
-			///
-
-
-
 		}
 
 
@@ -185,7 +188,8 @@ namespace AnimationDemo
 				if (mask.get(i, right)[0] > 200)
 					yList.Add(i);
 			if (yList.Count == 0)
-				Debug.Log("Owl.cs RightWing findAnchorPoint() : did not find anchorPoint!!");
+				Debug.Log("Owl.cs RightWing findAnchorPoint() : did not find anchorPoin" +
+					"t!!");
 			anchorPoint = new Vector2(right, MyUtils.average(yList));
 		}
 	}

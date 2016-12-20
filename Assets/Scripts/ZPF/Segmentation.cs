@@ -44,14 +44,6 @@ namespace AnimationDemo
 			int originHeight = originMaskImage.rows();
 			int originWidth  = originMaskImage.cols();
 
-
-
-			///
-			Debug.Log("Segmentation.cs getLists() : originMaskImage.size = " + originWidth + "x" + originHeight);
-			///
-
-
-
 			// klass 0(bg), 1 ~ 5(parts)
 			byte[] maskImageData = new byte[originHeight*originWidth];
 			originMaskImage.get(0, 0, maskImageData);

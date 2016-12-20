@@ -43,24 +43,7 @@ namespace AnimationDemo
 			Mat originMaskImage = new Mat(originalSize, CvType.CV_8UC1);
 			Imgproc.resize(modelMaskImage, originMaskImage, originalSize, 0, 0, Imgproc.INTER_NEAREST);
 
-
-
-			///
-			Debug.Log("Owl.cs Owl() : originMaskImage.size = " + originMaskImage.size());
-			///
-
-
-
 			Segmentation.getLists(originImage, originMaskImage, out partTexList, out partMaskList, out partBBList);
-
-
-
-			///
-			for (var i = 0; i < 5; i++)
-				Debug.Log("Owl.cs Owl : partTexList["+i+"].Size = " + partTexList[i].width + "x" + partTexList[i].height);
-			///
-
-
 					
 			body      = new Body     (partTexList[0], partMaskList[0], partBBList[0]);
 			leftWing  = new LeftWing (partTexList[1], partMaskList[1], partBBList[1]);
@@ -72,15 +55,6 @@ namespace AnimationDemo
 			calcOffset();
 			calcImageVector();
 			calcPosition();
-
-
-
-			///
-			Debug.Log("Owl.cs Owl() : originPoint = " + originPoint);
-			///
-
-
-
 		}
 
 
@@ -127,17 +101,6 @@ namespace AnimationDemo
 				new Point(Math.Min(roi.br().x + 50.0, sourceImage.cols()),
 					      Math.Min(roi.br().y + 50.0, sourceImage.rows())));
 			Mat croppedImage = new Mat(sourceImage, bb);
-
-
-
-			///
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : roi.size = " + roi.size());
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : bb.size = " + bb.size());
-			Debug.Log("Owl.cs cropTexToModelSizeMat() : croppedImage.size = " + croppedImage.size());
-			///
-
-
-
 			// Zoom to 224*224
 			zoomCropped(ref croppedImage, ref bb);		
 
@@ -183,16 +146,6 @@ namespace AnimationDemo
 			{
 				expandedBB = bb;
 			}
-
-
-
-			///
-			Debug.Log("Owl.cs zoomCropped() : bb.size = " + bb.size());
-			Debug.Log("Owl.cs zoomCropped() : expandedBB.size = " + expandedBB.size());
-			///
-
-
-
 
 			// We have the originPoint & originalSize in the frame cordinate here.
 			originPoint = expandedBB.tl();
